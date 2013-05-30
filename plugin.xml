@@ -2,10 +2,18 @@
 
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
 xmlns:android="http://schemas.android.com/apk/res/android"
-id="org.apache.cordova.core">
+id="org.apache.cordova.core.Globalization"
     version="0.1.0">
     <name>Globalization</name>
 
+    <js-module src="www/GlobalizationError.js" name="GlobalizationError">
+        <clobbers target="window.GlobalizationError" />
+    </js-module>
+    
+    <js-module src="www/globalization.js" name="globalization">
+        <clobbers target="navigator.globalization" />
+    </js-module>
+    
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/cordova/plugins">
@@ -15,4 +23,16 @@ id="org.apache.cordova.core">
         <source-file src="Globalization.java" target-dir="org/apache/cordova/core" />
         <source-file src="GlobalizationError.java" target-dir="org/apache/cordova/core" />
        </platform>
+       
+       <!-- ios -->
+       <platform name="ios">    
+           <config-file target="config.xml" parent="/*">
+               <feature name="Globalization">
+                   <param name="ios-package" value="CDVGlobalization" /> 
+               </feature>
+           </config-file>
+           <header-file src="src/ios/CDVGlobalization.h" />
+           <source-file src="src/ios/CDVGlobalization.m" />
+       </platform>
+              
 </plugin>
