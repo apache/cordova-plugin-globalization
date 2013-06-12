@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+<plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
 xmlns:android="http://schemas.android.com/apk/res/android"
 id="org.apache.cordova.core.Globalization"
     version="0.1.0">
@@ -22,17 +22,28 @@ id="org.apache.cordova.core.Globalization"
 
         <source-file src="Globalization.java" target-dir="org/apache/cordova/core" />
         <source-file src="GlobalizationError.java" target-dir="org/apache/cordova/core" />
-       </platform>
+    </platform>
        
-       <!-- ios -->
-       <platform name="ios">    
-           <config-file target="config.xml" parent="/*">
-               <feature name="Globalization">
-                   <param name="ios-package" value="CDVGlobalization" /> 
-               </feature>
-           </config-file>
-           <header-file src="src/ios/CDVGlobalization.h" />
-           <source-file src="src/ios/CDVGlobalization.m" />
-       </platform>
-              
+   <!-- ios -->
+   <platform name="ios">    
+        <config-file target="config.xml" parent="/*">
+            <feature name="Globalization">
+                <param name="ios-package" value="CDVGlobalization" /> 
+            </feature>
+        </config-file>
+        <header-file src="src/ios/CDVGlobalization.h" />
+        <source-file src="src/ios/CDVGlobalization.m" />
+    </platform>
+
+    <!-- wp7 -->
+    <platform name="wp7">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Globalization">
+                <param name="wp-package" value="Globalization"/>
+            </feature>
+        </config-file>
+        
+        <source-file src="src/wp7/Globalization.cs" />
+    </platform>
+
 </plugin>
