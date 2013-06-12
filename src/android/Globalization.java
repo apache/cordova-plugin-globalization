@@ -260,7 +260,7 @@ public class Globalization extends CordovaPlugin  {
             String fmt = fmtDate.toLocalizedPattern() + " " + fmtTime.toLocalizedPattern(); //default SHORT date/time format. ex. dd/MM/yyyy h:mm a
 
             //get Date value + options (if available)
-            if (options.getJSONObject(0).has(OPTIONS){
+            if (options.getJSONObject(0).has(OPTIONS)){
                 //options were included
 
                 JSONObject innerOptions = options.getJSONObject(0).getJSOBObject(OPTIONS);
