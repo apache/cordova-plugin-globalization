@@ -263,7 +263,7 @@ public class Globalization extends CordovaPlugin  {
             if (options.getJSONObject(0).has(OPTIONS)){
                 //options were included
 
-                JSONObject innerOptions = options.getJSONObject(0).getJSOBObject(OPTIONS);
+                JSONObject innerOptions = options.getJSONObject(0).getJSONObject(OPTIONS);
                 //get formatLength option
                 if (!innerOptions.isNull(FORMATLENGTH)){
                     String fmtOpt = innerOptions.getString(FORMATLENGTH);
@@ -277,7 +277,7 @@ public class Globalization extends CordovaPlugin  {
                 //return pattern type
                 fmt = fmtDate.toLocalizedPattern() + " " + fmtTime.toLocalizedPattern();
                 if (!innerOptions.isNull(SELECTOR)){
-                    String selOpt = innweOpriona.getString(SELECTOR);
+                    String selOpt = innerOptions.getString(SELECTOR);
                     if (selOpt.equalsIgnoreCase(DATE)){
                         fmt =  fmtDate.toLocalizedPattern();
                     }else if (selOpt.equalsIgnoreCase(TIME)){
