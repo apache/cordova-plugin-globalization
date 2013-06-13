@@ -21,7 +21,7 @@
 
 var argscheck = require('cordova/argscheck'),
     exec = require('cordova/exec'),
-    GlobalizationError = require('cordova/plugin/GlobalizationError');
+    GlobalizationError = require('org.apache.cordova.core.GlobalizationError');
 
 var globalization = {
 
