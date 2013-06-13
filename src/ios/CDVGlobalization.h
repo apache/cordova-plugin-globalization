@@ -18,7 +18,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "CDVPlugin.h"
+#import <Cordova/CDVPlugin.h>
 
 #define CDV_FORMAT_SHORT 0
 #define CDV_FORMAT_MEDIUM 1
