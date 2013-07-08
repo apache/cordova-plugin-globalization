@@ -42,7 +42,7 @@
             </feature>
         </config-file>
 
-        <source-file src="src/wp7/Globalization.cs" />
+        <source-file src="src/wp/Globalization.cs" />
     </platform>
 
     <!-- wp8 -->
@@ -53,7 +53,7 @@
             </feature>
         </config-file>
 
-        <source-file src="src/wp8/Globalization.cs" />
+        <source-file src="src/wp/Globalization.cs" />
     </platform>
 
 </plugin>
