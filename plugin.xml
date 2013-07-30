@@ -4,6 +4,9 @@
            id="org.apache.cordova.core.globalization"
       version="0.1.0">
     <name>Globalization</name>
+    <description>Cordova Globalization Plugin</description>
+    <license>Apache</license>
+    <keywords>cordova,globalization</keywords>
 
     <js-module src="www/GlobalizationError.js" name="GlobalizationError">
         <clobbers target="window.GlobalizationError" />
