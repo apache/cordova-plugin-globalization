@@ -17,7 +17,7 @@
        under the License.
 */
 
-package org.apache.cordova.core;
+package org.apache.cordova.globalization;
 
 import org.json.JSONException;
 import org.json.JSONObject;

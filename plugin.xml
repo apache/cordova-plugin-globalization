@@ -16,11 +16,11 @@
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="Globalization" value="org.apache.cordova.core.globalization"/>
+            <feature name="Globalization" value="org.apache.cordova.globalization.globalization"/>
         </config-file>
 
-        <source-file src="src/android/Globalization.java" target-dir="src/org/apache/cordova/core" />
-        <source-file src="src/android/GlobalizationError.java" target-dir="src/org/apache/cordova/core" />
+        <source-file src="src/android/Globalization.java" target-dir="src/org/apache/cordova/globalization" />
+        <source-file src="src/android/GlobalizationError.java" target-dir="src/org/apache/cordova/globalization" />
     </platform>
        
    <!-- ios -->
