@@ -39,7 +39,7 @@ typedef NSUInteger CDVGlobalizationError;
     CFLocaleRef currentLocale;
 }
 
-- (void)getPreferredLanguage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getPreferredLanguage:(CDVInvokedUrlCommand*)command;
 
 /**
  * Returns the string identifier for the clients current locale setting.
@@ -47,7 +47,7 @@ typedef NSUInteger CDVGlobalizationError;
  * properties object as a parameter. If there is an error getting the locale,
  * then the errorCB callback is invoked.
  */
-- (void)getLocaleName:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getLocaleName:(CDVInvokedUrlCommand*)command;
 
 /**
  * Returns a date formatted as a string according to the clients user preferences and
@@ -57,7 +57,7 @@ typedef NSUInteger CDVGlobalizationError;
  *
  * options: "date" contains the number of milliseconds that represents the JavaScript date
  */
-- (void)dateToString:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)dateToString:(CDVInvokedUrlCommand*)command;
 
 /**
  * Parses a date formatted as a string according to the clients user
@@ -68,7 +68,7 @@ typedef NSUInteger CDVGlobalizationError;
  *
  * options: "dateString" contains the JavaScript string to parse for a date
  */
-- (void)stringToDate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)stringToDate:(CDVInvokedUrlCommand*)command;
 
 /**
  * Returns a pattern string for formatting and parsing dates according to the clients
@@ -77,7 +77,7 @@ typedef NSUInteger CDVGlobalizationError;
  * then the errorCB callback is invoked.
  *
  */
-- (void)getDatePattern:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getDatePattern:(CDVInvokedUrlCommand*)command;
 
 /**
  * Returns an array of either the names of the months or days of the week
@@ -86,7 +86,7 @@ typedef NSUInteger CDVGlobalizationError;
  * names, then the errorCB callback is invoked.
  *
  */
-- (void)getDateNames:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getDateNames:(CDVInvokedUrlCommand*)command;
 
 /**
  * Returns whether daylight savings time is in effect for a given date using the clients
@@ -97,7 +97,7 @@ typedef NSUInteger CDVGlobalizationError;
  * options: "date" contains the number of milliseconds that represents the JavaScript date
  *
  */
-- (void)isDayLightSavingsTime:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)isDayLightSavingsTime:(CDVInvokedUrlCommand*)command;
 
 /**
  * Returns the first day of the week according to the clients user preferences and calendar.
@@ -106,7 +106,7 @@ typedef NSUInteger CDVGlobalizationError;
  * If there is an error obtaining the pattern, then the errorCB callback is invoked.
  *
  */
-- (void)getFirstDayOfWeek:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getFirstDayOfWeek:(CDVInvokedUrlCommand*)command;
 
 /**
  * Returns a number formatted as a string according to the clients user preferences.
@@ -116,7 +116,7 @@ typedef NSUInteger CDVGlobalizationError;
  * options: "number" contains the JavaScript number to format
  *
  */
-- (void)numberToString:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)numberToString:(CDVInvokedUrlCommand*)command;
 
 /**
  * Parses a number formatted as a string according to the clients user preferences and
@@ -127,7 +127,7 @@ typedef NSUInteger CDVGlobalizationError;
  * options: "numberString" contains the JavaScript string to parse for a number
  *
  */
-- (void)stringToNumber:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)stringToNumber:(CDVInvokedUrlCommand*)command;
 
 /**
  * Returns a pattern string for formatting and parsing numbers according to the clients user
@@ -135,7 +135,7 @@ typedef NSUInteger CDVGlobalizationError;
  * parameter. If there is an error obtaining the pattern, then the errorCB callback is invoked.
  *
  */
-- (void)getNumberPattern:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getNumberPattern:(CDVInvokedUrlCommand*)command;
 
 /**
  * Returns a pattern string for formatting and parsing currency values according to the clients
@@ -145,6 +145,6 @@ typedef NSUInteger CDVGlobalizationError;
  *
  * options: "currencyCode" contains the ISO currency code from JavaScript
  */
-- (void)getCurrencyPattern:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)getCurrencyPattern:(CDVInvokedUrlCommand*)command;
 
 @end

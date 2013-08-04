@@ -30,9 +30,8 @@
     return self;
 }
 
-- (void)getPreferredLanguage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)getPreferredLanguage:(CDVInvokedUrlCommand*)command
 {
-    NSString* callbackId = [arguments objectAtIndex:0];
     CDVPluginResult* result = nil;
 
     NSLog(@"log1");
@@ -53,13 +52,12 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 }
 
-- (void)getLocaleName:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)getLocaleName:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* result = nil;
-    NSString* callbackId = [arguments objectAtIndex:0];
     NSDictionary* dictionary = nil;
 
     NSLocale* locale = [NSLocale currentLocale];
@@ -75,10 +73,10 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 }
 
-- (void)dateToString:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)dateToString:(CDVInvokedUrlCommand*)command
 {
     CFDateFormatterStyle style = kCFDateFormatterShortStyle;
     CFDateFormatterStyle dateStyle = kCFDateFormatterShortStyle;
@@ -86,7 +84,17 @@
     NSDate* date = nil;
     NSString* dateString = nil;
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
+
+    NSDictionary* options;
+
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    }
+    if (!options) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
+        [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+        return;
+    }
 
     id milliseconds = [options valueForKey:@"date"];
 
@@ -162,20 +170,30 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 
     CFRelease(formatter);
 }
 
-- (void)stringToDate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)stringToDate:(CDVInvokedUrlCommand*)command
 {
     CFDateFormatterStyle style = kCFDateFormatterShortStyle;
     CFDateFormatterStyle dateStyle = kCFDateFormatterShortStyle;
     CFDateFormatterStyle timeStyle = kCFDateFormatterShortStyle;
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
     NSString* dateString = nil;
     NSDateComponents* comps = nil;
+
+    NSDictionary* options;
+
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    }
+    if (!options) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
+        [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+        return;
+    }
 
     // get the string that is to be parsed for a date
     id ms = [options valueForKey:@"dateString"];
@@ -279,18 +297,28 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 
     CFRelease(formatter);
 }
 
-- (void)getDatePattern:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)getDatePattern:(CDVInvokedUrlCommand*)command
 {
     CFDateFormatterStyle style = kCFDateFormatterShortStyle;
     CFDateFormatterStyle dateStyle = kCFDateFormatterShortStyle;
     CFDateFormatterStyle timeStyle = kCFDateFormatterShortStyle;
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
+
+    NSDictionary* options;
+
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    }
+    if (!options) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
+        [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+        return;
+    }
 
     // see if any options have been specified
     id items = [options valueForKey:@"options"];
@@ -365,7 +393,7 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 
     if (timezone) {
         CFRelease(timezone);
@@ -373,13 +401,23 @@
     CFRelease(formatter);
 }
 
-- (void)getDateNames:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)getDateNames:(CDVInvokedUrlCommand*)command
 {
     int style = CDV_FORMAT_LONG;
     int selector = CDV_SELECTOR_MONTHS;
     CFStringRef dataStyle = kCFDateFormatterMonthSymbols;
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
+
+    NSDictionary* options;
+
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    }
+    if (!options) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
+        [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+        return;
+    }
 
     // see if any options have been specified
     id items = [options valueForKey:@"options"];
@@ -444,16 +482,26 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 
     CFRelease(formatter);
 }
 
-- (void)isDayLightSavingsTime:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)isDayLightSavingsTime:(CDVInvokedUrlCommand*)command
 {
     NSDate* date = nil;
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
+
+    NSDictionary* options;
+
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    }
+    if (!options) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
+        [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+        return;
+    }
 
     id milliseconds = [options valueForKey:@"date"];
 
@@ -478,13 +526,12 @@
         [dictionary setValue:@"Unknown error" forKey:@"message"];
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 }
 
-- (void)getFirstDayOfWeek:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)getFirstDayOfWeek:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
 
     NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
 
@@ -502,15 +549,25 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 }
 
-- (void)numberToString:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)numberToString:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
     CFNumberFormatterStyle style = kCFNumberFormatterDecimalStyle;
     NSNumber* number = nil;
+
+    NSDictionary* options;
+
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    }
+    if (!options) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
+        [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+        return;
+    }
 
     id value = [options valueForKey:@"number"];
 
@@ -566,18 +623,28 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 
     CFRelease(formatter);
 }
 
-- (void)stringToNumber:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)stringToNumber:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
     CFNumberFormatterStyle style = kCFNumberFormatterDecimalStyle;
     NSString* numberString = nil;
     double doubleValue;
+
+    NSDictionary* options;
+
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    }
+    if (!options) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
+        [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+        return;
+    }
 
     id value = [options valueForKey:@"numberString"];
 
@@ -640,18 +707,28 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 
     CFRelease(formatter);
 }
 
-- (void)getNumberPattern:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)getNumberPattern:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
     CFNumberFormatterStyle style = kCFNumberFormatterDecimalStyle;
     CFStringRef symbolType = NULL;
     NSString* symbol = @"";
+
+    NSDictionary* options;
+
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    }
+    if (!options) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
+        [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+        return;
+    }
 
     // see if any options have been specified
     id items = [options valueForKey:@"options"];
@@ -720,15 +797,14 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 
     CFRelease(formatter);
 }
 
-- (void)getCurrencyPattern:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
+- (void)getCurrencyPattern:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* result = nil;
-    NSString* callBackId = [arguments objectAtIndex:0];
     NSString* currencyCode = nil;
     NSString* numberPattern = nil;
     NSString* decimal = nil;
@@ -736,6 +812,17 @@
     int32_t defaultFractionDigits;
     double roundingIncrement;
     Boolean rc;
+
+    NSDictionary* options;
+
+    if ([command.arguments count] > 0) {
+        options = [command.arguments objectAtIndex:0];
+    }
+    if (!options) {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
+        [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
+        return;
+    }
 
     id value = [options valueForKey:@"currencyCode"];
 
@@ -776,7 +863,7 @@
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
     }
 
-    [self.commandDelegate sendPluginResult:result callbackId:callBackId];
+    [self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
 }
 
 - (void)dealloc
