@@ -19,7 +19,9 @@
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="Globalization" value="org.apache.cordova.globalization.globalization"/>
+            <feature name="Globalization">
+                <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+            </feature>
         </config-file>
 
         <source-file src="src/android/Globalization.java" target-dir="src/org/apache/cordova/globalization" />
