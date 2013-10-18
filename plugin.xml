@@ -30,6 +30,18 @@
         <source-file src="src/android/GlobalizationError.java" target-dir="src/org/apache/cordova/globalization" />
     </platform>
        
+    <!-- amazon-fireos -->
+    <platform name="amazon-fireos">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Globalization">
+                <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/Globalization.java" target-dir="src/org/apache/cordova/globalization" />
+        <source-file src="src/android/GlobalizationError.java" target-dir="src/org/apache/cordova/globalization" />
+    </platform>
+    
    <!-- ios -->
    <platform name="ios">    
         <config-file target="config.xml" parent="/*">
