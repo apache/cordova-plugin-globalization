@@ -25,3 +25,7 @@
 * CB-4889 renaming org.apache.cordova.core.globalization to org.apache.cordova.globalization
 * Rename CHANGELOG.md -> RELEASENOTES.md
 * [CB-4752] Incremented plugin version on dev branch.
+
+ ### 0.2.3 (Oct 28, 2013)
+* CB-5128: added repo + issue tag to plugin.xml for globalization plugin
+* [CB-4915] Incremented plugin version on dev branch.
