@@ -29,7 +29,17 @@
         <source-file src="src/android/Globalization.java" target-dir="src/org/apache/cordova/globalization" />
         <source-file src="src/android/GlobalizationError.java" target-dir="src/org/apache/cordova/globalization" />
     </platform>
-       
+
+   <!-- ubuntu -->
+   <platform name="ubuntu">
+       <header-file src="src/ubuntu/globalization.h" />
+       <source-file src="src/ubuntu/globalization.cpp" />
+
+       <js-module src="www/ubuntu/globalization.js" name="Globalization1">
+           <merges target="navigator.globalization" />
+       </js-module>
+   </platform>
+
    <!-- ios -->
    <platform name="ios">    
         <config-file target="config.xml" parent="/*">
