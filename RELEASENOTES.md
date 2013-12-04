@@ -29,3 +29,8 @@
  ### 0.2.3 (Oct 28, 2013)
 * CB-5128: added repo + issue tag to plugin.xml for globalization plugin
 * [CB-4915] Incremented plugin version on dev branch.
+
+### 0.2.4 (Dec 4, 2013)
+* [ubuntu] add missing file
+* add ubuntu platform
+* Added amazon-fireos platform. Change to use amazon-fireos as a platform if the user agent string contains 'cordova-amazon-fireos'
