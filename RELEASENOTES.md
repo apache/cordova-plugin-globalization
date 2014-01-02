@@ -34,3 +34,6 @@
 * [ubuntu] add missing file
 * add ubuntu platform
 * Added amazon-fireos platform. Change to use amazon-fireos as a platform if the user agent string contains 'cordova-amazon-fireos'
+
+### 0.2.5 (Jan 02, 2014)
+* CB-5658 Add doc/index.md for Globalization plugin
