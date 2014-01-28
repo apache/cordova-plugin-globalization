@@ -85,4 +85,10 @@
         <source-file src="src/wp/Globalization.cs" />
     </platform>
 
+    <!-- tizen -->
+    <platform name="tizen">
+        <js-module src="src/tizen/GlobalizationProxy.js" name="GlobalizationProxy">
+            <runs/>
+        </js-module>
+    </platform>
 </plugin>
