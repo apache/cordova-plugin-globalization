@@ -37,3 +37,6 @@
 
 ### 0.2.5 (Jan 02, 2014)
 * CB-5658 Add doc/index.md for Globalization plugin
+
+### 0.2.6 (Feb 05, 2014)
+* Add Tizen plugin support
