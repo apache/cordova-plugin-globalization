@@ -159,7 +159,7 @@ public class Globalization extends CordovaPlugin  {
     private JSONObject getPreferredLanguage() throws GlobalizationError {
         JSONObject obj = new JSONObject();
         try {
-            obj.put("value", Locale.getDefault().getDisplayLanguage().toString());
+            obj.put("value", Locale.getDefault().getISO3Language());
             return obj;
         } catch (Exception e) {
             throw new GlobalizationError(GlobalizationError.UNKNOWN_ERROR);
