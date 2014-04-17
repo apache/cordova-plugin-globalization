@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
            id="org.apache.cordova.globalization"
-      version="0.2.7">
+      version="0.2.8-dev">
     <name>Globalization</name>
     <description>Cordova Globalization Plugin</description>
     <license>Apache 2.0</license>
