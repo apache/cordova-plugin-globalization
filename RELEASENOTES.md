@@ -40,3 +40,10 @@
 
 ### 0.2.6 (Feb 05, 2014)
 * Add Tizen plugin support
+
+### 0.2.7 (Apr 17, 2014)
+* CB-4908: [android] Long.valueOf(0) instead of new Long(0)
+* CB-6212: [iOS] fix warnings compiled under arm64 64-bit
+* CB-6460: Update license headers
+* CB-6465: Add license headers to Tizen code
+* Add NOTICE file
