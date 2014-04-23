@@ -226,7 +226,7 @@ public class Globalization extends CordovaPlugin  {
             obj.put("hour", time.hour);
             obj.put("minute", time.minute);
             obj.put("second", time.second);
-            obj.put("millisecond", new Long(0));
+            obj.put("millisecond", Long.valueOf(0));
             return obj;
         }catch(Exception ge){
             throw new GlobalizationError(GlobalizationError.PARSING_ERROR);
@@ -496,7 +496,7 @@ public class Globalization extends CordovaPlugin  {
             obj.put("pattern", fmt.toPattern());
             obj.put("symbol", symbol);
             obj.put("fraction", fmt.getMinimumFractionDigits());
-            obj.put("rounding", new Integer(0));
+            obj.put("rounding", Integer.valueOf(0));
             obj.put("positive", fmt.getPositivePrefix());
             obj.put("negative", fmt.getNegativePrefix());
             obj.put("decimal", String.valueOf(fmt.getDecimalFormatSymbols().getDecimalSeparator()));
@@ -541,7 +541,7 @@ public class Globalization extends CordovaPlugin  {
             obj.put("pattern", fmt.toPattern());
             obj.put("code", currency.getCurrencyCode());
             obj.put("fraction", fmt.getMinimumFractionDigits());
-            obj.put("rounding", new Integer(0));
+            obj.put("rounding", Integer.valueOf(0));
             obj.put("decimal", String.valueOf(fmt.getDecimalFormatSymbols().getDecimalSeparator()));
             obj.put("grouping", String.valueOf(fmt.getDecimalFormatSymbols().getGroupingSeparator()));
 

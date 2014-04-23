@@ -276,13 +276,13 @@
     // put the various elements of the date and time into a dictionary
     if (comps != nil) {
         NSArray* keys = [NSArray arrayWithObjects:@"year", @"month", @"day", @"hour", @"minute", @"second", @"millisecond", nil];
-        NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:[comps year]],
-            [NSNumber numberWithInt:[comps month] - 1],
-            [NSNumber numberWithInt:[comps day]],
-            [NSNumber numberWithInt:[comps hour]],
-            [NSNumber numberWithInt:[comps minute]],
-            [NSNumber numberWithInt:[comps second]],
-            [NSNumber numberWithInt:0],                /* iOS does not provide milliseconds */
+        NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInteger:[comps year]],
+            [NSNumber numberWithInteger:[comps month] - 1],
+            [NSNumber numberWithInteger:[comps day]],
+            [NSNumber numberWithInteger:[comps hour]],
+            [NSNumber numberWithInteger:[comps minute]],
+            [NSNumber numberWithInteger:[comps second]],
+            [NSNumber numberWithInteger:0],                /* iOS does not provide milliseconds */
             nil];
 
         NSDictionary* dictionary = [NSDictionary dictionaryWithObjects:values forKeys:keys];
@@ -535,7 +535,7 @@
 
     NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
 
-    NSNumber* day = [NSNumber numberWithInt:[calendar firstWeekday]];
+    NSNumber* day = [NSNumber numberWithInteger:[calendar firstWeekday]];
 
     if (day) {
         NSDictionary* dictionary = [NSDictionary dictionaryWithObject:day forKey:@"value"];
