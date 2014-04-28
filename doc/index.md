@@ -435,8 +435,8 @@ Get the string identifier for the client's current language.
 
 ### Description
 
-Returns the language identifier string to the `successCallback` with a
-`properties` object as a parameter. That object should have a `value`
+Returns the BCP-47 compliant language identifier tag to the `successCallback` 
+with a `properties` object as a parameter. That object should have a `value`
 property with a `String` value.
 
 If there is an error getting the language, then the `errorCallback`
@@ -453,13 +453,17 @@ error's expected code is `GlobalizationError.UNKNOWN\_ERROR`.
 ### Example
 
 When the browser is set to the `en\_US` locale, this should display a
-popup dialog with the text `language: English`:
+popup dialog with the text `language: en_US`:
 
     navigator.globalization.getPreferredLanguage(
         function (language) {alert('language: ' + language.value + '\n');},
         function () {alert('Error getting language\n');}
     );
 
+### Android Quirks
+
+- Returns the ISO 639-1 two-letter language code, upper case ISO 3166-1 
+country code and variant separated by underscores. Examples: "en", "en_US", "_US"
 
 ### Windows Phone 8 Quirks
 
