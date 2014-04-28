@@ -23,6 +23,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -149,6 +150,58 @@ public class Globalization extends CordovaPlugin  {
         }
     }
     /*
+     * @Description: Returns a well-formed ITEF BCP 47 language tag representing this localestring identifier for the client's current locale 
+     *
+     * @Return: String: The BCP 47 language tag for the current locale
+     */
+    private String toBcp47Language(Locale loc){
+        final char SEP = '-';       // we will use a dash as per BCP 47
+        String language = loc.getLanguage();
+        String region = loc.getCountry();
+        String variant = loc.getVariant();
+
+        // special case for Norwegian Nynorsk since "NY" cannot be a variant as per BCP 47
+        // this goes before the string matching since "NY" wont pass the variant checks
+        if( language.equals("no") && region.equals("NO") && variant.equals("NY")){
+            System.out.println("converting norwegian");
+            language = "nn";
+            region = "NO";
+            variant = "";
+        }
+
+        if( language.isEmpty() || !language.matches("\\p{Alpha}{2,8}")){
+            language = "und";       // Follow the Locale#toLanguageTag() implementation 
+                                    // which says to return "und" for Undetermined
+        }else if(language.equals("iw")){
+            language = "he";        // correct deprecated "Hebrew"
+        }else if(language.equals("in")){
+            language = "id";        // correct deprecated "Indonesian"
+        }else if(language.equals("ji")){
+            language = "yi";        // correct deprecated "Yiddish"
+        }
+
+        // ensure valid country code, if not well formed, it's omitted
+        if (!region.matches("\\p{Alpha}{2}|\\p{Digit}{3}")) {
+            region = "";
+        }
+
+         // variant subtags that begin with a letter must be at least 5 characters long
+        if (!variant.matches("\\p{Alnum}{5,8}|\\p{Digit}\\p{Alnum}{3}")) {
+            variant = "";
+        }
+
+        StringBuilder bcp47Tag = new StringBuilder(language);
+        if (!region.isEmpty()) {
+            bcp47Tag.append(SEP).append(region);
+        }
+        if (!variant.isEmpty()) {
+             bcp47Tag.append(SEP).append(variant);
+        }
+
+        System.out.println("Returning:" + bcp47Tag.toString());
+        return bcp47Tag.toString();
+    }
+    /*
      * @Description: Returns the string identifier for the client's current language
      *
      * @Return: JSONObject
@@ -159,7 +212,7 @@ public class Globalization extends CordovaPlugin  {
     private JSONObject getPreferredLanguage() throws GlobalizationError {
         JSONObject obj = new JSONObject();
         try {
-            obj.put("value", Locale.getDefault().getDisplayLanguage().toString());
+            obj.put("value", toBcp47Language(Locale.getDefault()));
             return obj;
         } catch (Exception e) {
             throw new GlobalizationError(GlobalizationError.UNKNOWN_ERROR);
@@ -226,7 +279,7 @@ public class Globalization extends CordovaPlugin  {
             obj.put("hour", time.hour);
             obj.put("minute", time.minute);
             obj.put("second", time.second);
-            obj.put("millisecond", Long.valueOf(0));
+            obj.put("millisecond", new Long(0));
             return obj;
         }catch(Exception ge){
             throw new GlobalizationError(GlobalizationError.PARSING_ERROR);
@@ -496,7 +549,7 @@ public class Globalization extends CordovaPlugin  {
             obj.put("pattern", fmt.toPattern());
             obj.put("symbol", symbol);
             obj.put("fraction", fmt.getMinimumFractionDigits());
-            obj.put("rounding", Integer.valueOf(0));
+            obj.put("rounding", new Integer(0));
             obj.put("positive", fmt.getPositivePrefix());
             obj.put("negative", fmt.getNegativePrefix());
             obj.put("decimal", String.valueOf(fmt.getDecimalFormatSymbols().getDecimalSeparator()));
@@ -541,7 +594,7 @@ public class Globalization extends CordovaPlugin  {
             obj.put("pattern", fmt.toPattern());
             obj.put("code", currency.getCurrencyCode());
             obj.put("fraction", fmt.getMinimumFractionDigits());
-            obj.put("rounding", Integer.valueOf(0));
+            obj.put("rounding", new Integer(0));
             obj.put("decimal", String.valueOf(fmt.getDecimalFormatSymbols().getDecimalSeparator()));
             obj.put("grouping", String.valueOf(fmt.getDecimalFormatSymbols().getGroupingSeparator()));
 
