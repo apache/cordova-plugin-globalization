@@ -198,7 +198,6 @@ public class Globalization extends CordovaPlugin  {
              bcp47Tag.append(SEP).append(variant);
         }
 
-        System.out.println("Returning:" + bcp47Tag.toString());
         return bcp47Tag.toString();
     }
     /*
