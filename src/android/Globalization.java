@@ -132,24 +132,8 @@ public class Globalization extends CordovaPlugin  {
         return true;
     }
     /*
-     * @Description: Returns the string identifier for the client's current locale setting
-     *
-     * @Return: JSONObject
-     *          Object.value {String}: The locale identifier
-     *
-     * @throws: GlobalizationError.UNKNOWN_ERROR
-     */
-    private JSONObject getLocaleName() throws GlobalizationError{
-        JSONObject obj = new JSONObject();
-        try{
-            obj.put("value",Locale.getDefault().toString());//get the locale from the Android Device
-            return obj;
-        }catch(Exception e){
-            throw new GlobalizationError(GlobalizationError.UNKNOWN_ERROR);
-        }
-    }
-        /*
-     * @Description: Returns a well-formed ITEF BCP 47 language tag representing this localestring identifier for the client's current locale 
+     * @Description: Returns a well-formed ITEF BCP 47 language tag representing
+     * the locale identifier for the client's current locale 
      *
      * @Return: String: The BCP 47 language tag for the current locale
      */
@@ -199,7 +183,28 @@ public class Globalization extends CordovaPlugin  {
         return bcp47Tag.toString();
     }
     /*
-     * @Description: Returns the string identifier for the client's current language
+     * @Description: Returns the BCP 47 Unicode locale identifier for current locale setting
+     * The locale is defined by a language code, a country code, and a variant, separated
+     * by a hyphen, for example, "en-US", "fr-CA", etc.,
+     *
+     * @Return: JSONObject
+     *          Object.value {String}: The locale identifier
+     *
+     * @throws: GlobalizationError.UNKNOWN_ERROR
+     */
+    private JSONObject getLocaleName() throws GlobalizationError{
+        JSONObject obj = new JSONObject();
+        try{
+            obj.put("value", toBcp47Language(Locale.getDefault()));
+            return obj;
+        }catch(Exception e){
+            throw new GlobalizationError(GlobalizationError.UNKNOWN_ERROR);
+        }
+    }
+    /*
+     * @Description: Returns the BCP 47 language tag for the client's 
+     * current language. Currently in Android this is the same as locale,
+     * since Java does not distinguish between locale and language.
      *
      * @Return: JSONObject
      *          Object.value {String}: The language identifier
