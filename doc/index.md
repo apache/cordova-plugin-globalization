@@ -92,8 +92,11 @@ country code and variant separated by hyphens. Examples: "en", "en-US", "US"
 
 ### Windows Phone 8 Quirks
 
-- Returns the ISO 639-1 two-letter code for the current language.
-
+- Returns the ISO 639-1 two-letter language code and ISO 3166-1 country code
+of the regional variant corresponding to the "Language" setting, separated by
+a hyphen.
+- Note that the regional variant is a property of the "Language" setting and
+not determined by the unrelated "Country/Region" setting on Windows Phone.
 
 ## navigator.globalization.getLocaleName
 
@@ -137,7 +140,9 @@ method is essentially the same as `navigator.globalizatin.getPreferredLanguage()
 
 ### Windows Phone 8 Quirks
 
-- Returns the two-letter code defined in ISO 3166 for the current country/region.
+- Returns the ISO 639-1 two-letter language code and ISO 3166-1 country code
+of the regional variant corresponding to the "Regional Format" setting, separated
+by a hyphen.
 
 
 ## navigator.globalization.dateToString
