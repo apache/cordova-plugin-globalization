@@ -11,7 +11,7 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-
+ 
 using System;
 using System.Globalization;
 using System.Runtime.Serialization;
@@ -435,7 +435,7 @@ namespace WPCordovaClassLib.Cordova.Commands
         {
             try
             {
-                var locale = RegionInfo.CurrentRegion.TwoLetterISORegionName;
+                var locale = CultureInfo.CurrentCulture.Name;
                 PluginResult result = new PluginResult(PluginResult.Status.OK, this.WrapIntoJSON(locale));
                 this.DispatchCommandResult(result);
             }
@@ -453,7 +453,7 @@ namespace WPCordovaClassLib.Cordova.Commands
         {
             try
             {
-                var language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+                var language = CultureInfo.CurrentUICulture.Name;
                 PluginResult result = new PluginResult(PluginResult.Status.OK, this.WrapIntoJSON(language));
                 this.DispatchCommandResult(result);
             }
