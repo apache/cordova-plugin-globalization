@@ -19,7 +19,7 @@
 
 # org.apache.cordova.globalization
 
-Este plugin obtiene información y realiza operaciones específicas del usuario local y zona horaria.
+Este plugin obtiene información y realiza operaciones específicas de la configuración regional del usuario, idioma y zona horaria. Tenga en cuenta la diferencia entre la configuración regional e idioma: controles locale como números, fechas y tiempos se muestran para una región, mientras que el lenguaje determina qué texto aparece como, independientemente de la configuración local. A menudo los desarrolladores utilizan locale para fijar ambos ajustes, pero no hay razón que el usuario no pudo establecer su idioma a "Inglés" locale "Francés", para que se muestre el texto en inglés, pero las fechas, tiempos, etc., se muestran como son en Francia. Desafortunadamente, las plataformas móviles más actualmente no hacen una distinción entre estos ajustes.
 
 ## Instalación
 
@@ -45,6 +45,83 @@ Este plugin obtiene información y realiza operaciones específicas del usuario 
 *   navigator.globalization.getNumberPattern
 *   navigator.globalization.getCurrencyPattern
 
+## navigator.globalization.getPreferredLanguage
+
+Busque la etiqueta de idioma BCP 47 el idioma actual del cliente.
+
+    navigator.globalization.getPreferredLanguage(successCallback, errorCallback);
+    
+
+### Descripción
+
+Devuelve la etiqueta de identificador de idioma compatible con BCP-47 a la `successCallback` con un `properties` objeto como parámetro. Ese objeto debe tener un `value` propiedad con un `String` valor.
+
+Si hay un error al obtener el idioma, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.UNKNOWN_ERROR`.
+
+### Plataformas soportadas
+
+*   Amazon fuego OS
+*   Android
+*   iOS
+*   Windows Phone 8
+
+### Ejemplo
+
+Cuando el navegador está configurado la `en-US` lengua, ésta debe mostrar un cuadro de diálogo emergente con el texto `language: en-US` :
+
+    navigator.globalization.getPreferredLanguage(
+        function (language) {alert('language: ' + language.value + '\n');},
+        function () {alert('Error getting language\n');}
+    );
+    
+
+### Rarezas Android
+
+*   Devuelve el código de idioma de dos letras 639-1 ISO, mayúsculas código ISO 3166-1 y la variante separada por guiones. Ejemplos: "at", "en-US", "US"
+
+### Windows Phone 8 rarezas
+
+*   Código de idioma devuelve el ISO 639-1 dos letras y código de la ISO 3166-1 de la variante regional correspondiente a la "lengua" ajuste, separados por un guión.
+*   Tenga en cuenta que la variante regional es una característica de la configuración del "Idioma" y no determinado por el ajuste de "País o región" sin relación en Windows Phone.
+
+## navigator.globalization.getLocaleName
+
+Devuelve la etiqueta compatible con BCP 47 para la configuración regional actual del cliente.
+
+    navigator.globalization.getLocaleName(successCallback, errorCallback);
+    
+
+### Descripción
+
+Devuelve el identificador BCP 47 local conforme a la `successCallback` con un `properties` objeto como parámetro. Ese objeto debe tener un `value` propiedad con un `String` valor. La etiqueta de configuración regional consistirá en un código de idioma de dos letras minúsculas, código de país de dos letras mayúsculas y códigos de la variante (no especificados), separados por un guión.
+
+Si hay un error al obtener la configuración regional, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.UNKNOWN_ERROR`.
+
+### Plataformas soportadas
+
+*   Amazon fuego OS
+*   Android
+*   iOS
+*   Windows Phone 8
+
+### Ejemplo
+
+Cuando el navegador se establece en el `en-US` local, muestra un cuadro de diálogo emergente con el texto`locale: en-US`.
+
+    navigator.globalization.getLocaleName(
+        function (locale) {alert('locale: ' + locale.value + '\n');},
+        function () {alert('Error getting locale\n');}
+    );
+    
+
+### Rarezas Android
+
+*   Java no distingue entre un conjunto "idioma" y establecer "locale", así que este método es esencialmente el mismo que`navigator.globalizatin.getPreferredLanguage()`.
+
+### Windows Phone 8 rarezas
+
+*   Código de idioma devuelve el ISO 639-1 dos letras y código de la ISO 3166-1 de la variante regional correspondiente a la posición "Formato Regional", separada por un guión.
+
 ## navigator.globalization.dateToString
 
 Devuelve una fecha con formato como una cadena según la configuración regional del cliente y zona horaria.
@@ -58,7 +135,7 @@ Devuelve la fecha con formato `String` vía un `value` propiedad accesible desde
 
 Los entrantes `date` parámetro debe ser del tipo`Date`.
 
-Si hay un error de formato de la fecha, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.FORMATTING\_ERROR`.
+Si hay un error de formato de la fecha, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.FORMATTING_ERROR`.
 
 El `options` parámetro es opcional, y sus valores por defecto son:
 
@@ -78,7 +155,7 @@ El `options.selector` puede ser `date` , `time` o`date and time`.
 
 ### Ejemplo
 
-Si el navegador está configurado la `en\_US` local, muestra un cuadro de diálogo emergente con texto similar a `date: 9/25/2012 4:21PM` utilizando las opciones predeterminadas:
+Si el navegador está configurado la `en_US` local, muestra un cuadro de diálogo emergente con texto similar a `date: 9/25/2012 4:21PM` utilizando las opciones predeterminadas:
 
     navigator.globalization.dateToString(
         new Date(),
@@ -119,7 +196,7 @@ Devuelve el patrón a la `successCallback` con un `properties` objeto como pará
 
 Los entrantes `currencyCode` parámetro debe ser un `String` de uno de los códigos de moneda ISO 4217, por ejemplo 'USD'.
 
-Si hay un error obteniendo el patrón, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.FORMATTING\_ERROR`.
+Si hay un error obteniendo el patrón, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.FORMATTING_ERROR`.
 
 ### Plataformas soportadas
 
@@ -129,7 +206,7 @@ Si hay un error obteniendo el patrón, entonces el `errorCallback` se ejecuta co
 
 ### Ejemplo
 
-Cuando el navegador está configurado la `en\_US` local y la moneda seleccionada dólares de Estados Unidos, este ejemplo muestra un cuadro de diálogo emergente con texto similar a los resultados que siguen:
+Cuando el navegador está configurado la `en_US` local y la moneda seleccionada dólares de Estados Unidos, este ejemplo muestra un cuadro de diálogo emergente con texto similar a los resultados que siguen:
 
     navigator.globalization.getCurrencyPattern(
         'USD',
@@ -159,18 +236,18 @@ Resultado esperado:
 
 Devuelve una matriz de los nombres de los meses o días de la semana, dependiendo de las preferencias del usuario y el calendario del cliente.
 
-    navigator.globalization.getDateNames (successCallback, errorCallback, opciones);
+    navigator.globalization.getDateNames(successCallback, errorCallback, options);
     
 
 ### Descripción
 
 Devuelve la matriz de nombres de la `successCallback` con un `properties` objeto como parámetro. Ese objeto contiene un `value` propiedad con un `Array` de `String` valores. Los nombres de funciones de matriz a partir desde el primer mes en el año o el primer día de la semana, dependiendo de la opción seleccionada.
 
-Si hay un error obteniendo los nombres, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.UNKNOWN\_ERROR`.
+Si hay un error obteniendo los nombres, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.UNKNOWN_ERROR`.
 
 El `options` parámetro es opcional, y sus valores por defecto son:
 
-    {tipo: 'amplia', tema: 'meses'}
+    {type:'wide', item:'months'}
     
 
 El valor de `options.type` puede ser `narrow` o`wide`.
@@ -186,7 +263,7 @@ El valor de `options.item` puede ser `months` o`days`.
 
 ### Ejemplo
 
-Cuando el navegador se establece en el `en\_US` local, este ejemplo muestra una serie de doce diálogos emergente, uno por mes, con un texto similar a `month: January` :
+Cuando el navegador se establece en el `en_US` local, este ejemplo muestra una serie de doce diálogos emergente, uno por mes, con un texto similar a `month: January` :
 
     navigator.globalization.getDateNames(
         function (names) {
@@ -218,7 +295,7 @@ Devuelve el patrón a la `successCallback` . El objeto se pasa como parámetro c
 
 *   **dst_offset**: el desplazamiento horario actual en segundos entre no-horario del cliente de huso horario y día del cliente ahorro de zona horaria. *(Número)*
 
-Si hay un error obteniendo el patrón, el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.PATTERN\_ERROR`.
+Si hay un error obteniendo el patrón, el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.PATTERN_ERROR`.
 
 El `options` parámetro es opcional y por defecto los siguientes valores:
 
@@ -237,7 +314,7 @@ time`.
 
 ### Ejemplo
 
-Cuando el navegador se establece en el `en\_US` local, este ejemplo muestra un cuadro de diálogo emergente con el texto como `pattern: M/d/yyyy h:mm a` :
+Cuando el navegador se establece en el `en_US` local, este ejemplo muestra un cuadro de diálogo emergente con el texto como `pattern: M/d/yyyy h:mm a` :
 
     function checkDatePattern() {
         navigator.globalization.getDatePattern(
@@ -269,7 +346,7 @@ Devuelve el primer día de la semana según las preferencias del usuario y el ca
 
 Los días de la semana están contados a partir de la 1, donde 1 se supone que es el domingo. Devuelve el día de la `successCallback` con un `properties` objeto como parámetro. Ese objeto debe tener un `value` propiedad con un `Number` valor.
 
-Si hay un error obteniendo el patrón, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.UNKNOWN\_ERROR`.
+Si hay un error obteniendo el patrón, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.UNKNOWN_ERROR`.
 
 ### Plataformas soportadas
 
@@ -280,45 +357,13 @@ Si hay un error obteniendo el patrón, entonces el `errorCallback` se ejecuta co
 
 ### Ejemplo
 
-Cuando el navegador se establece en el `en\_US` local, muestra un cuadro de diálogo emergente con texto similar a`day: 1`.
+Cuando el navegador se establece en el `en_US` local, muestra un cuadro de diálogo emergente con texto similar a`day: 1`.
 
     navigator.globalization.getFirstDayOfWeek(
         function (day) {alert('day: ' + day.value + '\n');},
         function () {alert('Error getting day\n');}
     );
     
-
-Obtener el identificador de cadena para la configuración regional actual del cliente.
-
-    navigator.globalization.getLocaleName(successCallback, errorCallback);
-    
-
-### Descripción
-
-Devuelve el identificador de configuración regional para el `successCallback` con un `properties` objeto como parámetro. Ese objeto debe tener un `value` propiedad con un `String` valor.
-
-Si hay un error al obtener la configuración regional, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.UNKNOWN\_ERROR`.
-
-### Plataformas soportadas
-
-*   Amazon fuego OS
-*   Android
-*   iOS
-*   Windows Phone 8
-
-### Ejemplo
-
-Cuando el navegador se establece en el `en\_US` local, muestra un cuadro de diálogo emergente con el texto`locale: en\_US`.
-
-    navigator.globalization.getLocaleName(
-        function (locale) {alert('locale: ' + locale.value + '\n');},
-        function () {alert('Error getting locale\n');}
-    );
-    
-
-### Windows Phone 8 rarezas
-
-*   Devuelve el código de dos letras definido en ISO 3166 para el actual país/región.
 
 ## navigator.globalization.getNumberPattern
 
@@ -347,7 +392,7 @@ Devuelve el patrón a la `successCallback` con un `properties` objeto como pará
 
 *   **agrupación**: el símbolo de la agrupación para analizar y dar formato. *(String)*
 
-Si hay un error obteniendo el patrón, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.PATTERN\_ERROR`.
+Si hay un error obteniendo el patrón, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.PATTERN_ERROR`.
 
 El `options` parámetro es opcional, y los valores por defecto son:
 
@@ -365,7 +410,7 @@ El `options.type` puede ser `decimal` , `percent` , o`currency`.
 
 ### Ejemplo
 
-Cuando el navegador está configurado el `en\_US` locale, esto debería mostrar un cuadro de diálogo emergente con texto similar a los resultados que siguen:
+Cuando el navegador está configurado el `en_US` locale, esto debería mostrar un cuadro de diálogo emergente con texto similar a los resultados que siguen:
 
     navigator.globalization.getNumberPattern(
         function (pattern) {alert('pattern: '  + pattern.pattern  + '\n' +
@@ -399,40 +444,6 @@ Resultados:
 
 *   El `fraction` no se admite la propiedad, y devuelve cero.
 
-## navigator.globalization.getPreferredLanguage
-
-Obtener el identificador de cadena en idioma actual del cliente.
-
-    navigator.globalization.getPreferredLanguage(successCallback, errorCallback);
-    
-
-### Descripción
-
-Devuelve el identificador de idioma para el `successCallback` con un `properties` objeto como parámetro. Ese objeto debe tener un `value` propiedad con un `String` valor.
-
-Si hay un error al obtener el idioma, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.UNKNOWN\_ERROR`.
-
-### Plataformas soportadas
-
-*   Amazon fuego OS
-*   Android
-*   iOS
-*   Windows Phone 8
-
-### Ejemplo
-
-Cuando el navegador está configurado el `en\_US` locale, esto debería mostrar un cuadro de diálogo emergente con el texto `language: English` :
-
-    navigator.globalization.getPreferredLanguage(
-        function (language) {alert('language: ' + language.value + '\n');},
-        function () {alert('Error getting language\n');}
-    );
-    
-
-### Windows Phone 8 rarezas
-
-*   Devuelve el código de dos letras ISO 639-1 del idioma actual.
-
 ## navigator.globalization.isDayLightSavingsTime
 
 Indica si el horario de verano es en efecto para una fecha determinada usando la zona horaria y el calendario del cliente.
@@ -446,7 +457,7 @@ Indica si es o no horario de verano en efecto a la `successCallback` con un `pro
 
 El parámetro entrantes `date` debe ser de tipo`Date`.
 
-Si hay un error de lectura de la fecha, entonces el `errorCallback` se ejecuta. Código esperado del error es`GlobalizationError.UNKNOWN\_ERROR`.
+Si hay un error de lectura de la fecha, entonces el `errorCallback` se ejecuta. Código esperado del error es`GlobalizationError.UNKNOWN_ERROR`.
 
 ### Plataformas soportadas
 
@@ -477,7 +488,7 @@ Devuelve un número con formato como una cadena según las preferencias del clie
 
 Devuelve la cadena con formato de número a la `successCallback` con un `properties` objeto como parámetro. Ese objeto debe tener un `value` propiedad con un `String` valor.
 
-Si hay un error de formato del número, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.FORMATTING\_ERROR`.
+Si hay un error de formato del número, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.FORMATTING_ERROR`.
 
 El `options` parámetro es opcional, y sus valores por defecto son:
 
@@ -495,7 +506,7 @@ El `options.type` puede ser 'decimal', '%' o 'moneda'.
 
 ### Ejemplo
 
-Cuando el navegador se establece en el `en\_US` local, muestra un cuadro de diálogo emergente con texto similar a `number: 3.142` :
+Cuando el navegador se establece en el `en_US` local, muestra un cuadro de diálogo emergente con texto similar a `number: 3.142` :
 
     navigator.globalization.numberToString(
         3.1415926,
@@ -540,7 +551,7 @@ El `options` parámetro es opcional y por defecto los siguientes valores:
 El `options.formatLength` puede ser `short` , `medium` , `long` , o `full` . El `options.selector` puede ser `date` , `time` o`date and
 time`.
 
-Si hay un error al analizar la cadena de fecha, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.PARSING\_ERROR`.
+Si hay un error al analizar la cadena de fecha, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.PARSING_ERROR`.
 
 ### Plataformas soportadas
 
@@ -551,7 +562,7 @@ Si hay un error al analizar la cadena de fecha, entonces el `errorCallback` se e
 
 ### Ejemplo
 
-Cuando el navegador se establece en el `en\_US` local, muestra un cuadro de diálogo emergente con texto similar a `month:8 day:25 year:2012` . Tenga en cuenta que el mes entero es uno menos de la cadena, como el entero mes representa un índice de matriz.
+Cuando el navegador se establece en el `en_US` local, muestra un cuadro de diálogo emergente con texto similar a `month:8 day:25 year:2012` . Tenga en cuenta que el mes entero es uno menos de la cadena, como el entero mes representa un índice de matriz.
 
     navigator.globalization.stringToDate(
         '9/25/2012',
@@ -578,7 +589,7 @@ Analiza un número con formato como una cadena según las preferencias del clien
 
 Devuelve el número de la `successCallback` con un `properties` objeto como parámetro. Ese objeto debe tener un `value` propiedad con un `Number` valor.
 
-Si hay un error al analizar la cadena de número, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.PARSING\_ERROR`.
+Si hay un error al analizar la cadena de número, entonces el `errorCallback` se ejecuta con un `GlobalizationError` objeto como parámetro. Código esperado del error es`GlobalizationError.PARSING_ERROR`.
 
 El `options` parámetro es opcional y por defecto los siguientes valores:
 
@@ -596,7 +607,7 @@ El `options.type` puede ser `decimal` , `percent` , o`currency`.
 
 ### Ejemplo
 
-Cuando el navegador está configurado el `en\_US` locale, esto debería mostrar un cuadro de diálogo emergente con texto similar a `number: 1234.56` :
+Cuando el navegador está configurado el `en_US` locale, esto debería mostrar un cuadro de diálogo emergente con texto similar a `number: 1234.56` :
 
     navigator.globalization.stringToNumber(
         '1234.56',

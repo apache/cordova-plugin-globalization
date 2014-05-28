@@ -19,7 +19,7 @@
 
 # org.apache.cordova.globalization
 
-Ce plugin obtienne des informations et effectue des opérations spécifiques aux paramètres régionaux et le fuseau horaire de l'utilisateur.
+Ce plugin obtienne des informations et effectue des opérations spécifiques aux paramètres régionaux de l'utilisateur, la langue et fuseau horaire. Notez la différence entre les paramètres régionaux et linguistiques : contrôles de paramètres régionaux comment nombres, les dates et les heures sont affichées pour une région, tandis que la langue détermine quel texte apparaît sous la forme, indépendamment des paramètres régionaux. Souvent les développeurs utilisent des paramètres régionaux pour définir ces deux paramètres, mais il n'y a aucune raison, qu'un utilisateur ne pouvait pas régler sa langue sur « English », mais en paramètres régionaux « Français », afin que le texte s'affiche en anglais mais dates, heures, etc., s'affichent comme ils sont en France. Malheureusement, les plateformes mobiles plus actuellement ne font pas une distinction entre ces paramètres.
 
 ## Installation
 
@@ -45,29 +45,106 @@ Ce plugin obtienne des informations et effectue des opérations spécifiques aux
 *   navigator.globalization.getNumberPattern
 *   navigator.globalization.getCurrencyPattern
 
+## navigator.globalization.getPreferredLanguage
+
+Obtenir la balise de langue BCP 47 pour la langue du client actuel.
+
+    navigator.globalization.getPreferredLanguage(successCallback, errorCallback);
+    
+
+### Description
+
+Retourne la balise d'identificateur de langage compatible BCP-47 à la `successCallback` avec un `properties` objet comme paramètre. Cet objet doit avoir une `value` propriété avec une `String` valeur.
+
+S'il y a une erreur d'obtention de la langue, puis le `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.UNKNOWN_ERROR`.
+
+### Plates-formes prises en charge
+
+*   Amazon Fire OS
+*   Android
+*   iOS
+*   Windows Phone 8
+
+### Exemple
+
+Lorsque le navigateur est configuré pour le `en-US` langue, cela devrait afficher une boîte de dialogue contextuelle avec le texte `language: en-US` :
+
+    navigator.globalization.getPreferredLanguage(
+        function (language) {alert('language: ' + language.value + '\n');},
+        function () {alert('Error getting language\n');}
+    );
+    
+
+### Quirks Android
+
+*   Retourne le code de langue à deux lettres 639-1 ISO, majuscules du code ISO 3166-1 country et variante séparés par des tirets. Exemples: « fr », « en-US », « US »
+
+### Windows Phone 8 Quirks
+
+*   Code renvoie l'ISO 639-1 deux lettres de la langue et indicatif ISO 3166-1 de la variante régionale correspondant à la « langue » définissant, séparés par un tiret.
+*   Notez que la variante régionale est une propriété du paramètre « Langue » et pas déterminé par le paramètre « Pays/région » sans rapport avec Windows Phone.
+
+## navigator.globalization.getLocaleName
+
+Retourne la balise conforme BCP 47 pour paramètre de langue actuel du client.
+
+    navigator.globalization.getLocaleName(successCallback, errorCallback);
+    
+
+### Description
+
+Retourne la chaîne d'identificateur de paramètres régionaux compatibles BCP 47 à la `successCallback` avec un `properties` objet comme paramètre. Cet objet doit avoir une `value` propriété avec une `String` valeur. La balise locale comprendra un code de deux lettres minuscules langue, code de pays à deux lettres majuscules et code de variante (non précisé), séparés par un tiret.
+
+S'il y a une erreur d'obtenir les paramètres régionaux, puis le `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.UNKNOWN_ERROR`.
+
+### Plates-formes prises en charge
+
+*   Amazon Fire OS
+*   Android
+*   iOS
+*   Windows Phone 8
+
+### Exemple
+
+Lorsque le navigateur est configuré pour la `en-US` locale, ceci pour afficher une fenêtre popup avec le texte`locale: en-US`.
+
+    navigator.globalization.getLocaleName(
+        function (locale) {alert('locale: ' + locale.value + '\n');},
+        function () {alert('Error getting locale\n');}
+    );
+    
+
+### Quirks Android
+
+*   Java ne distingue pas entre un set « langue » et le set « locale », donc cette méthode est essentiellement identique à`navigator.globalizatin.getPreferredLanguage()`.
+
+### Windows Phone 8 Quirks
+
+*   Code renvoie l'ISO 639-1 deux lettres de la langue et indicatif ISO 3166-1 de la variante régionale correspondant au paramètre de Format « régional », séparé par un trait d'Union.
+
 ## navigator.globalization.dateToString
 
-Renvoie une date sous la forme d'une chaîne de caractères en tenant compte des réglages de langue et de fuseau horaire du client.
+Renvoie une date mise en forme comme une chaîne selon les paramètres régionaux du client et de fuseau horaire.
 
     navigator.globalization.dateToString(date, successCallback, errorCallback, options);
     
 
 ### Description
 
-Retourne la date formatée (`String`) via la propriété `value` définie sur l'objet transmis en paramètre à la fonction `successCallback`.
+Retourne la date de mise en forme `String` par une `value` propriété accessible à partir de l'objet passé comme paramètre à la`successCallback`.
 
-La valeur du premier paramètre, nommé `date`, doit être de type `Date`.
+L'entrantes `date` paramètre doit être de type`Date`.
 
-Si une erreur survient lors du formatage de la date, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Code attendu de l'erreur est`GlobalizationError.FORMATTING\_ERROR`.
+S'il y a une erreur de mise en forme la date, puis le `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.FORMATTING_ERROR`.
 
-Le paramètre `options` est facultatif, sa valeur par défaut est :
+Le `options` paramètre est facultatif, et ses valeurs par défaut sont :
 
     {formatLength: « court », sélecteur: « date et heure »}
     
 
-Les valeurs autorisées pour la propriété `options.formatLength` sont `short`, `medium`, `long` et `full`.
+Le `options.formatLength` peut être `short` , `medium` , `long` , ou`full`.
 
-Les valeurs autorisées pour la propriété `options.selector` sont `date`, `time` et `date and time`.
+Le `options.selector` peut être `date` , `time` ou`date and time`.
 
 ### Plates-formes prises en charge
 
@@ -78,48 +155,48 @@ Les valeurs autorisées pour la propriété `options.selector` sont `date`, `tim
 
 ### Exemple
 
-Si la langue du navigateur est réglée sur `fr_FR`, une fenêtre popup contenant un texte semblable à `date : 25/09/2012 16:21` est affichée (options par défaut) :
+Si le navigateur est configuré pour la `en_US` locale, cela permet d'afficher une boîte de dialogue contextuelle avec un texte semblable à `date: 9/25/2012 4:21PM` en utilisant les options par défaut :
 
     navigator.globalization.dateToString(
         new Date(),
-        function (date) { alert('date : ' + date.value + '\n'); },
-        function () { alert('Une erreur est survenue lors de l\'utilisation de dateToString\n'); },
+        function (date) { alert('date: ' + date.value + '\n'); },
+        function () { alert('Error getting dateString\n'); },
         { formatLength: 'short', selector: 'date and time' }
     );
     
 
 ### Windows Phone 8 Quirks
 
-*   Seules les valeurs `short` et `full` sont supportées pour l'option `formatLength`.
+*   Le `formatLength` prend en charge uniquement l'option `short` et `full` valeurs.
 
 ## navigator.globalization.getCurrencyPattern
 
-Retourne une chaîne de caractères modèle, utile pour formater et parser des devises, en tenant compte des réglages du client et du code ISO 4217 associé.
+Retourne une chaîne de modèles pour formater et analyser les valeurs de monnaie selon les préférences de l'utilisateur et du code de devise ISO 4217 du client.
 
      navigator.globalization.getCurrencyPattern(currencyCode, successCallback, errorCallback);
     
 
 ### Description
 
-Transmet le modèle demandé comme paramètre de la fonction `successCallback` sous la forme d'un objet `properties`. Cet objet contient normalement les propriétés suivantes :
+Retourne le modèle de la `successCallback` avec un `properties` objet comme paramètre. Cet objet doit contenir les propriétés suivantes :
 
-*   **pattern** : le modèle permettant de formater et parser des valeurs monétaires. Les modèles suivent [Unicode Technical Standard #35][1]. *(String)*
+*   **modèle**: le modèle de la monnaie de formater et d'analyser les valeurs de devise. Les modèles suivent [Unicode Technical Standard #35][1]. *(String)*
 
-*   **code** : le code ISO 4217 de la devise liée au modèle. *(String)*
+*   **code**: code de devise de l'ISO 4217 pour le modèle. *(String)*
 
-*   **fraction** : le nombre de chiffres composant la partie décimale à utiliser lors de l'analyse et du formatage de la devise. *(Number)*
+*   **fraction**: le nombre de chiffres fractionnaires à utiliser lors de l'analyse et de formatage de devises. *(Nombre)*
 
-*   **rounding** : la valeur de l'incrément d'arrondi à utiliser pour l'analyse et le formatage. *(Number)*
+*   **arrondissement**: l'arrondi incrémenter pour utiliser lors de l'analyse et de mise en forme. *(Nombre)*
 
-*   **decimal** : le symbole séparant la partie entière de la partie décimale à utiliser pour l'analyse et la mise en forme. *(String)*
+*   **décimal**: le symbole décimal à utiliser pour l'analyse et de mise en forme. *(String)*
 
-*   **grouping** : le symbole séparant les groupes de chiffres à utiliser pour l'analyse et la mise en forme. *(String)*
+*   **regroupement**: le symbole de groupe à utiliser pour l'analyse et de mise en forme. *(String)*
 
  [1]: http://unicode.org/reports/tr35/tr35-4.html
 
-Le paramètre `currencyCode` doit être de type `String` et correspondre à l'un des codes de devise ISO 4217, "USD" par exemple.
+L'entrantes `currencyCode` paramètre doit être un `String` de l'un des codes de devise ISO 4217, par exemple « USD ».
 
-Si une erreur survient lors de l'obtention du modèle demandé, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Code attendu de l'erreur est`GlobalizationError.FORMATTING\_ERROR`.
+S'il y a une erreur, obtenir le modèle, puis le `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.FORMATTING_ERROR`.
 
 ### Plates-formes prises en charge
 
@@ -129,53 +206,53 @@ Si une erreur survient lors de l'obtention du modèle demandé, la fonction `err
 
 ### Exemple
 
-Si la langue du navigateur est réglée sur `fr_FR` et que la devise sélectionnée est le Dollar américain, cet exemple affiche une fenêtre popup contenant des résultats semblables à ceux qui suivent :
+Lorsque le navigateur est configuré pour la `en_US` locale et la devise sélectionnée est Dollars des États-Unis, cet exemple pour afficher une fenêtre popup avec un texte semblable aux résultats qui suivent :
 
     navigator.globalization.getCurrencyPattern(
         'USD',
         function (pattern) {
-            alert('pattern : '  + pattern.pattern  + '\n' +
-                  'code : '     + pattern.code     + '\n' +
-                  'fraction : ' + pattern.fraction + '\n' +
-                  'rounding : ' + pattern.rounding + '\n' +
-                  'decimal : '  + pattern.decimal  + '\n' +
-                  'grouping : ' + pattern.grouping);
+            alert('pattern: '  + pattern.pattern  + '\n' +
+                  'code: '     + pattern.code     + '\n' +
+                  'fraction: ' + pattern.fraction + '\n' +
+                  'rounding: ' + pattern.rounding + '\n' +
+                  'decimal: '  + pattern.decimal  + '\n' +
+                  'grouping: ' + pattern.grouping);
         },
-        function () { alert('Erreur lors de l\'obtention du modèle\n'); }
+        function () { alert('Error getting pattern\n'); }
     );
     
 
-Résultats escomptés :
+Résultat escompté :
 
-    pattern : #,##0.00 $
-    code : USD
-    fraction : 2
-    rounding : 0
-    decimal : ,
-    grouping : 
+    pattern: $#,##0.##;($#,##0.##)
+    code: USD
+    fraction: 2
+    rounding: 0
+    decimal: .
+    grouping: ,
     
 
 ## navigator.globalization.getDateNames
 
-Retourne un tableau contenant les noms des mois ou jours de la semaine, selon le calendrier et les préférences utilisateur du client.
+Retourne un tableau des noms des mois ou jours de la semaine, selon le calendrier et les préférences de l'utilisateur du client.
 
-    navigator.globalization.getDateNames (successCallback, errorCallback, options) ;
+    navigator.globalization.getDateNames(successCallback, errorCallback, options);
     
 
 ### Description
 
-Transmet le tableau de noms comme paramètre de la fonction `successCallback` sous la forme d'un objet `properties`. Cet objet contient une propriété `value` contenant un tableau (`Array`) dont les valeurs sont des chaînes de caractères (`String`). Ces chaînes de caractères sont classées dans le tableau à partir du premier mois de l'année ou du premier jour de la semaine, selon l'option choisie.
+Retourne le tableau de noms à la `successCallback` avec un `properties` objet comme paramètre. Cet objet contient une `value` propriété avec un `Array` de `String` valeurs. Les noms de fonctionnalités de tableau à partir de soit le premier mois de l'année ou le premier jour de la semaine, selon l'option choisie.
 
-Si une erreur survient lors de l'obtention des noms, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Le code d'erreur attendu dans ce cas est `GlobalizationError.UNKNOWN_ERROR`.
+S'il y a une erreur d'obtention des noms, puis les `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.UNKNOWN_ERROR`.
 
 Le `options` paramètre est facultatif, et ses valeurs par défaut sont :
 
-    {type: « large », item: « mois »}
+    {type:'wide', item:'months'}
     
 
-Les valeurs autorisées pour la propriété `options.type` sont `narrow` et `wide`.
+La valeur de `options.type` peut être `narrow` ou`wide`.
 
-Les valeurs autorisées pour la propriété `options.item` sont `months` et `days`.
+La valeur de `options.item` peut être `months` ou`days`.
 
 ### Plates-formes prises en charge
 
@@ -186,46 +263,47 @@ Les valeurs autorisées pour la propriété `options.item` sont `months` et `day
 
 ### Exemple
 
-Si la langue du navigateur est réglée sur `fr_FR`, cet exemple affiche une série de douze fenêtres popup, une par mois, avec contenu ressemblant à `mois : janvier`.
+Lorsque le navigateur est configuré pour la `en_US` locale, cet exemple affiche une série de douze fenêtres popup, un par mois, avec un texte semblable à `month: January` :
 
     navigator.globalization.getDateNames(
         function (names) {
             for (var i = 0; i < names.value.length; i++) {
-                alert('mois : ' + names.value[i] + '\n');
+                alert('month: ' + names.value[i] + '\n');
             }
         },
-        function () { alert('Erreur lors de l\'obtention des noms de mois\n'); },
+        function () { alert('Error getting names\n'); },
         { type: 'wide', item: 'months' }
     );
     
 
 ## navigator.globalization.getDatePattern
 
-Retourne une chaîne de caractères modèle, utile pour formater et parser des dates, en tenant compte des préférences utilisateur du client.
+Retourne une chaîne de modèles pour formater et d'analyser les dates selon les préférences de l'utilisateur du client.
 
     navigator.globalization.getDatePattern(successCallback, errorCallback, options);
     
 
 ### Description
 
-Transmet le modèle demandé à la fonction `successCallback`. Cet objet passé en paramètre contient les propriétés suivantes :
+Retourne le modèle de la `successCallback` . L'objet passé comme paramètre contient les propriétés suivantes :
 
-*   **pattern** : le modèle de date et d'heure permettant de formater et parser des dates. Les modèles suivent [Unicode Technical Standard #35][1]. *(String)*
+*   **modèle**: le modèle de date et d'heure pour formater et analyser des dates. Les modèles suivent [Unicode Technical Standard #35][1]. *(String)*
 
-*   **timezone** : le nom abrégé du fuseau horaire du client. *(String)*
+*   **fuseau horaire**: l'abréviation du fuseau horaire sur le client. *(String)*
 
-*   **utc_offset** : la différence actuelle en secondes entre le fuseau horaire du client et le Temps universel coordonné. *(Number)*
+*   **utc_offset**: la différence actuelle en secondes entre le temps universel coordonné et du fuseau horaire du client. *(Nombre)*
 
-*   **dst_offset** : la différence en secondes entre l'heure d'hiver et l'heure d'été du client. *(Number)*
+*   **DST_OFFSET**: l'offset d'heure actuel en secondes entre non-heure le client du fuseau horaire et l'heure du client sauver du fuseau horaire. *(Nombre)*
 
-Si une erreur survient lors de l'obtention du modèle demandé, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Le code d'erreur attendu dans ce cas est`GlobalizationError.PATTERN_ERROR`.
+S'il y a une erreur, obtenir le modèle, le `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.PATTERN_ERROR`.
 
-Le paramètre `options` est facultatif, sa valeur par défaut est la suivante :
+Le `options` paramètre est facultatif et par défaut les valeurs suivantes :
 
     {formatLength: « court », sélecteur: « date et heure »}
     
 
-Les valeurs autorisées pour la propriété `options.formatLength` sont `short`, `medium`, `long` et `full`. Les valeurs autorisées pour la propriété `options.selector` sont `date`, `time` et `date and time`.
+Le `options.formatLength` peut être `short` , `medium` , `long` , ou `full` . Le `options.selector` peut être `date` , `time` ou`date and
+time`.
 
 ### Plates-formes prises en charge
 
@@ -236,12 +314,12 @@ Les valeurs autorisées pour la propriété `options.formatLength` sont `short`,
 
 ### Exemple
 
-Si la langue du navigateur est réglée sur `fr_FR`, cet exemple affiche une fenêtre popup contenant `pattern : dd/MM/yy HH:mm` :
+Lorsque le navigateur est configuré pour la `en_US` locale, cet exemple pour afficher une fenêtre popup avec texte comme `pattern: M/d/yyyy h:mm a` :
 
     function checkDatePattern() {
         navigator.globalization.getDatePattern(
-            function (date) { alert('pattern : ' + date.pattern + '\n'); },
-            function () { alert('Erreur lors de l\'obtention du modèle\n'); },
+            function (date) { alert('pattern: ' + date.pattern + '\n'); },
+            function () { alert('Error getting pattern\n'); },
             { formatLength: 'short', selector: 'date and time' }
         );
     }
@@ -249,26 +327,26 @@ Si la langue du navigateur est réglée sur `fr_FR`, cet exemple affiche une fen
 
 ### Windows Phone 8 Quirks
 
-*   Seules les valeurs `short` et `full` sont supportés pour l'option `formatLength`.
+*   Le `formatLength` prend uniquement en charge `short` et `full` valeurs.
 
-*   La propriété `pattern` d'un modèle `date and time` retourne uniquement le plein format datetime.
+*   Le `pattern` pour `date and time` modèle retourne uniquement datetime plein format.
 
-*   La propriété `timezone` d'un modèle retourne le nom complet du fuseau horaire.
+*   Le `timezone` retourne le nom de zone à temps plein.
 
-*   La propriété `dst_offset` d'un modèle n'est pas prise en charge et retourne donc toujours zéro.
+*   La `dst_offset` propriété n'est pas prise en charge, et toujours retourne zéro.
 
 ## navigator.globalization.getFirstDayOfWeek
 
-Retourne le premier jour de la semaine selon le calendrier et les préférences utilisateur du client.
+Retourne le premier jour de la semaine selon le calendrier et les préférences de l'utilisateur du client.
 
     navigator.globalization.getFirstDayOfWeek(successCallback, errorCallback);
     
 
 ### Description
 
-Les jours de la semaine sont numérotés à partir de 1, où 1 correspond au dimanche. Le jour demandé est transmis en paramètre à la fonction `successCallback` sous la forme d'un objet `properties`. Cet objet contient une propriété `value` dont la valeur est de type `Number`.
+Les jours de la semaine sont numérotés à partir de 1, où 1 est supposé pour être le dimanche. Retourne le jour de la `successCallback` avec un `properties` objet comme paramètre. Cet objet doit avoir une `value` propriété avec une `Number` valeur.
 
-S'il y a une erreur, obtenir le modèle, puis le `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.UNKNOWN\_ERROR`.
+S'il y a une erreur, obtenir le modèle, puis le `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.UNKNOWN_ERROR`.
 
 ### Plates-formes prises en charge
 
@@ -279,81 +357,49 @@ S'il y a une erreur, obtenir le modèle, puis le `errorCallback` s'exécute avec
 
 ### Exemple
 
-Si la langue du navigateur est réglée sur `fr_FR`, une fenêtre popup contenant un texte semblable à `day : 2` est affichée.
+Lorsque le navigateur est configuré pour la `en_US` locale, cela permet d'afficher une boîte de dialogue contextuelle avec un texte semblable à`day: 1`.
 
     navigator.globalization.getFirstDayOfWeek(
-        function (day) {alert('day : ' + day.value + '\n');},
-        function () {alert('Erreur lors de l\'obtention du jour\n');}
+        function (day) {alert('day: ' + day.value + '\n');},
+        function () {alert('Error getting day\n');}
     );
     
-
-Retourne l'identifiant correspondant au réglage de langue actuel du client.
-
-    navigator.globalization.getLocaleName(successCallback, errorCallback);
-    
-
-### Description
-
-Transmet l'identifiant de langue en paramètre à la fonction `successCallback` sous la forme d'un objet `properties`. Cet objet contient une propriété `value` dont la valeur est de type `String`.
-
-Si une erreur survient lors de l'obtention de l'identifiant, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Code attendu de l'erreur est`GlobalizationError.UNKNOWN\_ERROR`.
-
-### Plates-formes prises en charge
-
-*   Amazon Fire OS
-*   Android
-*   iOS
-*   Windows Phone 8
-
-### Exemple
-
-Si la langue du navigateur est réglée sur `fr_FR`, une fenêtre popup contenant le texte `locale : fr_FR` est affichée.
-
-    navigator.globalization.getLocaleName(
-        function (locale) {alert('locale : ' + locale.value + '\n');},
-        function () {alert('Erreur lors de l\'obtention de l\'identifiant de langue\n');}
-    );
-    
-
-### Windows Phone 8 Quirks
-
-*   Renvoie le code à deux lettres ISO 3166 correspondant au pays ou la région actuel(le).
 
 ## navigator.globalization.getNumberPattern
 
-Retourne une chaîne de caractères modèle, utile pour formater et parser des nombres, en tenant compte des préférences utilisateur du client.
+Retourne une chaîne de modèles pour formater et d'analyser les chiffres selon les préférences de l'utilisateur du client.
 
     navigator.globalization.getNumberPattern(successCallback, errorCallback, options);
     
 
 ### Description
 
-Transmet le modèle demandé en paramètre à la fonction `successCallback` sous la forme d'un objet `properties`. Cet objet contient les propriétés suivantes :
+Retourne le modèle de la `successCallback` avec un `properties` objet comme paramètre. Cet objet contient les propriétés suivantes :
 
-*   **pattern** : le modèle permettant de formater et parser des nombres. Les modèles suivent [Unicode Technical Standard #35][1]. *(String)*
+*   **modèle**: le modèle de numéro de formater et d'analyser les chiffres. Les modèles suivent [Unicode Technical Standard #35][1]. *(String)*
 
-*   **symbol** : le symbole à utiliser lors de la mise en forme et l'analyse, par exemple le symbole de pourcentage ou un symbole monétaire. *(String)*
+*   **symbole**: le symbole à utiliser lors de la mise en forme et l'analyse, comme un symbole de pourcentage ou de la monnaie. *(String)*
 
-*   **fraction** : le nombre de chiffres composant la partie décimale à utiliser lors de l'analyse et du formatage de nombres. *(Number)*
+*   **fraction**: le nombre de chiffres fractionnaires à utiliser lors de l'analyse et de mise en forme des nombres. *(Nombre)*
 
 *   **arrondissement**: l'arrondi incrémenter pour utiliser lors de l'analyse et de mise en forme. *(Nombre)*
 
-*   **positive** : le symbole à utiliser lors de l'analyse et du formatage des nombres positifs. *(String)*
+*   **positif**: le symbole à utiliser pour les nombres positifs lors de l'analyse et de mise en forme. *(String)*
 
-*   **negative** : le symbole à utiliser lors de l'analyse et du formatage des nombres négatifs. *(String)*
+*   **négatif**: le symbole à utiliser pour les nombres négatifs lors de l'analyse et de mise en forme. *(String)*
 
 *   **décimal**: le symbole décimal à utiliser pour l'analyse et de mise en forme. *(String)*
 
 *   **regroupement**: le symbole de groupe à utiliser pour l'analyse et de mise en forme. *(String)*
 
-S'il y a une erreur, obtenir le modèle, puis le `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.PATTERN\_ERROR`.
+S'il y a une erreur, obtenir le modèle, puis le `errorCallback` s'exécute avec un `GlobalizationError` objet comme paramètre. Code attendu de l'erreur est`GlobalizationError.PATTERN_ERROR`.
 
-Le paramètre `options` est facultatif, sa valeur par défaut est :
+Le `options` paramètre est facultatif, et les valeurs par défaut sont :
 
     {type: « decimal »}
     
 
-Les valeurs autorisées pour la propriété `options.type` sont `decimal`, `percent` et `currency`.
+Le `options.type` peut être `decimal` , `percent` , ou`currency`.
 
 ### Plates-formes prises en charge
 
@@ -364,18 +410,18 @@ Les valeurs autorisées pour la propriété `options.type` sont `decimal`, `perc
 
 ### Exemple
 
-Si la langue du navigateur est réglée sur `fr_FR`, cet exemple affiche une fenêtre popup contenant des résultats semblables à ceux qui suivent :
+Lorsque le navigateur est configuré pour la `en_US` locale, cela doit afficher une boîte de dialogue contextuelle avec un texte semblable aux résultats qui suivent :
 
     navigator.globalization.getNumberPattern(
-        function (pattern) {alert('pattern : '  + pattern.pattern  + '\n' +
-                                  'symbol : '   + pattern.symbol   + '\n' +
-                                  'fraction : ' + pattern.fraction + '\n' +
-                                  'rounding : ' + pattern.rounding + '\n' +
-                                  'positive : ' + pattern.positive + '\n' +
-                                  'negative : ' + pattern.negative + '\n' +
-                                  'decimal : '  + pattern.decimal  + '\n' +
-                                  'grouping : ' + pattern.grouping);},
-        function () {alert('Erreur lors de l\'obtention du modèle\n');},
+        function (pattern) {alert('pattern: '  + pattern.pattern  + '\n' +
+                                  'symbol: '   + pattern.symbol   + '\n' +
+                                  'fraction: ' + pattern.fraction + '\n' +
+                                  'rounding: ' + pattern.rounding + '\n' +
+                                  'positive: ' + pattern.positive + '\n' +
+                                  'negative: ' + pattern.negative + '\n' +
+                                  'decimal: '  + pattern.decimal  + '\n' +
+                                  'grouping: ' + pattern.grouping);},
+        function () {alert('Error getting pattern\n');},
         {type:'decimal'}
     );
     
@@ -383,54 +429,20 @@ Si la langue du navigateur est réglée sur `fr_FR`, cet exemple affiche une fen
 Résultats :
 
     pattern: #,##0.###
-    symbol: 
+    symbol: .
     fraction: 0
     rounding: 0
-    positive: +
+    positive:
     negative: -
-    decimal: ,
-    grouping: 
+    decimal: .
+    grouping: ,
     
 
 ### Windows Phone 8 Quirks
 
-*   La propriété `pattern` n'est pas prise en charge et retourne une chaîne vide.
+*   La `pattern` propriété n'est pas prise en charge et retuens une chaîne vide.
 
-*   La propriété `fraction` n'est pas prise en charge et retourne zéro.
-
-## navigator.globalization.getPreferredLanguage
-
-Retourne l'identifiant correspondant à la langue actuelle du client.
-
-    navigator.globalization.getPreferredLanguage(successCallback, errorCallback);
-    
-
-### Description
-
-Transmet l'identifiant de langue en paramètre à la fonction `successCallback` sous la forme d'un objet `properties`. Cet objet doit avoir une `value` propriété avec une `String` valeur.
-
-Si une erreur survient lors de l'obtention de l'identifiant, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Code attendu de l'erreur est`GlobalizationError.UNKNOWN\_ERROR`.
-
-### Plates-formes prises en charge
-
-*   Amazon Fire OS
-*   Android
-*   iOS
-*   Windows Phone 8
-
-### Exemple
-
-Si la langue du navigateur est réglée sur `fr_FR`, une fenêtre popup contenant le texte `language : fr` est affichée :
-
-    navigator.globalization.getPreferredLanguage(
-        function (language) {alert('language : ' + language.value + '\n');},
-        function () {alert('Erreur lors de l\'obtention de l\'identifiant du langage\n');}
-    );
-    
-
-### Windows Phone 8 Quirks
-
-*   Retourne le code à deux lettres ISO 639-1 pour la langue actuelle.
+*   La `fraction` propriété n'est pas prise en charge et retourne zéro.
 
 ## navigator.globalization.isDayLightSavingsTime
 
@@ -445,7 +457,7 @@ Indique si l'heure d'été est en vigueur ou non en transmettant un objet `prope
 
 Le paramètre obligatoire `date` doit être de type `Date`.
 
-Si une erreur survient lors de la lecture de la date, la fonction `errorCallback` est exécutée. Le code d'erreur attendu dans ce cas est`GlobalizationError.UNKNOWN_ERROR`.
+S'il y a une erreur de lecture de la date, puis le `errorCallback` s'exécute. Code attendu de l'erreur est`GlobalizationError.UNKNOWN_ERROR`.
 
 ### Plates-formes prises en charge
 
@@ -476,7 +488,7 @@ Renvoie un nombre formaté dans une chaîne de caractères en tenant compte des 
 
 Transmet le nombre formaté en paramètre à la fonction `successCallback` sous la forme d'un objet `properties`. Cet objet doit avoir une `value` propriété avec une `String` valeur.
 
-Si une erreur survient lors du formatage du nombre, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Code attendu de l'erreur est`GlobalizationError.FORMATTING\_ERROR`.
+Si une erreur survient lors du formatage du nombre, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Code attendu de l'erreur est`GlobalizationError.FORMATTING_ERROR`.
 
 Le `options` paramètre est facultatif, et ses valeurs par défaut sont :
 
@@ -494,7 +506,7 @@ Le `options.type` peut être « decimal », « % » ou « monnaie ».
 
 ### Exemple
 
-Si la langue du navigateur est réglée sur `fr_FR`, une fenêtre popup contenant `number : 3,142` est affichée :
+Lorsque le navigateur est configuré pour la `en_US` locale, cela permet d'afficher une boîte de dialogue contextuelle avec un texte semblable à `number: 3.142` :
 
     navigator.globalization.numberToString(
         3.1415926,
@@ -515,19 +527,19 @@ Retourne un objet date construit à partir d'une date contenue dans une chaîne 
 
 Transmet la date demandée en paramètre à la fonction successCallback sous la forme d'un objet `properties`. Cet objet contient les propriétés suivantes :
 
-*   **year** : le nombre à quatre chiffres représentant l'année. *(Number)*
+*   **année**: l'année à quatre chiffres. *(Nombre)*
 
-*   **month** : le numéro du mois compris entre 0 et 11. *(Number)*
+*   **mois**: le mois de (0-11). *(Nombre)*
 
-*   **day** : le numéro du jour compris entre 1 et 31. *(Number)*
+*   **jour**: le jour de (1-31). *(Nombre)*
 
-*   **hour** : l'heure comprise entre 0 et 23. *(Number)*
+*   **heure**: l'heure du (0-23). *(Nombre)*
 
-*   **minute** : le nombre de minutes compris entre 0 et 59. *(Number)*
+*   **minute**: la minute (0-59). *(Nombre)*
 
-*   **second** : le nombre de secondes compris entre 0 et 59. *(Number)*
+*   **deuxième**: la seconde de (0 à 59). *(Nombre)*
 
-*   **millisecond** : le nombre de millisecondes compris entre 0 et 999, pas disponible pour toutes les plates-formes. *(Number)*
+*   **milliseconde**: les millisecondes (entre 0 et 999), non disponibles sur toutes les plateformes. *(Nombre)*
 
 Le paramètre `dateString` doit être de type `String`.
 
@@ -539,7 +551,7 @@ Le paramètre `options` est facultatif, sa valeur par défaut est :
 Le `options.formatLength` peut être `short` , `medium` , `long` , ou `full` . Le `options.selector` peut être `date` , `time` ou`date and
 time`.
 
-Si une erreur survient lors de l'analyse de la chaîne de caractères, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Le code d'erreur prévu dans ce cas est `GlobalizationError.PARSING_ERROR`.
+Si une erreur survient lors de l'analyse de la chaîne de caractères, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Code attendu de l'erreur est`GlobalizationError.PARSING_ERROR`.
 
 ### Plates-formes prises en charge
 
@@ -550,7 +562,7 @@ Si une erreur survient lors de l'analyse de la chaîne de caractères, la foncti
 
 ### Exemple
 
-Si la langue du navigateur est réglée sur `fr_FR`, une fenêtre popup contenant `month : 8, day : 25, year : 2012` est affichée. Notez que l'entier faisant référence au numéro du mois est différent de celui présent dans la chaîne parsée, ceci car il représente un index de tableau.
+Lorsque le navigateur est configuré pour la `en_US` locale, cela permet d'afficher une boîte de dialogue contextuelle avec un texte semblable à `month:8 day:25 year:2012` . Notez que l'entier faisant référence au numéro du mois est différent de celui présent dans la chaîne parsée, ceci car il représente un index de tableau.
 
     navigator.globalization.stringToDate(
         '25/09/2012',
@@ -577,7 +589,7 @@ Retourne un nombre à partir d'une chaîne de caractères contenant un nombre fo
 
 Transmet le nombre demandé en paramètre à la fonction `successCallback` sous la forme d'un objet `properties`. Cet objet contient une propriété `value` dont la valeur est de type `Number`.
 
-Si une erreur survient lors de l'analyse de la chaîne de caractères, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Le code d'erreur prévu dans ce cas est `GlobalizationError.PARSING_ERROR`.
+Si une erreur survient lors de l'analyse de la chaîne de caractères, la fonction `errorCallback` est exécutée et un objet `GlobalizationError` lui est passé en paramètre. Code attendu de l'erreur est`GlobalizationError.PARSING_ERROR`.
 
 Le `options` paramètre est facultatif et par défaut les valeurs suivantes :
 
@@ -595,7 +607,7 @@ Le `options.type` peut être `decimal` , `percent` , ou`currency`.
 
 ### Exemple
 
-Si la langue du navigateur est réglée sur `fr_FR`, une fenêtre popup contenant `number : 1234.56` est affichée :
+Lorsque le navigateur est configuré pour la `en_US` locale, cela doit afficher une boîte de dialogue contextuelle avec un texte semblable à `number: 1234.56` :
 
     navigator.globalization.stringToNumber(
         '1234,56',
@@ -611,12 +623,12 @@ Un objet représentant une erreur de l'API Globalization.
 
 ### Propriétés
 
-*   **code** : un des codes suivants décrivant le type d'erreur rencontrée *(Number)* 
-    *   GlobalizationError.UNKNOWN_ERROR : 0
-    *   GlobalizationError.FORMATTING_ERROR : 1
-    *   GlobalizationError.PARSING_ERROR : 2
-    *   GlobalizationError.PATTERN_ERROR : 3
-*   **message** : un message texte comprenant l'explication de l'erreur et/ou des détails à son sujet. *(String)*
+*   **code**: Un des codes suivants qui représente le type d'erreur *(Nombre)* 
+    *   GlobalizationError.UNKNOWN_ERROR: 0
+    *   GlobalizationError.FORMATTING_ERROR: 1
+    *   GlobalizationError.PARSING_ERROR: 2
+    *   GlobalizationError.PATTERN_ERROR: 3
+*   **message**: un message texte qui comprend l'explication de l'erreur et/ou de détails *(String)*
 
 ### Description
 
