@@ -52,6 +52,18 @@ exports.defineAutoTests = function () {
                 },
                 fail.bind(null, done));
             });
+            it("globalization.spec.4 getPreferredLanguage return string should have hypen", function (done) {
+                navigator.globalization.getPreferredLanguage(function (a) {
+                    expect(a).toBeDefined();
+                    expect(typeof a).toBe('object');
+                    expect(a.value).toBeDefined();
+                    expect(typeof a.value).toBe('string');
+                    expect(a.value.length > 0).toBe(true);
+                    expect(a.value.indexOf('_')).toBe(-1);
+                    expect(a.value.indexOf('-')).toBeGreaterThan(0);
+                    done()
+                }, fail.bind(null, done));
+            });
         });
 
         describe("getLocaleName", function () {
@@ -66,6 +78,18 @@ exports.defineAutoTests = function () {
                     expect(a.value).toBeDefined();
                     expect(typeof a.value).toBe('string');
                     expect(a.value.length > 0).toBe(true);
+                    done()
+                }, fail.bind(null, done));
+            });
+             it("globalization.spec.4 getLocaleName return string should have hypen", function (done) {
+                navigator.globalization.getLocaleName(function (a) {
+                   expect(a).toBeDefined();
+                    expect(typeof a).toBe('object');
+                    expect(a.value).toBeDefined();
+                    expect(typeof a.value).toBe('string');
+                    expect(a.value.length > 0).toBe(true);
+                    expect(a.value.indexOf('_')).toBe(-1);
+                    expect(a.value.indexOf('-')).toBeGreaterThan(0);
                     done()
                 }, fail.bind(null, done));
             });
@@ -591,4 +615,3 @@ exports.defineAutoTests = function () {
         });
     });
 };
-
