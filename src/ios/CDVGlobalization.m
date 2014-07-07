@@ -40,6 +40,8 @@
     NSString* language = [[NSLocale preferredLanguages] objectAtIndex:0];
 
     if (language) {
+        language = [language stringByReplacingOccurrencesOfString:@"_" withString:@"-"];
+
         NSDictionary* dictionary = [NSDictionary dictionaryWithObject:language forKey:@"value"];
 
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
@@ -63,7 +65,9 @@
     NSLocale* locale = [NSLocale currentLocale];
 
     if (locale) {
-        dictionary = [NSDictionary dictionaryWithObject:[locale localeIdentifier] forKey:@"value"];
+        NSString *localeIdentifier = [[locale localeIdentifier] stringByReplacingOccurrencesOfString:@"_" withString:@"-"];
+
+        dictionary = [NSDictionary dictionaryWithObject:localeIdentifier forKey:@"value"];
 
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dictionary];
     } else {
