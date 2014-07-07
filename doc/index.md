@@ -72,6 +72,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 - Amazon Fire OS
 - Android
+- Firefox OS
 - iOS
 - Windows Phone 8
 
@@ -120,6 +121,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 - Amazon Fire OS
 - Android
+- Firefox OS
 - iOS
 - Windows Phone 8
 
@@ -174,6 +176,7 @@ The `options.selector` can be `date`, `time` or `date and time`.
 
 - Amazon Fire OS
 - Android
+- Firefox OS
 - iOS
 - Windows Phone 8
 
@@ -193,6 +196,11 @@ options:
 ### Windows Phone 8 Quirks
 
 - The `formatLength` option supports only `short` and `full` values.
+
+### Firefox OS Quirks
+
+- `formatLength` is not distinguishing `long` and `full` 
+- only one method of displaying date (no `long` or `full` version)
 
 ## navigator.globalization.getCurrencyPattern
 
@@ -291,6 +299,7 @@ The value of `options.item` can be `months` or `days`.
 
 - Amazon Fire OS
 - Android
+- Firefox OS
 - iOS
 - Windows Phone 8
 
@@ -309,6 +318,10 @@ a series of twelve popup dialogs, one per month, with text similar to
         function () { alert('Error getting names\n'); },
         { type: 'wide', item: 'months' }
     );
+
+### Firefox OS Quirks
+
+- `options.type` supports a `genitive` value, important for some languages
 
 
 ## navigator.globalization.getDatePattern
@@ -396,6 +409,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 - Amazon Fire OS
 - Android
+- Firefox OS
 - iOS
 - Windows Phone 8
 
@@ -515,6 +529,7 @@ executes. The error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 - Amazon Fire OS
 - Android
+- Firefox OS
 - iOS
 - Windows Phone 8
 
@@ -620,6 +635,7 @@ error's expected code is `GlobalizationError.PARSING_ERROR`.
 
 - Amazon Fire OS
 - Android
+- Firefox OS
 - iOS
 - Windows Phone 8
 
@@ -710,6 +726,7 @@ This object is created and populated by Cordova, and returned to a callback in t
 
 - Amazon Fire OS
 - Android
+- Firefox OS
 - iOS
 
 ### Example
@@ -721,4 +738,5 @@ popup dialog with the text similar to `code: 3` and `message:`
         alert('code: ' + error.code + '\n' +
               'message: ' + error.message + '\n');
     };
+
 
