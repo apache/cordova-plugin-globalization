@@ -119,4 +119,11 @@
             <runs/>
         </js-module>
     </platform>
+
+    <!-- blackberry10 -->
+    <platform name="blackberry10">
+        <source-file src="src/blackberry10/index.js" target-dir="Globalization" />
+        <lib-file src="src/blackberry10/native/device/libGlobalization.so" arch="device" />
+        <lib-file src="src/blackberry10/native/simulator/libGlobalization.so" arch="simulator" />
+    </platform>
 </plugin>
