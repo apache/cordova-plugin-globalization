@@ -70,6 +70,16 @@
        </js-module>
    </platform>
 
+    <!-- firefoxos -->
+    <platform name="firefoxos">
+        <js-module src="src/firefoxos/GlobalizationProxy.js" name="GlobalizationProxy">
+            <runs />
+        </js-module>
+		<asset src="www/firefoxos/locales" target="locales" />
+		<asset src="www/firefoxos/l10n.js" target="js/l10n.js" />
+		<asset src="www/firefoxos/l10n_date.js" target="js/l10n_date.js" />
+    </platform>  
+
    <!-- ios -->
    <platform name="ios">    
         <config-file target="config.xml" parent="/*">
