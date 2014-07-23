@@ -15,7 +15,6 @@
  */
 
 #include <string>
-#include "../public/tokenizer.h"
 #include "globalization_js.hpp"
 #include "globalization_ndk.hpp"
 
@@ -80,24 +79,6 @@ string GlobalizationJS::InvokeMethod(const string& command) {
 	std::string arg = command.substr(callbackIndex + 1, command.length());
 
 	// based on the command given, run the appropriate method in globalizationndk.cpp
-	if (strCommand == "testString") {
-		return m_pGlobalizationController->globalizationTestString();
-	} else if (strCommand == "testStringInput") {
-		return m_pGlobalizationController->globalizationTestString(arg);
-	} else if (strCommand == "globalizationProperty") {
-		// if arg exists we are setting property
-		if (arg != strCommand) {
-			m_pGlobalizationController->setGlobalizationProperty(arg);
-		} else {
-			return m_pGlobalizationController->getGlobalizationProperty();
-		}
-	} else if (strCommand == "testAsync") {
-		m_pGlobalizationController->globalizationTestAsync(callbackId, arg);
-	} else if (strCommand == "globalizationStartThread") {
-		return m_pGlobalizationController->globalizationStartThread(callbackId);
-	} else if (strCommand == "globalizationStopThread") {
-		return m_pGlobalizationController->globalizationStopThread();
-	}
 
 	strCommand.append(";");
 	strCommand.append(command);

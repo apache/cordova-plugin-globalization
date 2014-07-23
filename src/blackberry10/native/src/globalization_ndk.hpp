@@ -18,7 +18,6 @@
 #define GLOBALIZATIONNDK_HPP_
 
 #include <string>
-#include <pthread.h>
 
 class GlobalizationJS;
 
@@ -30,33 +29,9 @@ public:
 	virtual ~GlobalizationNDK();
 
 	// The extension methods are defined here
-	std::string globalizationTestString();
-
-	std::string globalizationTestString(const std::string& inputString);
-
-	std::string getGlobalizationProperty();
-
-	void setGlobalizationProperty(const std::string& inputString);
-
-	void globalizationTestAsync(const std::string& callbackId, const std::string& inputString);
-
-	std::string globalizationStartThread(const std::string& callbackId);
-
-	std::string globalizationStopThread();
-
-	bool isThreadHalt();
-
-	void globalizationThreadCallback();
 
 private:
 	GlobalizationJS *m_pParent;
-	int globalizationProperty;
-	int globalizationThreadCount;
-	bool threadHalt;
-	std::string threadCallbackId;
-	pthread_t m_thread;
-	pthread_cond_t cond;
-	pthread_mutex_t mutex;
 };
 
 } // namespace webworks
