@@ -21,6 +21,8 @@
 #include "../public/plugin.h"
 #include "globalization_ndk.hpp"
 
+extern const unsigned short ID_G11N;
+
 class GlobalizationJS: public JSExt {
 
 public:
