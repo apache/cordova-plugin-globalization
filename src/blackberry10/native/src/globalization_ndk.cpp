@@ -271,7 +271,60 @@ std::string GlobalizationNDK::dateToString(const std::string& args)
 
 std::string GlobalizationNDK::stringToDate(const std::string& args)
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    if (args.empty())
+        return errorInJson(PARSING_ERROR, "No dateString provided!");
+
+    Json::Reader reader;
+    Json::Value root;
+    bool parse = reader.parse(args, root);
+
+    if (!parse) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToDate: invalid json data: %s",
+                args.c_str());
+        return errorInJson(PARSING_ERROR, "Parameters not valid json format!");
+    }
+
+    Json::Value dateString = root["dateString"];
+    if (!dateString.isString()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToDate: invalid dateString type: %d",
+                dateString.type());
+        return errorInJson(PARSING_ERROR, "dateString not a string!");
+    }
+
+    std::string dateValue = dateString.asString();
+    if (dateValue.empty()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToDate: empty dateString.");
+        return errorInJson(PARSING_ERROR, "dateString is empty!");
+    }
+
+    Json::Value options = root["options"];
+
+    DateFormat::EStyle dstyle, tstyle;
+    std::string error;
+    if (!handleDateOptions(options, dstyle, tstyle, error))
+        return errorInJson(PARSING_ERROR, error);
+
+    const Locale& loc = Locale::getDefault();
+    DateFormat* df = DateFormat::createDateTimeInstance(dstyle, tstyle, loc);
+
+    if (!df) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToDate: unable to create DateFormat instance!");
+        return errorInJson(UNKNOWN_ERROR, "Unable to create DateFormat instance!");
+    }
+
+    UnicodeString uDate = UnicodeString::fromUTF8(dateValue);
+    UErrorCode status = U_ZERO_ERROR;
+    UDate date = df->parse(uDate, status);
+    delete df;
+
+    // Note: not sure why U_ERROR_WARNING_START is returned when parse succeeded.
+    if (status != U_ZERO_ERROR && status != U_ERROR_WARNING_START) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToDate: DataFormat::parse error: %d: %s",
+                status, dateValue.c_str());
+        return errorInJson(PARSING_ERROR, "Failed to parse dateString!");
+    }
+
+    return resultInJson(date);
 }
 
 std::string GlobalizationNDK::getDatePattern(const std::string& args)
