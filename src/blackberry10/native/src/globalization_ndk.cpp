@@ -20,6 +20,7 @@
 #include <sys/slog2.h>
 #include <unicode/calendar.h>
 #include <unicode/datefmt.h>
+#include <unicode/dtfmtsym.h>
 #include <unicode/smpdtfmt.h>
 #include "globalization_ndk.hpp"
 #include "globalization_js.hpp"
@@ -379,6 +380,7 @@ std::string GlobalizationNDK::getDatePattern(const std::string& args)
     pt.toUTF8String(ptUtf8);
 
     const TimeZone& tz = sdf->getTimeZone();
+
     UnicodeString tzName;
     tz.getDisplayName(tzName);
     std::string tzUtf8;
@@ -392,9 +394,154 @@ std::string GlobalizationNDK::getDatePattern(const std::string& args)
     return resultInJson(ptUtf8, tzUtf8, utc_offset, dst_offset);
 }
 
+enum ENamesType {
+    kNamesWide,
+    kNamesNarrow,
+    kNameWidthCount
+};
+
+enum ENamesItem {
+    kNamesMonths,
+    kNamesDays,
+    kNamesTypeCount
+};
+
+static bool handleNamesOptions(const Json::Value& options, ENamesType& type, ENamesItem& item, std::string& error)
+{
+    // This is the default value when no options provided.
+    type = kNamesWide;
+    item = kNamesMonths;
+
+    if (options.isNull())
+        return true;
+
+    if (!options.isObject()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNamesOptions: invalid options format: %d",
+                options.type());
+        error = "Options is invalid!";
+        return false;
+    }
+
+    Json::Value tv = options["type"];
+    if (!tv.isNull()) {
+        if (!tv.isString()) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNamesOptions: invalid type format: %d",
+                    tv.type());
+            error = "type is invalid!";
+            return false;
+        }
+
+        std::string tstr = tv.asString();
+        if (tstr.empty()) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNamesOptions: empty type!");
+            error = "type is empty!";
+            return false;
+        }
+
+        if (tstr == "narrow") {
+            type = kNamesNarrow;
+        } else if (tstr == "wide") {
+            // Nothing to change here.
+        } else {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNamesOptions: unsupported type: %s",
+                    tstr.c_str());
+            error = "Unsupported type!";
+            return false;
+        }
+    }
+
+    Json::Value iv = options["item"];
+    if (!iv.isNull()) {
+        if (!iv.isString()) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNamesOptions: invalid item format: %d",
+                    iv.type());
+            error = "item is invalid!";
+            return false;
+        }
+
+        std::string istr = iv.asString();
+        if (istr.empty()) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNamesOptions: empty item!");
+            error = "item is empty!";
+            return false;
+        }
+
+        if (istr == "days") {
+            item = kNamesDays;
+        } else if (istr == "months") {
+            // Nothing to change here.
+        } else {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNamesOptions: unsupported item: %s",
+                    istr.c_str());
+            error = "Unsupported item!";
+            return false;
+        }
+    }
+
+    return true;
+}
+
 std::string GlobalizationNDK::getDateNames(const std::string& args)
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    ENamesType type = kNamesWide;
+    ENamesItem item = kNamesMonths;
+
+    if (!args.empty()) {
+        Json::Reader reader;
+        Json::Value root;
+        bool parse = reader.parse(args, root);
+
+        if (!parse) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: invalid json data: %s",
+                    args.c_str());
+            return errorInJson(PARSING_ERROR, "Parameters not valid json format!");
+        }
+
+        Json::Value options = root["options"];
+
+        std::string error;
+        if (!handleNamesOptions(options, type, item, error))
+            return errorInJson(PARSING_ERROR, error);
+    }
+
+    UErrorCode status;
+    DateFormatSymbols* syms = new DateFormatSymbols(status);
+    if (!syms) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to create DateFormatSymbols instance: %d.",
+                status);
+        return errorInJson(UNKNOWN_ERROR, "Unable to create DateFormatSymbols instance!");
+    }
+
+    int count = 0;
+    const UnicodeString* names;
+    if (item == kNamesMonths) {
+        if (type == kNamesWide)
+            names = syms->getMonths(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::WIDE);
+        else
+            names = syms->getMonths(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::NARROW);
+            // names = syms->getShortMonths(count);
+    } else {
+        if (type == kNamesWide)
+            names = syms->getWeekdays(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::WIDE);
+        else
+            names = syms->getWeekdays(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::NARROW);
+            // names = syms->getShortWeekdays(count);
+    }
+
+    if (!names) {
+        delete syms;
+
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to get symbols: item: %d, type: %d.",
+                item, type);
+        return errorInJson(UNKNOWN_ERROR, "Unable to get symbols!");
+    }
+
+    std::string utf8Names;
+    names->toUTF8String(utf8Names);
+
+    delete syms;
+
+    return resultInJson(utf8Names);
 }
 
 std::string GlobalizationNDK::isDayLightSavingsTime(const std::string& args)
