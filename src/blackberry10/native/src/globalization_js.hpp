@@ -14,18 +14,18 @@
 * limitations under the License.
 */
 
-#ifndef TemplateJS_HPP_
-#define TemplateJS_HPP_
+#ifndef GlobalizationJS_HPP_
+#define GlobalizationJS_HPP_
 
 #include <string>
 #include "../public/plugin.h"
-#include "template_ndk.hpp"
+#include "globalization_ndk.hpp"
 
-class TemplateJS: public JSExt {
+class GlobalizationJS: public JSExt {
 
 public:
-    explicit TemplateJS(const std::string& id);
-    virtual ~TemplateJS();
+    explicit GlobalizationJS(const std::string& id);
+    virtual ~GlobalizationJS();
     virtual bool CanDelete();
     virtual std::string InvokeMethod(const std::string& command);
     void NotifyEvent(const std::string& event);
@@ -33,7 +33,7 @@ public:
 private:
     std::string m_id;
     // Definition of a pointer to the actual native extension code
-    webworks::TemplateNDK *m_pTemplateController;
+    webworks::GlobalizationNDK *m_pGlobalizationController;
 };
 
-#endif /* TemplateJS_HPP_ */
+#endif /* GlobalizationJS_HPP_ */

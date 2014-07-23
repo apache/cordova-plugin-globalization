@@ -16,25 +16,25 @@
 
 #include <string>
 #include "../public/tokenizer.h"
-#include "template_js.hpp"
-#include "template_ndk.hpp"
+#include "globalization_js.hpp"
+#include "globalization_ndk.hpp"
 
 using namespace std;
 
 /**
  * Default constructor.
  */
-TemplateJS::TemplateJS(const std::string& id) :
+GlobalizationJS::GlobalizationJS(const std::string& id) :
 		m_id(id) {
-	m_pTemplateController = new webworks::TemplateNDK(this);
+	m_pGlobalizationController = new webworks::GlobalizationNDK(this);
 }
 
 /**
- * TemplateJS destructor.
+ * GlobalizationJS destructor.
  */
-TemplateJS::~TemplateJS() {
-	if (m_pTemplateController)
-		delete m_pTemplateController;
+GlobalizationJS::~GlobalizationJS() {
+	if (m_pGlobalizationController)
+		delete m_pGlobalizationController;
 }
 
 /**
@@ -42,17 +42,17 @@ TemplateJS::~TemplateJS() {
  * extension.
  */
 char* onGetObjList() {
-	static char name[] = "TemplateJS";
+	static char name[] = "Globalization";
 	return name;
 }
 
 /**
- * This method is used by JNext to instantiate the TemplateJS object when
+ * This method is used by JNext to instantiate the GlobalizationJS object when
  * an object is created on the JavaScript server side.
  */
 JSExt* onCreateObject(const string& className, const string& id) {
-	if (className == "TemplateJS") {
-		return new TemplateJS(id);
+	if (className == "Globalization") {
+		return new GlobalizationJS(id);
 	}
 
 	return NULL;
@@ -61,7 +61,7 @@ JSExt* onCreateObject(const string& className, const string& id) {
 /**
  * Method used by JNext to determine if the object can be deleted.
  */
-bool TemplateJS::CanDelete() {
+bool GlobalizationJS::CanDelete() {
 	return true;
 }
 
@@ -71,7 +71,7 @@ bool TemplateJS::CanDelete() {
  * for invoking native code. This method is triggered when JNext.invoke is
  * called on the JavaScript side with this native objects id.
  */
-string TemplateJS::InvokeMethod(const string& command) {
+string GlobalizationJS::InvokeMethod(const string& command) {
 	// format must be: "command callbackId params"
 	size_t commandIndex = command.find_first_of(" ");
 	std::string strCommand = command.substr(0, commandIndex);
@@ -79,24 +79,24 @@ string TemplateJS::InvokeMethod(const string& command) {
 	std::string callbackId = command.substr(commandIndex + 1, callbackIndex - commandIndex - 1);
 	std::string arg = command.substr(callbackIndex + 1, command.length());
 
-	// based on the command given, run the appropriate method in template_ndk.cpp
+	// based on the command given, run the appropriate method in globalizationndk.cpp
 	if (strCommand == "testString") {
-		return m_pTemplateController->templateTestString();
+		return m_pGlobalizationController->globalizationTestString();
 	} else if (strCommand == "testStringInput") {
-		return m_pTemplateController->templateTestString(arg);
-	} else if (strCommand == "templateProperty") {
+		return m_pGlobalizationController->globalizationTestString(arg);
+	} else if (strCommand == "globalizationProperty") {
 		// if arg exists we are setting property
 		if (arg != strCommand) {
-			m_pTemplateController->setTemplateProperty(arg);
+			m_pGlobalizationController->setGlobalizationProperty(arg);
 		} else {
-			return m_pTemplateController->getTemplateProperty();
+			return m_pGlobalizationController->getGlobalizationProperty();
 		}
 	} else if (strCommand == "testAsync") {
-		m_pTemplateController->templateTestAsync(callbackId, arg);
-	} else if (strCommand == "templateStartThread") {
-		return m_pTemplateController->templateStartThread(callbackId);
-	} else if (strCommand == "templateStopThread") {
-		return m_pTemplateController->templateStopThread();
+		m_pGlobalizationController->globalizationTestAsync(callbackId, arg);
+	} else if (strCommand == "globalizationStartThread") {
+		return m_pGlobalizationController->globalizationStartThread(callbackId);
+	} else if (strCommand == "globalizationStopThread") {
+		return m_pGlobalizationController->globalizationStopThread();
 	}
 
 	strCommand.append(";");
@@ -105,7 +105,7 @@ string TemplateJS::InvokeMethod(const string& command) {
 }
 
 // Notifies JavaScript of an event
-void TemplateJS::NotifyEvent(const std::string& event) {
+void GlobalizationJS::NotifyEvent(const std::string& event) {
 	std::string eventString = m_id + " ";
 	eventString.append(event);
 	SendPluginEvent(eventString.c_str(), m_pContext);

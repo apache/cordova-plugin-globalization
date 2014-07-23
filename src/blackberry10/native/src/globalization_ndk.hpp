@@ -14,44 +14,44 @@
 * limitations under the License.
 */
 
-#ifndef TEMPLATENDK_HPP_
-#define TEMPLATENDK_HPP_
+#ifndef GLOBALIZATIONNDK_HPP_
+#define GLOBALIZATIONNDK_HPP_
 
 #include <string>
 #include <pthread.h>
 
-class TemplateJS;
+class GlobalizationJS;
 
 namespace webworks {
 
-class TemplateNDK {
+class GlobalizationNDK {
 public:
-	explicit TemplateNDK(TemplateJS *parent = NULL);
-	virtual ~TemplateNDK();
+	explicit GlobalizationNDK(GlobalizationJS *parent = NULL);
+	virtual ~GlobalizationNDK();
 
 	// The extension methods are defined here
-	std::string templateTestString();
+	std::string globalizationTestString();
 
-	std::string templateTestString(const std::string& inputString);
+	std::string globalizationTestString(const std::string& inputString);
 
-	std::string getTemplateProperty();
+	std::string getGlobalizationProperty();
 
-	void setTemplateProperty(const std::string& inputString);
+	void setGlobalizationProperty(const std::string& inputString);
 
-	void templateTestAsync(const std::string& callbackId, const std::string& inputString);
+	void globalizationTestAsync(const std::string& callbackId, const std::string& inputString);
 
-	std::string templateStartThread(const std::string& callbackId);
+	std::string globalizationStartThread(const std::string& callbackId);
 
-	std::string templateStopThread();
+	std::string globalizationStopThread();
 
 	bool isThreadHalt();
 
-	void templateThreadCallback();
+	void globalizationThreadCallback();
 
 private:
-	TemplateJS *m_pParent;
-	int templateProperty;
-	int templateThreadCount;
+	GlobalizationJS *m_pParent;
+	int globalizationProperty;
+	int globalizationThreadCount;
 	bool threadHalt;
 	std::string threadCallbackId;
 	pthread_t m_thread;
@@ -61,4 +61,4 @@ private:
 
 } // namespace webworks
 
-#endif /* TEMPLATENDK_H_ */
+#endif /* GLOBALIZATIONNDK_H_ */
