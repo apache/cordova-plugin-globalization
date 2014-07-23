@@ -126,6 +126,31 @@ string GlobalizationJS::InvokeMethod(const string& command) {
 	std::string arg = command.substr(callbackIndex + 1, command.length());
 
 	// based on the command given, run the appropriate method in globalizationndk.cpp
+    if (strCommand == "getPreferredLanguage") {
+        return m_pGlobalizationController->getPreferredLanguage();
+    } else if (strCommand == "getLocaleName") {
+        return m_pGlobalizationController->getLocaleName();
+    } else if (strCommand == "dateToString") {
+        return m_pGlobalizationController->dateToString(arg);
+    } else if (strCommand == "stringToDate") {
+        return m_pGlobalizationController->stringToDate(arg);
+    } else if (strCommand == "getDatePattern") {
+        return m_pGlobalizationController->getDatePattern(arg);
+    } else if (strCommand == "getDateNames") {
+        return m_pGlobalizationController->getDateNames(arg);
+    } else if (strCommand == "isDayLightSavingsTime") {
+        return m_pGlobalizationController->isDayLightSavingsTime(arg);
+    } else if (strCommand == "getFirstDayOfWeek") {
+        return m_pGlobalizationController->getFirstDayOfWeek();
+    } else if (strCommand == "numberToString") {
+        return m_pGlobalizationController->numberToString(arg);
+    } else if (strCommand == "stringToNumber") {
+        return m_pGlobalizationController->stringToNumber(arg);
+    } else if (strCommand == "getNumberPattern") {
+        return m_pGlobalizationController->getNumberPattern(arg);
+    } else if (strCommand == "getCurrencyPattern") {
+        return m_pGlobalizationController->getCurrencyPattern(arg);
+	}
 
 	strCommand.append(";");
 	strCommand.append(command);

@@ -30,6 +30,30 @@ public:
 
 	// The extension methods are defined here
 
+    std::string getPreferredLanguage();
+
+    std::string getLocaleName();
+
+    std::string dateToString(const std::string& args);
+
+    std::string stringToDate(const std::string& args);
+
+    std::string getDatePattern(const std::string& args);
+
+    std::string getDateNames(const std::string& args);
+
+    std::string isDayLightSavingsTime(const std::string& args);
+
+    std::string getFirstDayOfWeek();
+
+    std::string numberToString(const std::string& args);
+
+    std::string stringToNumber(const std::string& args);
+
+    std::string getNumberPattern(const std::string& args);
+
+    std::string getCurrencyPattern(const std::string& args);
+
 private:
 	GlobalizationJS *m_pParent;
 };
