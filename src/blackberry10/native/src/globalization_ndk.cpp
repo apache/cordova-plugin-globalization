@@ -20,6 +20,7 @@
 #include <sys/slog2.h>
 #include <unicode/calendar.h>
 #include <unicode/datefmt.h>
+#include <unicode/smpdtfmt.h>
 #include "globalization_ndk.hpp"
 #include "globalization_js.hpp"
 
@@ -84,6 +85,21 @@ std::string resultInJson(const UDate& date)
     result["millisecond"] = cal->get(UCAL_MILLISECOND, status);
 
     delete cal;
+
+    Json::Value root;
+    root["result"] = result;
+
+    Json::FastWriter writer;
+    return writer.write(root);
+}
+
+std::string resultInJson(const std::string& pattern, const std::string& timezone, int utc_offset, int dst_offset)
+{
+    Json::Value result;
+    result["pattern"] = pattern;
+    result["timezone"] = timezone;
+    result["utc_offset"] = utc_offset;
+    result["dst_offset"] = dst_offset;
 
     Json::Value root;
     root["result"] = result;
@@ -329,7 +345,51 @@ std::string GlobalizationNDK::stringToDate(const std::string& args)
 
 std::string GlobalizationNDK::getDatePattern(const std::string& args)
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    DateFormat::EStyle dstyle = DateFormat::kShort, tstyle = DateFormat::kShort;
+
+    if (!args.empty()) {
+        Json::Reader reader;
+        Json::Value root;
+        bool parse = reader.parse(args, root);
+
+        if (!parse) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDatePattern: invalid json data: %s",
+                    args.c_str());
+            return errorInJson(PARSING_ERROR, "Parameters not valid json format!");
+        }
+
+        Json::Value options = root["options"];
+
+        std::string error;
+        if (!handleDateOptions(options, dstyle, tstyle, error))
+            return errorInJson(PARSING_ERROR, error);
+    }
+
+    UErrorCode status = U_ZERO_ERROR;
+    SimpleDateFormat* sdf = new SimpleDateFormat(status);
+    if (!sdf) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDatePattern: unable to create SimpleDateFormat instance: %d.",
+                status);
+        return errorInJson(UNKNOWN_ERROR, "Unable to create SimpleDateFormat instance!");
+    }
+
+    UnicodeString pt;
+    sdf->toPattern(pt);
+    std::string ptUtf8;
+    pt.toUTF8String(ptUtf8);
+
+    const TimeZone& tz = sdf->getTimeZone();
+    UnicodeString tzName;
+    tz.getDisplayName(tzName);
+    std::string tzUtf8;
+    tzName.toUTF8String(tzUtf8);
+
+    int utc_offset = tz.getRawOffset() / 1000; // UTC_OFFSET in seconds.
+    int dst_offset = tz.getDSTSavings() / 1000; // DST_OFFSET in seconds;
+
+    delete sdf;
+
+    return resultInJson(ptUtf8, tzUtf8, utc_offset, dst_offset);
 }
 
 std::string GlobalizationNDK::getDateNames(const std::string& args)
