@@ -17,6 +17,7 @@
 #include <string>
 #include <json/reader.h>
 #include <json/writer.h>
+#include <unicode/calendar.h>
 #include "globalization_ndk.hpp"
 #include "globalization_js.hpp"
 
@@ -45,6 +46,15 @@ std::string errorInJson(int code, const std::string& message)
     return writer.write(root);
 }
 
+std::string resultInJson(const std::string& value)
+{
+    Json::Value root;
+    root["result"] = value;
+
+    Json::FastWriter writer;
+    return writer.write(root);
+}
+
 GlobalizationNDK::GlobalizationNDK(GlobalizationJS *parent) {
 	m_pParent = parent;
 }
@@ -54,12 +64,34 @@ GlobalizationNDK::~GlobalizationNDK() {
 
 std::string GlobalizationNDK::getPreferredLanguage()
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    const Locale& loc = Locale::getDefault();
+
+    UnicodeString disp;
+    loc.getDisplayLanguage(loc, disp);
+    if (disp.isEmpty())
+        return resultInJson("English"); // FIXME: what should be the default language?
+
+    std::string utf8;
+    disp.toUTF8String(utf8);
+    return resultInJson(utf8);
 }
 
 std::string GlobalizationNDK::getLocaleName()
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    const Locale& loc = Locale::getDefault();
+    const char* name = loc.getName();
+    if (name)
+        return resultInJson(name);
+
+    const char* lang = loc.getLanguage();
+    if (!lang)
+        return resultInJson("en"); // FIXME: what should be the default language?
+
+    const char* country = loc.getCountry();
+    if (!country)
+        return resultInJson(lang);
+
+    return resultInJson(std::string(lang) + "_" + country);
 }
 
 std::string GlobalizationNDK::dateToString(const std::string& args)
