@@ -68,6 +68,15 @@ std::string resultInJson(bool value)
     return writer.write(root);
 }
 
+std::string resultInJson(int value)
+{
+    Json::Value root;
+    root["result"] = value;
+
+    Json::FastWriter writer;
+    return writer.write(root);
+}
+
 std::string resultInJson(const UDate& date)
 {
     UErrorCode status = U_ZERO_ERROR;
@@ -596,7 +605,22 @@ std::string GlobalizationNDK::isDayLightSavingsTime(const std::string& args)
 
 std::string GlobalizationNDK::getFirstDayOfWeek()
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    UErrorCode status = U_ZERO_ERROR;
+    Calendar* cal = Calendar::createInstance(status);
+    if (!cal) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getFirstDayOfWeek: failed to create Calendar instance: %d",
+                status);
+        return errorInJson(UNKNOWN_ERROR, "Failed to create Calendar instance!");
+    }
+
+    UCalendarDaysOfWeek d = cal->getFirstDayOfWeek(status);
+    if (status != U_ZERO_ERROR && status != U_ERROR_WARNING_START) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getFirstDayOfWeek: failed to call getFirstDayOfWeek: %d",
+                status);
+        return errorInJson(UNKNOWN_ERROR, "Failed to call getFirstDayOfWeek!");
+    }
+
+    return resultInJson(d);
 }
 
 std::string GlobalizationNDK::numberToString(const std::string& args)
