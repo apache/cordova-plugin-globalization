@@ -59,6 +59,15 @@ std::string resultInJson(const std::string& value)
     return writer.write(root);
 }
 
+std::string resultInJson(bool value)
+{
+    Json::Value root;
+    root["result"] = value;
+
+    Json::FastWriter writer;
+    return writer.write(root);
+}
+
 std::string resultInJson(const UDate& date)
 {
     UErrorCode status = U_ZERO_ERROR;
@@ -546,7 +555,43 @@ std::string GlobalizationNDK::getDateNames(const std::string& args)
 
 std::string GlobalizationNDK::isDayLightSavingsTime(const std::string& args)
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    if (args.empty()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::isDayLightSavingsTime: no date provided.");
+        return errorInJson(UNKNOWN_ERROR, "No date is provided!");
+    }
+
+    Json::Reader reader;
+    Json::Value root;
+    bool parse = reader.parse(args, root);
+
+    if (!parse) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::isDayLightSavingsTime: invalid json data: %s",
+                args.c_str());
+        return errorInJson(PARSING_ERROR, "Parameters not valid json format!");
+    }
+
+    Json::Value dv = root["date"];
+
+    if (!dv.isNumeric()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::isDayLightSavingsTime: invalid date format: %d",
+                dv.type());
+        return errorInJson(PARSING_ERROR, "Invalid date format!");
+    }
+
+    double date = dv.asDouble();
+
+    UErrorCode status = U_ZERO_ERROR;
+    SimpleDateFormat* sdf = new SimpleDateFormat(status);
+    if (!sdf) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::isDayLightSavingsTime: unable to create SimpleDateFormat instance: %d.",
+                status);
+        return errorInJson(UNKNOWN_ERROR, "Unable to create SimpleDateFormat instance!");
+    }
+
+    const TimeZone& tz = sdf->getTimeZone();
+    bool result = tz.inDaylightTime(date, status);
+
+    return resultInJson(result);
 }
 
 std::string GlobalizationNDK::getFirstDayOfWeek()
