@@ -77,7 +77,16 @@ std::string resultInJson(int value)
     return writer.write(root);
 }
 
-std::string resultInJson(const UDate& date)
+std::string resultInJson(double value)
+{
+    Json::Value root;
+    root["result"] = value;
+
+    Json::FastWriter writer;
+    return writer.write(root);
+}
+
+std::string resultDateInJson(const UDate& date)
 {
     UErrorCode status = U_ZERO_ERROR;
     Calendar* cal = Calendar::createInstance(status);
@@ -359,7 +368,7 @@ std::string GlobalizationNDK::stringToDate(const std::string& args)
         return errorInJson(PARSING_ERROR, "Failed to parse dateString!");
     }
 
-    return resultInJson(date);
+    return resultDateInJson(date);
 }
 
 std::string GlobalizationNDK::getDatePattern(const std::string& args)
@@ -748,7 +757,87 @@ std::string GlobalizationNDK::numberToString(const std::string& args)
 
 std::string GlobalizationNDK::stringToNumber(const std::string& args)
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    if (args.empty()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: no arguments provided!");
+        return errorInJson(PARSING_ERROR, "No arguments provided!");
+    }
+
+    Json::Reader reader;
+    Json::Value root;
+    bool parse = reader.parse(args, root);
+
+    if (!parse) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: invalid json data: %s",
+                args.c_str());
+        return errorInJson(PARSING_ERROR, "Invalid json data!");
+    }
+
+    Json::Value sv = root["numberString"];
+    if (sv.isNull()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: no numberString provided!");
+        return errorInJson(FORMATTING_ERROR, "No numberString provided!");
+    }
+
+    if (!sv.isString()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: invalid numberString type: %d!",
+                sv.type());
+        return errorInJson(FORMATTING_ERROR, "Invalid numberString type!");
+    }
+
+    std::string str = sv.asString();
+    if (str.empty()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: empty numberString!");
+        return errorInJson(FORMATTING_ERROR, "Empty numberString!");
+    }
+
+    // This is the default value when no options provided.
+    ENumberType type = kNumberDecimal;
+
+    Json::Value options = root["options"];
+    std::string error;
+    if (!handleNumberOptions(options, type, error))
+        return errorInJson(PARSING_ERROR, error);
+
+    UErrorCode status = U_ZERO_ERROR;
+    NumberFormat* nf;
+    switch (type) {
+    case kNumberDecimal:
+    default:
+        nf = NumberFormat::createInstance(status);
+        break;
+    case kNumberCurrency:
+        nf = NumberFormat::createCurrencyInstance(status);
+        break;
+    case kNumberPercent:
+        nf = NumberFormat::createPercentInstance(status);
+        break;
+    }
+
+    if (!nf) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: failed to create NumberFormat instance for type %d: %d",
+                status, type);
+        return errorInJson(UNKNOWN_ERROR, "Failed to create NumberFormat instance!");
+    }
+
+    UnicodeString uStr = UnicodeString::fromUTF8(str);
+
+    Formattable value;
+    nf->parse(uStr, value, status);
+    delete nf;
+
+    if (status != U_ZERO_ERROR && status != U_ERROR_WARNING_START) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: failed to parse string: %s",
+                str.c_str());
+        return errorInJson(PARSING_ERROR, "Failed to parse string!");
+    }
+
+    if (!value.isNumeric()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: string is not numeric: %s",
+                str.c_str());
+        return errorInJson(FORMATTING_ERROR, "String is not numeric!");
+    }
+
+    return resultInJson(value.getDouble());
 }
 
 std::string GlobalizationNDK::getNumberPattern(const std::string& args)
