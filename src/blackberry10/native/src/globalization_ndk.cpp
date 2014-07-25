@@ -623,9 +623,127 @@ std::string GlobalizationNDK::getFirstDayOfWeek()
     return resultInJson(d);
 }
 
+enum ENumberType {
+    kNumberDecimal,
+    kNumberCurrency,
+    kNumberPercent,
+    kNumberTypeCount
+};
+
+static bool handleNumberOptions(const Json::Value& options, ENumberType& type, std::string& error)
+{
+    if (options.isNull())
+        return true;
+
+    if (!options.isObject()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNumberOptions: invalid options type: %d",
+                options.type());
+        error = "Invalid options type!";
+        return false;
+    }
+
+    Json::Value tv = options["type"];
+    if (tv.isNull()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNumberOptions: No type found!");
+        error = "No type found!";
+        return false;
+    }
+
+    if (!tv.isString()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNumberOptions: Invalid type type: %d",
+                tv.type());
+        error = "Invalid type type!";
+        return false;
+    }
+
+    std::string tstr = tv.asString();
+    if (tstr.empty()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNumberOptions: Empty type!");
+        error = "Empty type!";
+        return false;
+    }
+
+    if (tstr == "currency") {
+        type = kNumberCurrency;
+    } else if (tstr == "percent") {
+        type = kNumberPercent;
+    } else if (tstr == "decimal") {
+        type = kNumberDecimal;
+    } else {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::handleNumberOptions: unsupported type: %s",
+                tstr.c_str());
+        error = "Unsupported type!";
+        return false;
+    }
+
+    return true;
+}
+
 std::string GlobalizationNDK::numberToString(const std::string& args)
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    if (args.empty()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::numberToString: no arguments provided!");
+        return errorInJson(UNKNOWN_ERROR, "No arguments provided!");
+    }
+
+    Json::Reader reader;
+    Json::Value root;
+    bool parse = reader.parse(args, root);
+
+    if (!parse) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::numberToString: invalid json data: %s",
+                args.c_str());
+        return errorInJson(PARSING_ERROR, "Invalid json data!");
+    }
+
+    Json::Value nv = root["number"];
+    if (nv.isNull()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::numberToString: no number provided!");
+        return errorInJson(FORMATTING_ERROR, "No number provided!");
+    }
+
+    if (!nv.isNumeric()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::numberToString: invalid number type: %d!",
+                nv.type());
+        return errorInJson(FORMATTING_ERROR, "Invalid number type!");
+    }
+
+    // This is the default value when no options provided.
+    ENumberType type = kNumberDecimal;
+
+    Json::Value options = root["options"];
+    std::string error;
+    if (!handleNumberOptions(options, type, error))
+        return errorInJson(PARSING_ERROR, error);
+
+    UErrorCode status = U_ZERO_ERROR;
+    NumberFormat* nf;
+    switch (type) {
+    case kNumberDecimal:
+    default:
+        nf = NumberFormat::createInstance(status);
+        break;
+    case kNumberCurrency:
+        nf = NumberFormat::createCurrencyInstance(status);
+        break;
+    case kNumberPercent:
+        nf = NumberFormat::createPercentInstance(status);
+        break;
+    }
+
+    if (!nf) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::numberToString: failed to create NumberFormat instance for type %d: %d",
+                status, type);
+        return errorInJson(UNKNOWN_ERROR, "Failed to create NumberFormat instance!");
+    }
+
+    UnicodeString result;
+    nf->format(nv.asDouble(), result);
+    std::string utf8;
+    result.toUTF8String(utf8);
+    delete nf;
+
+    return resultInJson(utf8);
 }
 
 std::string GlobalizationNDK::stringToNumber(const std::string& args)
