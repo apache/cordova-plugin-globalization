@@ -45,7 +45,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("getPreferredLanguage: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -80,7 +80,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("getLocaleName: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -124,7 +124,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("dateToString: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -178,7 +178,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("stringToDate: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -235,7 +235,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("getDatePattern: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -282,7 +282,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("getDateNames: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -320,7 +320,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("isDayLightSavingsTime: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -356,7 +356,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("getFirstDayOfWeek: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -398,7 +398,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("numberToString: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -439,7 +439,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("stringToNumber: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -489,7 +489,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("getNumberPattern: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -541,7 +541,7 @@ var globalization = {
             data = JSON.parse(response);
         console.log("getCurrencyPattern: " + JSON.stringify(response));
 
-        if (data.error != undefined) {
+        if (data.error !== undefined) {
             result.error({
                 code: data.error.code,
                 message: data.error.message
@@ -565,7 +565,7 @@ function lineArgsFromArray(args) {
     var cmd = "";
 
     if ("callbackId" in args)
-        cmd += decodeURIComponent(args["callbackId"]);
+        cmd += decodeURIComponent(args.callbackId);
     if ("0" in args) {
         if (cmd.length > 0)
             cmd += " ";
