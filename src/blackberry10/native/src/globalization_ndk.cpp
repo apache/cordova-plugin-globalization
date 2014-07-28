@@ -60,6 +60,13 @@ std::string resultInJson(const std::string& value)
     return writer.write(root);
 }
 
+// This is needed so resultInJson(const char*) will not be called into
+// resultInJson(bool) implicitly.
+static inline std::string resultInJson(const char* value)
+{
+    return resultInJson(std::string(value));
+}
+
 std::string resultInJson(bool value)
 {
     Json::Value root;
