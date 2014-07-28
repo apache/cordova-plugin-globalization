@@ -20,6 +20,7 @@
 #include <sys/slog2.h>
 #include <unicode/calendar.h>
 #include <unicode/datefmt.h>
+#include <unicode/decimfmt.h>
 #include <unicode/dtfmtsym.h>
 #include <unicode/smpdtfmt.h>
 #include "globalization_ndk.hpp"
@@ -128,6 +129,27 @@ std::string resultInJson(const std::string& pattern, const std::string& timezone
     result["timezone"] = timezone;
     result["utc_offset"] = utc_offset;
     result["dst_offset"] = dst_offset;
+
+    Json::Value root;
+    root["result"] = result;
+
+    Json::FastWriter writer;
+    return writer.write(root);
+}
+
+std::string resultInJson(const std::string& pattern, const std::string& symbol, int fraction,
+        double rounding, const std::string& positive, const std::string& negative,
+        const std::string& decimal, const std::string& grouping)
+{
+    Json::Value result;
+    result["pattern"] = pattern;
+    result["symbol"] = symbol;
+    result["fraction"] = fraction;
+    result["rounding"] = rounding;
+    result["positive"] = positive;
+    result["negative"] = negative;
+    result["decimal"] = decimal;
+    result["grouping"] = grouping;
 
     Json::Value root;
     root["result"] = result;
@@ -842,7 +864,107 @@ std::string GlobalizationNDK::stringToNumber(const std::string& args)
 
 std::string GlobalizationNDK::getNumberPattern(const std::string& args)
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    // This is the default value when no options provided.
+    ENumberType type = kNumberDecimal;
+
+    if (!args.empty()) {
+        Json::Reader reader;
+        Json::Value root;
+        bool parse = reader.parse(args, root);
+
+        if (!parse) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getNumberPattern: invalid json data: %s",
+                    args.c_str());
+            return errorInJson(PARSING_ERROR, "Invalid json data!");
+        }
+
+        Json::Value options = root["options"];
+        std::string error;
+        if (!handleNumberOptions(options, type, error))
+            return errorInJson(PARSING_ERROR, error);
+    }
+
+    std::string pattern, symbol, positive, negative, decimal, grouping;
+    int fraction;
+    double rounding;
+
+    UErrorCode status = U_ZERO_ERROR;
+    NumberFormat* nf;
+    switch (type) {
+    case kNumberDecimal:
+    default:
+        nf = NumberFormat::createInstance(status);
+        break;
+    case kNumberCurrency:
+        nf = NumberFormat::createCurrencyInstance(status);
+        break;
+    case kNumberPercent:
+        nf = NumberFormat::createPercentInstance(status);
+        break;
+    }
+
+    if (!nf) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getNumberPattern: failed to create NumberFormat instance for type %d: %d",
+                status, type);
+        return errorInJson(UNKNOWN_ERROR, "Failed to create NumberFormat instance!");
+    }
+
+    if (nf->getDynamicClassID() != DecimalFormat::getStaticClassID()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getNumberPattern: DecimalFormat expected: %p != %p",
+                nf->getDynamicClassID(), DecimalFormat::getStaticClassID());
+        return errorInJson(UNKNOWN_ERROR, "DecimalFormat expected!");
+    }
+
+    DecimalFormat* df = (DecimalFormat*) nf;
+    const DecimalFormatSymbols* dfs = df->getDecimalFormatSymbols();
+    if (!dfs) {
+        delete nf;
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getNumberPattern: unable to get DecimalFormatSymbols!");
+        return errorInJson(UNKNOWN_ERROR, "Failed to get DecimalFormatSymbols instance!");
+    }
+
+    UnicodeString ucs;
+
+    df->toPattern(ucs);
+    ucs.toUTF8String(pattern);
+    ucs.remove();
+
+    df->getPositivePrefix(ucs);
+    if (ucs.isEmpty())
+        df->getPositiveSuffix(ucs);
+    ucs.toUTF8String(positive);
+    ucs.remove();
+
+    df->getNegativePrefix(ucs);
+    if (ucs.isEmpty())
+        df->getNegativeSuffix(ucs);
+    ucs.toUTF8String(negative);
+    ucs.remove();
+
+    rounding = df->getRoundingIncrement();
+    fraction = df->getMaximumFractionDigits();
+
+    ucs = dfs->getSymbol(DecimalFormatSymbols::kDecimalSeparatorSymbol);
+    ucs.toUTF8String(decimal);
+    ucs.remove();
+
+    ucs = dfs->getSymbol(DecimalFormatSymbols::kGroupingSeparatorSymbol);
+    ucs.toUTF8String(grouping);
+    ucs.remove();
+
+    if (type == kNumberPercent)
+        ucs = dfs->getSymbol(DecimalFormatSymbols::kPercentSymbol);
+    else if (type == kNumberCurrency)
+        ucs = dfs->getSymbol(DecimalFormatSymbols::kCurrencySymbol);
+    else
+        ucs = dfs->getSymbol(DecimalFormatSymbols::kDigitSymbol);
+
+    ucs.toUTF8String(symbol);
+    ucs.remove();
+
+    delete nf;
+
+    return resultInJson(pattern, symbol, fraction, rounding, positive, negative, decimal, grouping);
 }
 
 std::string GlobalizationNDK::getCurrencyPattern(const std::string& args)
