@@ -158,6 +158,25 @@ std::string resultInJson(const std::string& pattern, const std::string& symbol, 
     return writer.write(root);
 }
 
+std::string resultInJson(const std::string& pattern, const std::string& code,
+        int fraction, double rounding,
+        const std::string& decimal, const std::string& grouping)
+{
+    Json::Value result;
+    result["pattern"] = pattern;
+    result["code"] = code;
+    result["fraction"] = fraction;
+    result["rounding"] = rounding;
+    result["decimal"] = decimal;
+    result["grouping"] = grouping;
+
+    Json::Value root;
+    root["result"] = result;
+
+    Json::FastWriter writer;
+    return writer.write(root);
+}
+
 GlobalizationNDK::GlobalizationNDK(GlobalizationJS *parent) {
 	m_pParent = parent;
 }
@@ -969,7 +988,100 @@ std::string GlobalizationNDK::getNumberPattern(const std::string& args)
 
 std::string GlobalizationNDK::getCurrencyPattern(const std::string& args)
 {
-    return errorInJson(UNKNOWN_ERROR, "Not supported!");
+    if (args.empty()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: no arguments provided!");
+        return errorInJson(UNKNOWN_ERROR, "No arguments provided!");
+    }
+
+    Json::Reader reader;
+    Json::Value root;
+    bool parse = reader.parse(args, root);
+
+    if (!parse) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: invalid json data: %s",
+                args.c_str());
+        return errorInJson(PARSING_ERROR, "Invalid json data!");
+    }
+
+    Json::Value ccv = root["currencyCode"];
+    if (ccv.isNull()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: no currencyCode provided!");
+        return errorInJson(FORMATTING_ERROR, "No currencyCode provided!");
+    }
+
+    if (!ccv.isString()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: invalid currencyCode type: %d!",
+                ccv.type());
+        return errorInJson(FORMATTING_ERROR, "Invalid currencyCode type!");
+    }
+
+    std::string cc = ccv.asString();
+    if (cc.empty()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: empty currencyCode!");
+        return errorInJson(FORMATTING_ERROR, "Empty currencyCode!");
+    }
+
+    UnicodeString ucc = UnicodeString::fromUTF8(cc);
+    DecimalFormat* df = 0;
+    int count = 0;
+    const Locale* locs = Locale::getAvailableLocales(count);
+    for (int i = 0; i < count; ++i) {
+        UErrorCode status = U_ZERO_ERROR;
+        NumberFormat* nf = NumberFormat::createCurrencyInstance(*(locs + i), status);
+        if (!nf) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: locale %d: unable to get NumberFormat instance!",
+                    i);
+            continue;
+        }
+        const UChar* currency = nf->getCurrency();
+        if (!currency) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: locale %d: failed to getCurrency!",
+                    i);
+            delete nf;
+            continue;
+        }
+
+        if (!ucc.compare(currency, -1)) {
+            df = (DecimalFormat*) nf;
+            break;
+        }
+
+        delete nf;
+    }
+
+    if (!df)
+        return errorInJson(UNKNOWN_ERROR, "Currency not supported!");
+
+    const DecimalFormatSymbols* dfs = df->getDecimalFormatSymbols();
+    if (!dfs) {
+        delete df;
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: unable to get DecimalFormatSymbols!");
+        return errorInJson(UNKNOWN_ERROR, "Failed to get DecimalFormatSymbols!");
+    }
+
+    UnicodeString ucs;
+
+    std::string pattern;
+    df->toPattern(ucs);
+    ucs.toUTF8String(pattern);
+    ucs.remove();
+
+    int fraction = df->getMaximumFractionDigits();
+    double rounding = df->getRoundingIncrement();
+
+    std::string decimal;
+    ucs = dfs->getSymbol(DecimalFormatSymbols::kDecimalSeparatorSymbol);
+    ucs.toUTF8String(decimal);
+    ucs.remove();
+
+    std::string grouping;
+    ucs = dfs->getSymbol(DecimalFormatSymbols::kGroupingSeparatorSymbol);
+    ucs.toUTF8String(grouping);
+    ucs.remove();
+
+    delete df;
+
+    return resultInJson(pattern, cc, fraction, rounding, decimal, grouping);
 }
 
 } /* namespace webworks */
