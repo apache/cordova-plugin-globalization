@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include <ctime>
+#include <list>
 #include <string>
 #include <json/reader.h>
 #include <json/writer.h>
@@ -183,6 +185,22 @@ std::string resultInJson(const std::string& pattern, const std::string& code,
     Json::FastWriter writer;
     return writer.write(root);
 }
+
+std::string resultInJson(const std::list<std::string>& names)
+{
+    Json::Value result;
+    std::list<std::string>::const_iterator end = names.end();
+    std::list<std::string>::const_iterator iter = names.begin();
+    for (; iter != end; ++iter)
+        result.append(*iter);
+
+    Json::Value root;
+    root["result"] = result;
+
+    Json::FastWriter writer;
+    return writer.write(root);
+}
+
 
 GlobalizationNDK::GlobalizationNDK(GlobalizationJS *parent) {
 	m_pParent = parent;
@@ -603,18 +621,61 @@ std::string GlobalizationNDK::getDateNames(const std::string& args)
             // names = syms->getShortWeekdays(count);
     }
 
-    if (!names) {
+    std::list<std::string> utf8Names;
+
+    if (names && count) {
+        for (int i = 0; i < count; ++i) {
+            std::string utf8;
+            (names + i)->toUTF8String(utf8);
+            utf8Names.push_back(utf8);
+        }
+
+        delete syms;
+    } else {
         delete syms;
 
-        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to get symbols: item: %d, type: %d.",
-                item, type);
-        return errorInJson(UNKNOWN_ERROR, "Unable to get symbols!");
+        const char* format;
+        if (item == kNamesMonths) {
+            count = 12;
+            if (type == kNamesWide)
+                format = "%B";
+            else
+                format = "%b";
+        } else {
+            count = 7;
+            if (type == kNamesWide)
+                format = "%A";
+            else
+                format = "%a";
+        }
+
+        struct tm ti = {0};
+        char buffer [80];
+
+        // We choose this day so it starts at Sunday and January.
+        ti.tm_year = 2014;
+        ti.tm_mon = 0;
+        ti.tm_wday = 0;
+        for (int i = 0; i < count; ++i) {
+            size_t len = strftime (buffer, 80, format, &ti);
+
+            if (item == kNamesMonths)
+                ti.tm_mon++;
+            else
+                ti.tm_wday++;
+
+            if (!len)
+                continue;
+
+            utf8Names.push_back(std::string(buffer, len));
+        }
+
+        if (!utf8Names.size()) {
+            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to get symbols: item: %d, type: %d.",
+                    item, type);
+            return errorInJson(UNKNOWN_ERROR, "Unable to get symbols!");
+        }
     }
-
-    std::string utf8Names;
-    names->toUTF8String(utf8Names);
-
-    delete syms;
 
     return resultInJson(utf8Names);
 }
