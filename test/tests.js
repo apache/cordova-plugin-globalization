@@ -37,28 +37,27 @@ exports.defineAutoTests = function () {
         });
 
         describe("getPreferredLanguage", function () {
+            var checkPreferredLanguage = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.value).toBeDefined();
+                expect(typeof a.value).toBe('string');
+                expect(a.value.length > 0).toBe(true);
+            };
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.getPreferredLanguage).toBeDefined();
                 expect(typeof navigator.globalization.getPreferredLanguage == 'function').toBe(true);
             });
             it("globalization.spec.3 getPreferredLanguage success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getPreferredLanguage(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkPreferredLanguage(a);
                     done();
                 },
                 fail.bind(null, done));
             });
-            it("globalization.spec.4 getPreferredLanguage return string should have hypen", function (done) {
+            it("globalization.spec.4 getPreferredLanguage return string should have a hyphen", function (done) {
                 navigator.globalization.getPreferredLanguage(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkPreferredLanguage(a);
                     expect(a.value.indexOf('_')).toBe(-1);
                     expect(a.value.indexOf('-')).toBeGreaterThan(0);
                     done()
@@ -67,27 +66,26 @@ exports.defineAutoTests = function () {
         });
 
         describe("getLocaleName", function () {
+            var checkLocaleName = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.value).toBeDefined();
+                expect(typeof a.value).toBe('string');
+                expect(a.value.length > 0).toBe(true);
+            };
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.getLocaleName).toBeDefined();
                 expect(typeof navigator.globalization.getLocaleName == 'function').toBe(true);
             });
             it("globalization.spec.3 getLocaleName success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getLocaleName(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkLocaleName(a);
                     done()
                 }, fail.bind(null, done));
             });
-             it("globalization.spec.4 getLocaleName return string should have hypen", function (done) {
+            it("globalization.spec.4 getLocaleName return string should have a hyphen", function (done) {
                 navigator.globalization.getLocaleName(function (a) {
-                   expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkLocaleName(a);
                     expect(a.value.indexOf('_')).toBe(-1);
                     expect(a.value.indexOf('-')).toBeGreaterThan(0);
                     done()
@@ -106,71 +104,54 @@ exports.defineAutoTests = function () {
         });
 
         describe("dateToString", function () {
+            var checkDateToString = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.value).toBeDefined();
+                expect(typeof a.value).toBe('string');
+                expect(a.value.length > 0).toBe(true);
+            };
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.dateToString).toBeDefined();
                 expect(typeof navigator.globalization.dateToString == 'function').toBe(true);
             });
             it("globalization.spec.5 dateToString using default options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkDateToString(a);
                     done();
                 }, fail.bind(null, done));
             });
             it("globalization.spec.6 dateToString using formatLength=short and selector=date options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
                 { formatLength: 'short', selector: 'date' });
             });
             it("globalization.spec.7 dateToString using formatLength=full and selector=date options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
                 { formatLength: 'full', selector: 'date' });
             });
             it("globalization.spec.8 dateToString using formatLength=medium and selector=date and time(default) options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
                 { formatLength: 'medium' });
             });
             it("globalization.spec.9 dateToString using formatLength=long and selector=date and time(default) options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
                 { formatLength: 'long' });
             });
             it("globalization.spec.10 dateToString using formatLength=full and selector=date and time(default) options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.dateToString(new Date(), function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkDateToString(a);
                     done();
                 }, fail.bind(null, done),
                 { formatLength: 'full' });
@@ -178,34 +159,37 @@ exports.defineAutoTests = function () {
         });
 
         describe("stringToDate", function () {
+            var checkStringToDate = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.year).toBeDefined();
+                expect(typeof a.year).toBe('number');
+                expect(a.year >= 0 && a.year <= 9999).toBe(true);
+                expect(a.month).toBeDefined();
+                expect(typeof a.month).toBe('number');
+                expect(a.month >= 0 && a.month <= 11).toBe(true);
+                expect(a.day).toBeDefined();
+                expect(typeof a.day).toBe('number');
+                expect(a.day >= 1 && a.day <= 31).toBe(true);
+                expect(a.hour).toBeDefined();
+                expect(typeof a.hour).toBe('number');
+                expect(a.hour >= 0 && a.hour <= 23).toBe(true);
+                expect(a.minute).toBeDefined();
+                expect(typeof a.minute).toBe('number');
+                expect(a.minute >= 0 && a.minute <= 59).toBe(true);
+                expect(a.second).toBeDefined();
+                expect(typeof a.second).toBe('number');
+                expect(a.second >= 0 && a.second <= 59).toBe(true);
+                expect(a.millisecond).toBeDefined();
+                expect(typeof a.millisecond).toBe('number');
+            };
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.stringToDate).toBeDefined();
                 expect(typeof navigator.globalization.stringToDate == 'function').toBe(true);
             });
             it("globalization.spec.12 stringToDate using default options, success callback should be called with a Properties object", function (done) {
                 var win = function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.year).toBeDefined();
-                    expect(typeof a.year).toBe('number');
-                    expect(a.year >= 0 && a.year <= 9999).toBe(true);
-                    expect(a.month).toBeDefined();
-                    expect(typeof a.month).toBe('number');
-                    expect(a.month >= 0 && a.month <= 11).toBe(true);
-                    expect(a.day).toBeDefined();
-                    expect(typeof a.day).toBe('number');
-                    expect(a.day >= 1 && a.day <= 31).toBe(true);
-                    expect(a.hour).toBeDefined();
-                    expect(typeof a.hour).toBe('number');
-                    expect(a.hour >= 0 && a.hour <= 23).toBe(true);
-                    expect(a.minute).toBeDefined();
-                    expect(typeof a.minute).toBe('number');
-                    expect(a.minute >= 0 && a.minute <= 59).toBe(true);
-                    expect(a.second).toBeDefined();
-                    expect(typeof a.second).toBe('number');
-                    expect(a.second >= 0 && a.second <= 59).toBe(true);
-                    expect(a.millisecond).toBeDefined();
-                    expect(typeof a.millisecond).toBe('number');
+                    checkStringToDate(a);
                     done();
                 };
 
@@ -215,28 +199,7 @@ exports.defineAutoTests = function () {
             });
             it("globalization.spec.13 stringToDate using formatLength=short and selector=date options, success callback should be called with a Properties object", function (done) {
                 var win = function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.year).toBeDefined();
-                    expect(typeof a.year).toBe('number');
-                    expect(a.year >= 0 && a.year <= 9999).toBe(true);
-                    expect(a.month).toBeDefined();
-                    expect(typeof a.month).toBe('number');
-                    expect(a.month >= 0 && a.month <= 11).toBe(true);
-                    expect(a.day).toBeDefined();
-                    expect(typeof a.day).toBe('number');
-                    expect(a.day >= 1 && a.day <= 31).toBe(true);
-                    expect(a.hour).toBeDefined();
-                    expect(typeof a.hour).toBe('number');
-                    expect(a.hour >= 0 && a.hour <= 23).toBe(true);
-                    expect(a.minute).toBeDefined();
-                    expect(typeof a.minute).toBe('number');
-                    expect(a.minute >= 0 && a.minute <= 59).toBe(true);
-                    expect(a.second).toBeDefined();
-                    expect(typeof a.second).toBe('number');
-                    expect(a.second >= 0 && a.second <= 59).toBe(true);
-                    expect(a.millisecond).toBeDefined();
-                    expect(typeof a.millisecond).toBe('number');
+                    checkStringToDate(a);
                     done();
                 };
 
@@ -246,28 +209,7 @@ exports.defineAutoTests = function () {
             });
             it("globalization.spec.14 stringToDate using formatLength=full and selector=date options, success callback should be called with a Properties object", function (done) {
                 var win = function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.year).toBeDefined();
-                    expect(typeof a.year).toBe('number');
-                    expect(a.year >= 0 && a.year <= 9999).toBe(true);
-                    expect(a.month).toBeDefined();
-                    expect(typeof a.month).toBe('number');
-                    expect(a.month >= 0 && a.month <= 11).toBe(true);
-                    expect(a.day).toBeDefined();
-                    expect(typeof a.day).toBe('number');
-                    expect(a.day >= 1 && a.day <= 31).toBe(true);
-                    expect(a.hour).toBeDefined();
-                    expect(typeof a.hour).toBe('number');
-                    expect(a.hour >= 0 && a.hour <= 23).toBe(true);
-                    expect(a.minute).toBeDefined();
-                    expect(typeof a.minute).toBe('number');
-                    expect(a.minute >= 0 && a.minute <= 59).toBe(true);
-                    expect(a.second).toBeDefined();
-                    expect(typeof a.second).toBe('number');
-                    expect(a.second >= 0 && a.second <= 59).toBe(true);
-                    expect(a.millisecond).toBeDefined();
-                    expect(typeof a.millisecond).toBe('number');
+                    checkStringToDate(a);
                     done();
                 };
 
@@ -291,41 +233,33 @@ exports.defineAutoTests = function () {
         });
 
         describe("getDatePattern", function () {
+            var checkDatePattern = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.pattern).toBeDefined();
+                expect(typeof a.pattern).toBe('string');
+                expect(a.pattern.length > 0).toBe(true);
+                expect(a.timezone).toBeDefined();
+                expect(typeof a.timezone).toBe('string');
+                expect(a.timezone.length > 0).toBe(true);
+                expect(a.utc_offset).toBeDefined();
+                expect(typeof a.utc_offset).toBe('number');
+                expect(a.dst_offset).toBeDefined();
+                expect(typeof a.dst_offset).toBe('number');
+            };
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.getDatePattern).toBeDefined();
                 expect(typeof navigator.globalization.getDatePattern == 'function').toBe(true);
             });
             it("globalization.spec.17 getDatePattern using default options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getDatePattern(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.pattern).toBeDefined();
-                    expect(typeof a.pattern).toBe('string');
-                    expect(a.pattern.length > 0).toBe(true);
-                    expect(a.timezone).toBeDefined();
-                    expect(typeof a.timezone).toBe('string');
-                    expect(a.timezone.length > 0).toBe(true);
-                    expect(a.utc_offset).toBeDefined();
-                    expect(typeof a.utc_offset).toBe('number');
-                    expect(a.dst_offset).toBeDefined();
-                    expect(typeof a.dst_offset).toBe('number');
+                    checkDatePattern(a);
                     done();
                 }, fail.bind(null, done));
             });
             it("globalization.spec.18 getDatePattern using formatLength=medium and selector=date options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getDatePattern(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.pattern).toBeDefined();
-                    expect(typeof a.pattern).toBe('string');
-                    expect(a.pattern.length > 0).toBe(true);
-                    expect(a.timezone).toBeDefined();
-                    expect(typeof a.timezone).toBe('string');
-                    expect(a.timezone.length > 0).toBe(true);
-                    expect(a.utc_offset).toBeDefined();
-                    expect(typeof a.utc_offset).toBe('number');
-                    expect(a.dst_offset).toBeDefined();
-                    expect(typeof a.dst_offset).toBe('number');
+                    checkDatePattern(a);
                     done();
                 }, fail.bind(null, done),
                 { formatLength: 'medium', selector: 'date' });
@@ -333,65 +267,48 @@ exports.defineAutoTests = function () {
         });
 
         describe("getDateNames", function () {
+            var checkDateNames = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.value).toBeDefined();
+                expect(a.value instanceof Array).toBe(true);
+                expect(a.value.length > 0).toBe(true);
+                expect(typeof a.value[0]).toBe('string');
+            };
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.getDateNames).toBeDefined();
                 expect(typeof navigator.globalization.getDateNames == 'function').toBe(true);
             });
             it("globalization.spec.20 getDateNames using default options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getDateNames(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(a.value instanceof Array).toBe(true);
-                    expect(a.value.length > 0).toBe(true);
-                    expect(typeof a.value[0]).toBe('string');
+                    checkDateNames(a);
                     done();
                 }, fail.bind(null, done));
             });
             it("globalization.spec.21 getDateNames using type=narrow and item=days options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getDateNames(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(a.value instanceof Array).toBe(true);
-                    expect(a.value.length > 0).toBe(true);
-                    expect(typeof a.value[0]).toBe('string');
+                    checkDateNames(a);
                     done();
                 }, fail.bind(null, done),
                 { type: 'narrow', item: 'days' });
             });
             it("globalization.spec.22 getDateNames using type=narrow and item=months options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getDateNames(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(a.value instanceof Array).toBe(true);
-                    expect(a.value.length > 0).toBe(true);
-                    expect(typeof a.value[0]).toBe('string');
+                    checkDateNames(a);
                     done();
                 }, fail.bind(null, done),
                 { type: 'narrow', item: 'months' });
             });
             it("globalization.spec.23 getDateNames using type=wide and item=days options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getDateNames(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(a.value instanceof Array).toBe(true);
-                    expect(a.value.length > 0).toBe(true);
-                    expect(typeof a.value[0]).toBe('string');
+                    checkDateNames(a);
                     done();
                 }, fail.bind(null, done),
                 { type: 'wide', item: 'days' });
             });
             it("globalization.spec.24 getDateNames using type=wide and item=months options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getDateNames(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(a.value instanceof Array).toBe(true);
-                    expect(a.value.length > 0).toBe(true);
-                    expect(typeof a.value[0]).toBe('string');
+                    checkDateNames(a);
                     done();
                 }, fail.bind(null, done),
                 { type: 'wide', item: 'months' });
@@ -431,38 +348,33 @@ exports.defineAutoTests = function () {
         });
 
         describe("numberToString", function () {
+            var checkNumberToString = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.value).toBeDefined();
+                expect(typeof a.value).toBe('string');
+                expect(a.value.length > 0).toBe(true);
+            };
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.numberToString).toBeDefined();
                 expect(typeof navigator.globalization.numberToString == 'function').toBe(true);
             });
             it("globalization.spec.30 numberToString using default options, should be called with a Properties object", function (done) {
                 navigator.globalization.numberToString(3.25, function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkNumberToString(a);
                     done();
                 }, fail.bind(null, done));
             });
             it("globalization.spec.31 numberToString using type=percent options, should be called with a Properties object", function (done) {
                 navigator.globalization.numberToString(.25, function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkNumberToString(a);
                     done();
                 }, fail.bind(null, done),
                 { type: 'percent' });
             });
             it("globalization.spec.32 numberToString using type=currency options, should be called with a Properties object", function (done) {
                 navigator.globalization.numberToString(5.20, function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('string');
-                    expect(a.value.length > 0).toBe(true);
+                    checkNumberToString(a);
                     done();
                 }, fail.bind(null, done),
                 { type: 'currency' });
@@ -470,17 +382,20 @@ exports.defineAutoTests = function () {
         });
 
         describe("stringToNumber", function () {
+            var checkStringToNumber = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.value).toBeDefined();
+                expect(typeof a.value).toBe('number');
+                expect(a.value > 0).toBe(true);
+            };
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.stringToNumber).toBeDefined();
                 expect(typeof navigator.globalization.stringToNumber == 'function').toBe(true);
             });
             it("globalization.spec.34 stringToNumber using default options, should be called with a Properties object", function (done) {
                 var win = function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('number');
-                    expect(a.value > 0).toBe(true);
+                    checkStringToNumber(a);
                     done();
                 };
 
@@ -490,11 +405,7 @@ exports.defineAutoTests = function () {
             });
             it("globalization.spec.35 stringToNumber using type=percent options, should be called with a Properties object", function (done) {
                 var win = function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.value).toBeDefined();
-                    expect(typeof a.value).toBe('number');
-                    expect(a.value > 0).toBe(true);
+                    checkStringToNumber(a);
                     done();
                 };
 
@@ -505,82 +416,48 @@ exports.defineAutoTests = function () {
         });
 
         describe("getNumberPattern", function () {
+            var checkNumberPattern = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.pattern).toBeDefined();
+                expect(typeof a.pattern).toBe('string');
+                expect(a.pattern.length > 0).toBe(true);
+                expect(typeof a.symbol).toBe('string');
+                expect(typeof a.fraction).toBe('number');
+                expect(typeof a.rounding).toBe('number');
+                expect(a.positive).toBeDefined();
+                expect(typeof a.positive).toBe('string');
+                expect(a.positive.length >= 0).toBe(true);
+                expect(a.negative).toBeDefined();
+                expect(typeof a.negative).toBe('string');
+                expect(a.negative.length >= 0).toBe(true);
+                expect(a.decimal).toBeDefined();
+                expect(typeof a.decimal).toBe('string');
+                expect(a.decimal.length > 0).toBe(true);
+                expect(a.grouping).toBeDefined();
+                expect(typeof a.grouping).toBe('string');
+                expect(a.grouping.length > 0).toBe(true);
+            };
+
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.getNumberPattern).toBeDefined();
                 expect(typeof navigator.globalization.getNumberPattern == 'function').toBe(true);
             });
             it("globalization.spec.37 getNumberPattern using default options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getNumberPattern(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.pattern).toBeDefined();
-                    expect(typeof a.pattern).toBe('string');
-                    expect(a.pattern.length > 0).toBe(true);
-                    expect(typeof a.symbol).toBe('string');
-                    expect(typeof a.fraction).toBe('number');
-                    expect(typeof a.rounding).toBe('number');
-                    expect(a.positive).toBeDefined();
-                    expect(typeof a.positive).toBe('string');
-                    expect(a.positive.length >= 0).toBe(true);
-                    expect(a.negative).toBeDefined();
-                    expect(typeof a.negative).toBe('string');
-                    expect(a.negative.length >= 0).toBe(true);
-                    expect(a.decimal).toBeDefined();
-                    expect(typeof a.decimal).toBe('string');
-                    expect(a.decimal.length > 0).toBe(true);
-                    expect(a.grouping).toBeDefined();
-                    expect(typeof a.grouping).toBe('string');
-                    expect(a.grouping.length > 0).toBe(true);
+                    checkNumberPattern(a);
                     done();
                 }, fail.bind(null, done));
             });
             it("globalization.spec.38 getNumberPattern using type=percent, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getNumberPattern(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.pattern).toBeDefined();
-                    expect(typeof a.pattern).toBe('string');
-                    expect(a.pattern.length > 0).toBe(true);
-                    expect(typeof a.symbol).toBe('string');
-                    expect(typeof a.fraction).toBe('number');
-                    expect(typeof a.rounding).toBe('number');
-                    expect(a.positive).toBeDefined();
-                    expect(typeof a.positive).toBe('string');
-                    expect(a.positive.length >= 0).toBe(true);
-                    expect(a.negative).toBeDefined();
-                    expect(typeof a.negative).toBe('string');
-                    expect(a.negative.length >= 0).toBe(true);
-                    expect(a.decimal).toBeDefined();
-                    expect(typeof a.decimal).toBe('string');
-                    expect(a.decimal.length > 0).toBe(true);
-                    expect(a.grouping).toBeDefined();
-                    expect(typeof a.grouping).toBe('string');
-                    expect(a.grouping.length > 0).toBe(true);
+                    checkNumberPattern(a);
                     done();
                 }, fail.bind(null, done), { type: 'percent' });
             });
             it("globalization.spec.39 getNumberPattern using type=currency, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getNumberPattern(function (a) {
-                    expect(a).toBeDefined();
-                    expect(typeof a).toBe('object');
-                    expect(a.pattern).toBeDefined();
-                    expect(typeof a.pattern).toBe('string');
-                    expect(a.pattern.length > 0).toBe(true);
-                    expect(typeof a.symbol).toBe('string');
-                    expect(typeof a.fraction).toBe('number');
-                    expect(typeof a.rounding).toBe('number');
-                    expect(a.positive).toBeDefined();
-                    expect(typeof a.positive).toBe('string');
-                    expect(a.positive.length >= 0).toBe(true);
-                    expect(a.negative).toBeDefined();
-                    expect(typeof a.negative).toBe('string');
-                    expect(a.negative.length >= 0).toBe(true);
-                    expect(a.decimal).toBeDefined();
-                    expect(typeof a.decimal).toBe('string');
-                    expect(a.decimal.length > 0).toBe(true);
-                    expect(a.grouping).toBeDefined();
-                    expect(typeof a.grouping).toBe('string');
-                    expect(a.grouping.length > 0).toBe(true);
+                    checkNumberPattern(a);
                     done();
                 }, fail.bind(null, done), { type: 'currency' });
             });
