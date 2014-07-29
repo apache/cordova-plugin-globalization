@@ -460,12 +460,21 @@ std::string GlobalizationNDK::getDatePattern(const std::string& args)
     }
 
     UErrorCode status = U_ZERO_ERROR;
-    SimpleDateFormat* sdf = new SimpleDateFormat(status);
-    if (!sdf) {
-        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDatePattern: unable to create SimpleDateFormat instance: %d.",
-                status);
-        return errorInJson(UNKNOWN_ERROR, "Unable to create SimpleDateFormat instance!");
+    const Locale& loc = Locale::getDefault();
+    DateFormat* df = DateFormat::createDateTimeInstance(dstyle, tstyle, loc);
+
+    if (!df) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDatePattern: unable to create DateFormat instance!");
+        return errorInJson(UNKNOWN_ERROR, "Unable to create DateFormat instance!");
     }
+
+    if (df->getDynamicClassID() != SimpleDateFormat::getStaticClassID()) {
+        delete df;
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDatePattern: DateFormat instance not SimpleDateFormat!");
+        return errorInJson(UNKNOWN_ERROR, "DateFormat instance not SimpleDateFormat!");
+    }
+
+    SimpleDateFormat* sdf = (SimpleDateFormat*) df;
 
     UnicodeString pt;
     sdf->toPattern(pt);
