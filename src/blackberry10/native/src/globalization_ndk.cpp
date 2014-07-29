@@ -597,84 +597,98 @@ std::string GlobalizationNDK::getDateNames(const std::string& args)
             return errorInJson(PARSING_ERROR, error);
     }
 
-    UErrorCode status;
-    DateFormatSymbols* syms = new DateFormatSymbols(status);
-    if (!syms) {
-        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to create DateFormatSymbols instance: %d.",
-                status);
-        return errorInJson(UNKNOWN_ERROR, "Unable to create DateFormatSymbols instance!");
+    int count;
+    const char* pattern;
+    DateFormat::EStyle dstyle;
+
+    // Check ICU SimpleDateFormat document for patterns for months and days.
+    // http://www.icu-project.org/apiref/icu4c/classicu_1_1SimpleDateFormat.html
+    if (item == kNamesMonths) {
+        count = 12;
+        if (type == kNamesWide) {
+            dstyle = DateFormat::kLong;
+            pattern = "MMMM";
+        } else {
+            dstyle = DateFormat::kShort;
+            pattern = "MMM";
+        }
+    } else {
+        count = 7;
+        if (type == kNamesWide) {
+            dstyle = DateFormat::kLong;
+            pattern = "eeee";
+        } else {
+            dstyle = DateFormat::kShort;
+            pattern = "eee";
+        }
     }
 
-    int count = 0;
-    const UnicodeString* names;
-    if (item == kNamesMonths) {
-        if (type == kNamesWide)
-            names = syms->getMonths(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::WIDE);
-        else
-            names = syms->getMonths(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::NARROW);
-            // names = syms->getShortMonths(count);
-    } else {
-        if (type == kNamesWide)
-            names = syms->getWeekdays(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::WIDE);
-        else
-            names = syms->getWeekdays(count, DateFormatSymbols::STANDALONE, DateFormatSymbols::NARROW);
-            // names = syms->getShortWeekdays(count);
+    UErrorCode status = U_ZERO_ERROR;
+    const Locale& loc = Locale::getDefault();
+    DateFormat* df = DateFormat::createDateInstance(dstyle, loc);
+
+    if (!df) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to create DateFormat instance!");
+        return errorInJson(UNKNOWN_ERROR, "Unable to create DateFormat instance!");
     }
+
+    if (df->getDynamicClassID() != SimpleDateFormat::getStaticClassID()) {
+        delete df;
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: DateFormat instance not SimpleDateFormat!");
+        return errorInJson(UNKNOWN_ERROR, "DateFormat instance not SimpleDateFormat!");
+    }
+
+    SimpleDateFormat* sdf = (SimpleDateFormat*) df;
+    sdf->applyLocalizedPattern(UnicodeString(pattern, -1), status);
+
+    Calendar* cal = Calendar::createInstance(status);
+    if (!cal) {
+        delete sdf;
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to create Calendar instance: %x.",
+                status);
+        return errorInJson(UNKNOWN_ERROR, "Unable to create Calendar instance!");
+    }
+
+    UCalendarDaysOfWeek ud = cal->getFirstDayOfWeek(status);
+    if (status != U_ZERO_ERROR && status != U_ERROR_WARNING_START) {
+        delete cal;
+        delete sdf;
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: failed to getFirstDayOfWeek: %d!",
+                status);
+        return errorInJson(PARSING_ERROR, "Failed to getFirstDayOfWeek!");
+    }
+
+    if (ud == UCAL_SUNDAY)
+        cal->set(2014, 0, 5);
+    else
+        cal->set(2014, 0, 6);
 
     std::list<std::string> utf8Names;
 
-    if (names && count) {
-        for (int i = 0; i < count; ++i) {
-            std::string utf8;
-            (names + i)->toUTF8String(utf8);
-            utf8Names.push_back(utf8);
-        }
+    for (int i = 0; i < count; ++i) {
+        UnicodeString ucs;
+        sdf->format(cal->getTime(status), ucs);
 
-        delete syms;
-    } else {
-        delete syms;
+        if (item == kNamesMonths)
+            cal->add(UCAL_MONTH, 1, status);
+        else
+            cal->add(UCAL_DAY_OF_MONTH, 1, status);
 
-        const char* format;
-        if (item == kNamesMonths) {
-            count = 12;
-            if (type == kNamesWide)
-                format = "%B";
-            else
-                format = "%b";
-        } else {
-            count = 7;
-            if (type == kNamesWide)
-                format = "%A";
-            else
-                format = "%a";
-        }
+        if (ucs.isEmpty())
+            continue;
 
-        struct tm ti = {0};
-        char buffer [80];
+        std::string utf8;
+        ucs.toUTF8String(utf8);
+        utf8Names.push_back(utf8);
+    }
 
-        // We choose this day so it starts at Sunday and January.
-        ti.tm_year = 2014;
-        ti.tm_mon = 0;
-        ti.tm_wday = 0;
-        for (int i = 0; i < count; ++i) {
-            size_t len = strftime (buffer, 80, format, &ti);
+    delete cal;
+    delete sdf;
 
-            if (item == kNamesMonths)
-                ti.tm_mon++;
-            else
-                ti.tm_wday++;
-
-            if (!len)
-                continue;
-
-            utf8Names.push_back(std::string(buffer, len));
-        }
-
-        if (!utf8Names.size()) {
-            slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to get symbols: item: %d, type: %d.",
-                    item, type);
-            return errorInJson(UNKNOWN_ERROR, "Unable to get symbols!");
-        }
+    if (!utf8Names.size()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to get symbols: item: %d, type: %d.",
+                item, type);
+        return errorInJson(UNKNOWN_ERROR, "Unable to get symbols!");
     }
 
     return resultInJson(utf8Names);
