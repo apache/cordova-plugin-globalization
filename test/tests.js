@@ -419,9 +419,6 @@ exports.defineAutoTests = function () {
             var checkNumberPattern = function (a) {
                 expect(a).toBeDefined();
                 expect(typeof a).toBe('object');
-                expect(a.pattern).toBeDefined();
-                expect(typeof a.pattern).toBe('string');
-                expect(a.pattern.length > 0).toBe(true);
                 expect(typeof a.symbol).toBe('string');
                 expect(typeof a.fraction).toBe('number');
                 expect(typeof a.rounding).toBe('number');
@@ -439,6 +436,14 @@ exports.defineAutoTests = function () {
                 expect(a.grouping.length > 0).toBe(true);
             };
 
+            var checkPatternProperty = function (a) {
+                expect(a).toBeDefined();
+                expect(typeof a).toBe('object');
+                expect(a.pattern).toBeDefined();
+                expect(typeof a.pattern).toBe('string');
+                expect(a.pattern.length > 0).toBe(true);
+            };
+
             it("globalization.spec.1 should exist", function () {
                 expect(typeof navigator.globalization.getNumberPattern).toBeDefined();
                 expect(typeof navigator.globalization.getNumberPattern == 'function').toBe(true);
@@ -446,6 +451,15 @@ exports.defineAutoTests = function () {
             it("globalization.spec.37 getNumberPattern using default options, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getNumberPattern(function (a) {
                     checkNumberPattern(a);
+                    done();
+                }, fail.bind(null, done));
+            });
+            it("globalization.spec.37.5 getNumberPattern using default options, returned Properties object should have a pattern property", function (done) {
+                if (cordova.platformId === 'windowsphone') {
+                    pending();
+                }
+                navigator.globalization.getNumberPattern(function (a) {
+                    checkPatternProperty(a);
                     done();
                 }, fail.bind(null, done));
             });
