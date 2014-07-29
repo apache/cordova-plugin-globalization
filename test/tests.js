@@ -484,6 +484,15 @@ exports.defineAutoTests = function () {
                     done();
                 }, fail.bind(null, done), { type: 'currency' });
             });
+            it("globalization.spec.39.5 getNumberPattern using type=currency, returned Properties object should have a pattern property", function (done) {
+                if (cordova.platformId === 'windowsphone') {
+                    pending();
+                }
+                navigator.globalization.getNumberPattern(function (a) {
+                    checkPatternProperty(a);
+                    done();
+                }, fail.bind(null, done), { type: 'currency' });
+            });
         });
 
         describe("getCurrencyPattern", function () {
