@@ -501,6 +501,9 @@ exports.defineAutoTests = function () {
                 expect(typeof navigator.globalization.getCurrencyPattern == 'function').toBe(true);
             });
             it("globalization.spec.41 getCurrencyPattern using EUR for currency, success callback should be called with a Properties object", function (done) {
+                if (cordova.platformId === 'windowsphone') {
+                    pending();
+                }
                 navigator.globalization.getCurrencyPattern("EUR", function (a) {
                     expect(a).toBeDefined();
                     expect(typeof a).toBe('object');
