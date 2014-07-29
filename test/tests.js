@@ -469,6 +469,15 @@ exports.defineAutoTests = function () {
                     done();
                 }, fail.bind(null, done), { type: 'percent' });
             });
+            it("globalization.spec.38.5 getNumberPattern using type=percent, returned Properties object should have a pattern property", function (done) {
+                if (cordova.platformId === 'windowsphone') {
+                    pending();
+                }
+                navigator.globalization.getNumberPattern(function (a) {
+                    checkPatternProperty(a);
+                    done();
+                }, fail.bind(null, done), { type: 'percent' });
+            });
             it("globalization.spec.39 getNumberPattern using type=currency, success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getNumberPattern(function (a) {
                     checkNumberPattern(a);
