@@ -944,13 +944,21 @@ std::string GlobalizationNDK::stringToNumber(const std::string& args)
     std::auto_ptr<NumberFormat> deleter(nf);
 
     UnicodeString uStr = UnicodeString::fromUTF8(str);
-
     Formattable value;
-    nf->parse(uStr, value, status);
+
+    if (type == kNumberCurrency) {
+         ParsePosition pos;
+         CurrencyAmount* ca = nf->parseCurrency(uStr, pos);
+         if (ca)
+             value = ca->getNumber();
+         else
+             nf->parse(uStr, value, status);
+    } else
+        nf->parse(uStr, value, status);
 
     if (status != U_ZERO_ERROR && status != U_ERROR_WARNING_START) {
-        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: failed to parse string: %s",
-                str.c_str());
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: failed (%d) to parse string: %s",
+                status, str.c_str());
         return errorInJson(PARSING_ERROR, "Failed to parse string!");
     }
 
