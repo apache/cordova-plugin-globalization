@@ -72,6 +72,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - Firefox OS
 - iOS
 - Windows Phone 8
@@ -121,6 +122,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - Firefox OS
 - iOS
 - Windows Phone 8
@@ -176,6 +178,7 @@ The `options.selector` can be `date`, `time` or `date and time`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - Firefox OS
 - iOS
 - Windows Phone 8
@@ -237,6 +240,7 @@ error's expected code is `GlobalizationError.FORMATTING_ERROR`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - iOS
 
 ### Example
@@ -299,6 +303,7 @@ The value of `options.item` can be `months` or `days`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - Firefox OS
 - iOS
 - Windows Phone 8
@@ -360,6 +365,7 @@ time`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - iOS
 - Windows Phone 8
 
@@ -409,6 +415,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - Firefox OS
 - iOS
 - Windows Phone 8
@@ -465,6 +472,7 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - iOS
 - Windows Phone 8
 
@@ -529,6 +537,7 @@ executes. The error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - Firefox OS
 - iOS
 - Windows Phone 8
@@ -573,6 +582,7 @@ The `options.type` can be 'decimal', 'percent', or 'currency'.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - iOS
 - Windows Phone 8
 
@@ -635,6 +645,7 @@ error's expected code is `GlobalizationError.PARSING_ERROR`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - Firefox OS
 - iOS
 - Windows Phone 8
@@ -689,6 +700,7 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - iOS
 - Windows Phone 8
 
@@ -726,6 +738,7 @@ This object is created and populated by Cordova, and returned to a callback in t
 
 - Amazon Fire OS
 - Android
+- BlackBerry 10
 - Firefox OS
 - iOS
 
