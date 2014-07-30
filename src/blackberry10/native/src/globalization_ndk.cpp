@@ -16,6 +16,7 @@
 
 #include <ctime>
 #include <list>
+#include <memory>
 #include <string>
 #include <json/reader.h>
 #include <json/writer.h>
@@ -105,11 +106,12 @@ std::string resultDateInJson(const UDate& date)
                 status);
         return errorInJson(UNKNOWN_ERROR, "Failed to create Calendar instance!");
     }
+    std::auto_ptr<Calendar> deleter(cal);
+
     cal->setTime(date, status);
     if (status != U_ZERO_ERROR && status != U_ERROR_WARNING_START) {
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::resultInJson: failed to setTime: %d",
                 status);
-        delete cal;
         return errorInJson(UNKNOWN_ERROR, "Failed to set Calendar time!");
     }
 
@@ -121,8 +123,6 @@ std::string resultDateInJson(const UDate& date)
     result["minute"] = cal->get(UCAL_MINUTE, status);
     result["second"] = cal->get(UCAL_SECOND, status);
     result["millisecond"] = cal->get(UCAL_MILLISECOND, status);
-
-    delete cal;
 
     Json::Value root;
     root["result"] = result;
@@ -369,10 +369,10 @@ std::string GlobalizationNDK::dateToString(const std::string& args)
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::dateToString: unable to create DateFormat!");
         return errorInJson(UNKNOWN_ERROR, "Unable to create DateFormat instance!");
     }
+    std::auto_ptr<DateFormat> deleter(df);
 
     UnicodeString result;
     df->format(date.asDouble(), result);
-    delete df;
 
     std::string utf8;
     result.toUTF8String(utf8);
@@ -421,11 +421,11 @@ std::string GlobalizationNDK::stringToDate(const std::string& args)
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToDate: unable to create DateFormat instance!");
         return errorInJson(UNKNOWN_ERROR, "Unable to create DateFormat instance!");
     }
+    std::auto_ptr<DateFormat> deleter(df);
 
     UnicodeString uDate = UnicodeString::fromUTF8(dateValue);
     UErrorCode status = U_ZERO_ERROR;
     UDate date = df->parse(uDate, status);
-    delete df;
 
     // Note: not sure why U_ERROR_WARNING_START is returned when parse succeeded.
     if (status != U_ZERO_ERROR && status != U_ERROR_WARNING_START) {
@@ -467,9 +467,9 @@ std::string GlobalizationNDK::getDatePattern(const std::string& args)
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDatePattern: unable to create DateFormat instance!");
         return errorInJson(UNKNOWN_ERROR, "Unable to create DateFormat instance!");
     }
+    std::auto_ptr<DateFormat> deleter(df);
 
     if (df->getDynamicClassID() != SimpleDateFormat::getStaticClassID()) {
-        delete df;
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDatePattern: DateFormat instance not SimpleDateFormat!");
         return errorInJson(UNKNOWN_ERROR, "DateFormat instance not SimpleDateFormat!");
     }
@@ -490,8 +490,6 @@ std::string GlobalizationNDK::getDatePattern(const std::string& args)
 
     int utc_offset = tz.getRawOffset() / 1000; // UTC_OFFSET in seconds.
     int dst_offset = tz.getDSTSavings() / 1000; // DST_OFFSET in seconds;
-
-    delete sdf;
 
     return resultInJson(ptUtf8, tzUtf8, utc_offset, dst_offset);
 }
@@ -640,9 +638,9 @@ std::string GlobalizationNDK::getDateNames(const std::string& args)
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to create DateFormat instance!");
         return errorInJson(UNKNOWN_ERROR, "Unable to create DateFormat instance!");
     }
+    std::auto_ptr<DateFormat> deleter(df);
 
     if (df->getDynamicClassID() != SimpleDateFormat::getStaticClassID()) {
-        delete df;
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: DateFormat instance not SimpleDateFormat!");
         return errorInJson(UNKNOWN_ERROR, "DateFormat instance not SimpleDateFormat!");
     }
@@ -652,16 +650,14 @@ std::string GlobalizationNDK::getDateNames(const std::string& args)
 
     Calendar* cal = Calendar::createInstance(status);
     if (!cal) {
-        delete sdf;
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to create Calendar instance: %x.",
                 status);
         return errorInJson(UNKNOWN_ERROR, "Unable to create Calendar instance!");
     }
+    std::auto_ptr<Calendar> caldeleter(cal);
 
     UCalendarDaysOfWeek ud = cal->getFirstDayOfWeek(status);
     if (status != U_ZERO_ERROR && status != U_ERROR_WARNING_START) {
-        delete cal;
-        delete sdf;
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: failed to getFirstDayOfWeek: %d!",
                 status);
         return errorInJson(PARSING_ERROR, "Failed to getFirstDayOfWeek!");
@@ -690,9 +686,6 @@ std::string GlobalizationNDK::getDateNames(const std::string& args)
         ucs.toUTF8String(utf8);
         utf8Names.push_back(utf8);
     }
-
-    delete cal;
-    delete sdf;
 
     if (!utf8Names.size()) {
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getDateNames: unable to get symbols: item: %d, type: %d.",
@@ -877,12 +870,12 @@ std::string GlobalizationNDK::numberToString(const std::string& args)
                 status, type);
         return errorInJson(UNKNOWN_ERROR, "Failed to create NumberFormat instance!");
     }
+    std::auto_ptr<NumberFormat> deleter(nf);
 
     UnicodeString result;
     nf->format(nv.asDouble(), result);
     std::string utf8;
     result.toUTF8String(utf8);
-    delete nf;
 
     return resultInJson(utf8);
 }
@@ -950,12 +943,12 @@ std::string GlobalizationNDK::stringToNumber(const std::string& args)
                 status, type);
         return errorInJson(UNKNOWN_ERROR, "Failed to create NumberFormat instance!");
     }
+    std::auto_ptr<NumberFormat> deleter(nf);
 
     UnicodeString uStr = UnicodeString::fromUTF8(str);
 
     Formattable value;
     nf->parse(uStr, value, status);
-    delete nf;
 
     if (status != U_ZERO_ERROR && status != U_ERROR_WARNING_START) {
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::stringToNumber: failed to parse string: %s",
@@ -1018,6 +1011,7 @@ std::string GlobalizationNDK::getNumberPattern(const std::string& args)
                 status, type);
         return errorInJson(UNKNOWN_ERROR, "Failed to create NumberFormat instance!");
     }
+    std::auto_ptr<NumberFormat> deleter(nf);
 
     if (nf->getDynamicClassID() != DecimalFormat::getStaticClassID()) {
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getNumberPattern: DecimalFormat expected: %p != %p",
@@ -1028,7 +1022,6 @@ std::string GlobalizationNDK::getNumberPattern(const std::string& args)
     DecimalFormat* df = (DecimalFormat*) nf;
     const DecimalFormatSymbols* dfs = df->getDecimalFormatSymbols();
     if (!dfs) {
-        delete nf;
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getNumberPattern: unable to get DecimalFormatSymbols!");
         return errorInJson(UNKNOWN_ERROR, "Failed to get DecimalFormatSymbols instance!");
     }
@@ -1071,8 +1064,6 @@ std::string GlobalizationNDK::getNumberPattern(const std::string& args)
 
     ucs.toUTF8String(symbol);
     ucs.remove();
-
-    delete nf;
 
     return resultInJson(pattern, symbol, fraction, rounding, positive, negative, decimal, grouping);
 }
@@ -1124,28 +1115,28 @@ std::string GlobalizationNDK::getCurrencyPattern(const std::string& args)
                     i);
             continue;
         }
+        std::auto_ptr<NumberFormat> ndeleter(nf);
+
         const UChar* currency = nf->getCurrency();
         if (!currency) {
             slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: locale %d: failed to getCurrency!",
                     i);
-            delete nf;
             continue;
         }
 
         if (!ucc.compare(currency, -1)) {
-            df = (DecimalFormat*) nf;
+            df = (DecimalFormat*) ndeleter.release();
             break;
         }
-
-        delete nf;
     }
 
     if (!df)
         return errorInJson(UNKNOWN_ERROR, "Currency not supported!");
 
+    std::auto_ptr<DecimalFormat> deleter(df);
+
     const DecimalFormatSymbols* dfs = df->getDecimalFormatSymbols();
     if (!dfs) {
-        delete df;
         slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getCurrencyPattern: unable to get DecimalFormatSymbols!");
         return errorInJson(UNKNOWN_ERROR, "Failed to get DecimalFormatSymbols!");
     }
@@ -1169,8 +1160,6 @@ std::string GlobalizationNDK::getCurrencyPattern(const std::string& args)
     ucs = dfs->getSymbol(DecimalFormatSymbols::kGroupingSeparatorSymbol);
     ucs.toUTF8String(grouping);
     ucs.remove();
-
-    delete df;
 
     return resultInJson(pattern, cc, fraction, rounding, decimal, grouping);
 }
