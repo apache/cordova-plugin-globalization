@@ -62,6 +62,8 @@
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
+*   Firefox OS
 *   iOS
 *   Windows Phone 8
 
@@ -101,6 +103,8 @@
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
+*   Firefox OS
 *   iOS
 *   Windows Phone 8
 
@@ -150,6 +154,8 @@
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
+*   Firefox OS
 *   iOS
 *   Windows Phone 8
 
@@ -168,6 +174,11 @@
 ### Windows Phone 8 причуды
 
 *   `formatLength`Вариант поддерживает только `short` и `full` значения.
+
+### Firefox OS причуды
+
+*   `formatLength`не различать `long` и`full` 
+*   только один метод отображения даты (не `long` или `full` версия)
 
 ## navigator.globalization.getCurrencyPattern
 
@@ -202,6 +213,7 @@
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
 *   iOS
 
 ### Пример
@@ -258,6 +270,8 @@
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
+*   Firefox OS
 *   iOS
 *   Windows Phone 8
 
@@ -275,6 +289,10 @@
         { type: 'wide', item: 'months' }
     );
     
+
+### Firefox OS причуды
+
+*   `options.type`поддерживает `genitive` значения, важные для некоторых языков
 
 ## navigator.globalization.getDatePattern
 
@@ -309,6 +327,7 @@ time`.
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
 
@@ -352,6 +371,8 @@ time`.
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
+*   Firefox OS
 *   iOS
 *   Windows Phone 8
 
@@ -405,6 +426,7 @@ time`.
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
 
@@ -463,6 +485,8 @@ time`.
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
+*   Firefox OS
 *   iOS
 *   Windows Phone 8
 
@@ -501,6 +525,7 @@ time`.
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
 
@@ -557,6 +582,8 @@ time`.
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
+*   Firefox OS
 *   iOS
 *   Windows Phone 8
 
@@ -602,6 +629,7 @@ time`.
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
 
@@ -638,6 +666,8 @@ time`.
 
 *   Amazon Fire ОС
 *   Android
+*   BlackBerry 10
+*   Firefox OS
 *   iOS
 
 ### Пример
