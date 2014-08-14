@@ -27,11 +27,6 @@ exports.defineAutoTests = function () {
 
     describe('Globalization (navigator.globalization)', function () {
 
-        //not supported on bb10
-        if (cordova.platformId === 'blackberry10') {
-            return;
-        }
-
         it("globalization.spec.1 should exist", function () {
             expect(navigator.globalization).toBeDefined();
         });
