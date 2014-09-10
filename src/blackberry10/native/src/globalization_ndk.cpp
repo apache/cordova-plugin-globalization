@@ -345,8 +345,8 @@ std::string GlobalizationNDK::dateToString(const std::string& args)
         return errorInJson(PARSING_ERROR, "No date provided!");
     }
 
-    if (!date.isDouble()) {
-        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::dateToString: date is not a Double: %d.",
+    if (!date.isNumeric()) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::dateToString: date is not a numeric: %d.",
                 date.type());
         return errorInJson(PARSING_ERROR, "Date in wrong format!");
     }
