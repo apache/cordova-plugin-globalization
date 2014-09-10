@@ -24,11 +24,24 @@ var GlobalizationError = require('./GlobalizationError');
 var l10n_loaded = new Event('l10n_loaded');
 var l10n_ready = new Event('l10n_ready');
 
+var is_l10n_ready = false;
+
 document.addEventListener('l10n_loaded', function() {
+  console.log('DEBUG: L10n loaded');
   navigator.mozL10n.ready(function() {
+    console.log('DEBUG: L10n ready');
+    is_l10n_ready = true;
     document.dispatchEvent(l10n_ready);
   });
 });
+
+function callIfL10nReady(callback) {
+    if (is_l10n_ready) {
+        return callback();
+    }
+    document.addEventListener('l10n_ready', callback);
+}
+
 
 function loadFile(elementName, attributes, callback) {
     var e = document.createElement(elementName);
@@ -73,13 +86,13 @@ loadDependencies();
 function getPreferredLanguage(successCB, errorCB) {
     // WARNING: this isn't perfect - there is a difference between UI language
     // and preferred language, however it doesn't happen too often.
-    document.addEventListener('l10n_ready', function() {
+    callIfL10nReady(function() {
       successCB({value: navigator.mozL10n.language.code});
     });
 }
 
 function getLocaleName(successCB, errorCB) {
-    document.addEventListener('l10n_ready', function() {
+    callIfL10nReady(function() {
       successCB(navigator.mozL10n.language.code);
     });
 }
@@ -88,7 +101,7 @@ function dateToString(successCB, errorCB, params) {
     var date = new Date(params[0].date);
     var options = params[0].options;
 
-    document.addEventListener('l10n_ready', function() {
+    callIfL10nReady(function() {
       var f = new navigator.mozL10n.DateTimeFormat();
       successCB({'value': _getStringFromDate(f, date, options)});
     });
@@ -165,7 +178,7 @@ function getDatePattern(successCB, failureCB, options) {
 }
 
 function getDateNames(successCB, failureCB, params) {
-  document.addEventListener('l10n_ready', function() {
+  callIfL10nReady(function() {
     var version = 'long';
     var item = 'month';
     var first = 0;
@@ -208,7 +221,7 @@ function isDayLightSavingsTime(successCB, failureCB, params) {
 }
 
 function getFirstDayOfWeek(successCB, failureCB) {
-  document.addEventListener('l10n_ready', function() {
+  callIfL10nReady(function() {
     var firstDay = navigator.mozL10n.get('weekStartsOnMonday');
     successCB({'value': parseInt(firstDay)});
   });
