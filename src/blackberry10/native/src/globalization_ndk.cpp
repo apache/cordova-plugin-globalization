@@ -225,8 +225,14 @@ std::string GlobalizationNDK::getLocaleName()
 {
     const Locale& loc = Locale::getDefault();
     const char* name = loc.getName();
-    if (name)
-        return resultInJson(name);
+    if (name) {
+        std::string sname(name);
+        size_t pos = sname.find_first_of("_");
+        if (pos != std::string::npos)
+            sname.replace(pos, 1, "-");
+
+        return resultInJson(sname);
+    }
 
     const char* lang = loc.getLanguage();
     if (!lang)
@@ -236,7 +242,7 @@ std::string GlobalizationNDK::getLocaleName()
     if (!country)
         return resultInJson(lang);
 
-    return resultInJson(std::string(lang) + "_" + country);
+    return resultInJson(std::string(lang) + "-" + country);
 }
 
 static bool handleDateOptions(const Json::Value& options, DateFormat::EStyle& dateStyle, DateFormat::EStyle& timeStyle, std::string& error)
