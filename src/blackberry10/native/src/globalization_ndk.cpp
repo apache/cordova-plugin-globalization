@@ -12,7 +12,9 @@
  * limitations under the License.
  */
 
+#include <algorithm>
 #include <ctime>
+#include <fcntl.h>
 #include <list>
 #include <memory>
 #include <string>
@@ -59,13 +61,6 @@ std::string resultInJson(const std::string& value)
 
     Json::FastWriter writer;
     return writer.write(root);
-}
-
-// This is needed so resultInJson(const char*) will not be called into
-// resultInJson(bool) implicitly.
-static inline std::string resultInJson(const char* value)
-{
-    return resultInJson(std::string(value));
 }
 
 std::string resultInJson(bool value)
@@ -207,40 +202,84 @@ GlobalizationNDK::GlobalizationNDK(GlobalizationJS *parent) {
 GlobalizationNDK::~GlobalizationNDK() {
 }
 
+static int isspace_safe(int ch) {
+    return std::isspace(ch & 0xff);
+}
+
+static std::string& trimRight(std::string& str)
+{
+    str.erase(std::find_if(str.rbegin(), str.rend(), std::not1(std::ptr_fun<int, int>(isspace_safe))).base(), str.end());
+    return str;
+}
+
+static std::string readLanguageFromPPS()
+{
+    static const char* langfile = "/pps/services/confstr/_CS_LOCALE";
+    int fd = ::open(langfile, O_RDONLY);
+    if (fd < 0) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::readLanguageFromPPS: unable to open PPS file: %s.", langfile);
+        return std::string();
+    }
+
+    static const int PPS_BUFFER_READ_SIZE = 2048;
+    char buffer[PPS_BUFFER_READ_SIZE];
+    ssize_t read = ::read(fd, buffer, PPS_BUFFER_READ_SIZE - 1);
+    ::close(fd);
+
+    if (read <= 0) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::readLanguageFromPPS: unable to read PPS file: %s.", langfile);
+        return std::string();
+    }
+
+    std::string content(buffer, read);
+    size_t pos = content.find_first_of("::");
+
+    if (pos == std::string::npos) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::readLanguageFromPPS: unable to find signature \"_CS_LOCALE::\" in PPS file: %s.", langfile);
+        return std::string();
+    }
+
+    std::string lang = content.substr(pos + 2);// 2 is strlen("::");
+    return trimRight(lang);
+}
+
 std::string GlobalizationNDK::getPreferredLanguage()
 {
-    const Locale& loc = Locale::getDefault();
+    Locale loc = Locale::getDefault();
+    std::string ppslang = readLanguageFromPPS();
+    if (!ppslang.empty())
+        loc = Locale::createFromName(ppslang.c_str());
 
-    UnicodeString disp;
-    loc.getDisplayLanguage(loc, disp);
-    if (disp.isEmpty())
-        return resultInJson("English"); // FIXME: what should be the default language?
+    const char* lang = loc.getLanguage();
+    if (!lang || !strlen(lang)) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getPreferredLanguage: no language for current locale! Use \"en\" instead.");
+        lang = "en";
+    }
 
-    std::string utf8;
-    disp.toUTF8String(utf8);
-    return resultInJson(utf8);
+    const char* country = loc.getCountry();
+    if (!country || !strlen(country)) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getPreferredLanguage: no country for current locale! Use \"US\" instead.");
+        country = "US";
+    }
+
+    return resultInJson(std::string(lang) + "-" + country);
 }
 
 std::string GlobalizationNDK::getLocaleName()
 {
     const Locale& loc = Locale::getDefault();
-    const char* name = loc.getName();
-    if (name) {
-        std::string sname(name);
-        size_t pos = sname.find_first_of("_");
-        if (pos != std::string::npos)
-            sname.replace(pos, 1, "-");
-
-        return resultInJson(sname);
-    }
 
     const char* lang = loc.getLanguage();
-    if (!lang)
-        return resultInJson("en"); // FIXME: what should be the default language?
+    if (!lang) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getLocaleName: no language for current locale! Use \"en\" instead.");
+        lang = "en";
+    }
 
     const char* country = loc.getCountry();
-    if (!country)
-        return resultInJson(lang);
+    if (!country) {
+        slog2f(0, ID_G11N, SLOG2_ERROR, "GlobalizationNDK::getLocaleName: no country for current locale! Use \"US\" instead.");
+        country = "US";
+    }
 
     return resultInJson(std::string(lang) + "-" + country);
 }
