@@ -77,3 +77,6 @@
 * Clean-up: removed duplicate code
 * Added test to complete CB-7064, added tests that check for W3C compliance in language tags generated from PreferredLanguage and GetLocale methods
 * CB-6962 Ported globalization tests to framework
+
+### 0.3.2 (Oct 03, 2014)
+* CB-7548 [BlackBerry10] Re-implement getPreferredLanguage() and getLocaleName().
