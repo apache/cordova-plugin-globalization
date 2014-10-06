@@ -77,7 +77,7 @@ Wenn der Browser auf festgelegt ist die `en-US` Sprache, dies sollte einen Popup
     );
     
 
-### Android Macken
+### Android Eigenarten
 
 *   Gibt zurück, der ISO 639-1 zwei Buchstaben bestehenden Sprachcode, Großbuchstaben ISO 3166-1-Ländercode und Variante, die durch Bindestriche getrennt sind. Beispiele: "de", "En-US", "US"
 
@@ -118,7 +118,7 @@ Wenn der Browser auf festgelegt ist die `en-US` Gebietsschema, das zeigt einen P
     );
     
 
-### Android Macken
+### Android Eigenarten
 
 *   Java unterscheidet nicht zwischen einem Set "Sprache" und Set "Locale", so dass diese Methode im Wesentlichen identisch ist`navigator.globalizatin.getPreferredLanguage()`.
 

@@ -21,7 +21,7 @@
 
 Ten plugin uzyskuje informacje i wykonuje operacje specyficzne dla użytkownika ustawienia regionalne, język i strefa czasowa. Zwróć uwagę na różnicę między ustawień regionalnych i językowych: regionalny kontroli jak liczby, daty i godziny są wyświetlane dla regionu, podczas gdy język określa, jaki tekst w języku pojawia się jako, niezależnie od ustawień regionalnych. Często Deweloperzy używają regionalny do zarówno ustawienia, ale nie ma żadnego powodu, które użytkownik nie mógł ustawić jej język "Polski" regionalny "Francuski", tak, że tekst jest wyświetlany w angielski, ale daty, godziny, itp., są wyświetlane są one we Francji. Niestety najbardziej mobilnych platform obecnie nie wprowadzają rozróżnienia tych ustawień.
 
-## Instalacji
+## Instalacja
 
     cordova plugin add org.apache.cordova.globalization
     
@@ -60,9 +60,9 @@ Jeśli tu jest błąd w języku, a następnie `errorCallback` wykonuje z `Global
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -77,7 +77,7 @@ Kiedy przeglądarka jest ustawiona na `en-US` języka, to należy wyświetlić w
     );
     
 
-### Android dziwactwa
+### Dziwactwa Androida
 
 *   Zwraca ISO 639-1 języka dwuliterowy kod, wielkie litery ISO 3166-1 kraj kod i wariant oddzielonych myślnikami. Przykłady: "pl", "pl", "US"
 
@@ -101,9 +101,9 @@ Jeśli tu jest błąd ustawienia regionalne, a następnie `errorCallback` wykonu
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -118,7 +118,7 @@ Kiedy przeglądarka jest ustawiona na `en-US` Ustawienia regionalne, to wyświet
     );
     
 
-### Android dziwactwa
+### Dziwactwa Androida
 
 *   Java nie rozróżnia się między zestaw "języka" i ustaw "regionalny", więc ta metoda jest zasadniczo taka sama, jak`navigator.globalizatin.getPreferredLanguage()`.
 
@@ -152,9 +152,9 @@ Jeśli występuje błąd formatowania daty, a następnie `errorCallback` wykonuj
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -211,9 +211,9 @@ Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuj
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   iOS
 
 ### Przykład
@@ -268,9 +268,9 @@ Wartość `options.item` może być `months` lub`days`.
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -325,9 +325,9 @@ time`.
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
 
@@ -369,9 +369,9 @@ Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuj
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -424,9 +424,9 @@ Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuj
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
 
@@ -483,9 +483,9 @@ Jeśli występuje błąd odczytu daty, a następnie `errorCallback` wykonuje. Oc
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -523,9 +523,9 @@ Jeśli występuje błąd formatowanie numeru, a następnie `errorCallback` wykon
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
 
@@ -580,9 +580,9 @@ Jeśli występuje błąd podczas analizowania ciągu daty, a następnie `errorCa
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -627,9 +627,9 @@ Jeśli występuje błąd podczas analizowania ciągu liczb, a następnie `errorC
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
 
@@ -664,9 +664,9 @@ Ten obiekt jest tworzona i wypełniane przez Cordova i wrócił do wywołania zw
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 
