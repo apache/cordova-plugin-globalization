@@ -109,17 +109,17 @@ function dateToString(successCB, errorCB, params) {
     function _getStringFromDate(f, date, options) {
         var format = navigator.mozL10n.get('shortDateTimeFormat');
         if (options) {
-          if (options.selector == 'date') {
+          if (options.selector === 'date') {
             return f.localeDateString(date);
           }
-          if (options.selector == 'time') {
+          if (options.selector === 'time') {
             return f.localeTimeString(date);
           }
-          if (options.formatLength != 'short') {
+          if (options.formatLength !== 'short') {
             format = navigator.mozL10n.get('dateTimeFormat');
             return f.localeString(date, format);
           }
-          if (options.selector == 'time') {
+          if (options.selector === 'time') {
             return f.localeTimeString(date, format);
           }
         }
@@ -137,12 +137,12 @@ function stringToDate(successCB, errorCB, params) {
       date = new Date(dateString);
     } catch(e) {  
       console.log("Cordova, stringToDate, An error occurred " + e.message);
-      return errorCB(GlobalizationError(
+      return errorCB(new GlobalizationError(
             GlobalizationError.PARSING_ERROR, e.message));
     } 
-    if (!date || date == 'Invalid Date') {
+    if (!date || date === 'Invalid Date') {
       console.log("Cordova, stringToDate, Invalid Date: " + dateString);
-      return errorCB(GlobalizationError(
+      return errorCB(new GlobalizationError(
             GlobalizationError.PARSING_ERROR, 'Invalid Date (' + dateString + ')'));
     }
 
@@ -158,10 +158,10 @@ function stringToDate(successCB, errorCB, params) {
       'millisecond': date.getMilliseconds() 
     };
     if (options) {
-      if (options.selector == 'date') {
+      if (options.selector === 'date') {
         return successCB(dateObj);
       }
-      if (options.selector == 'time') {
+      if (options.selector === 'time') {
         return successCB(timeObj);
       }
     }
@@ -181,24 +181,22 @@ function getDateNames(successCB, failureCB, params) {
   callIfL10nReady(function() {
     var version = 'long';
     var item = 'month';
-    var first = 0;
     var options = params[0].options;
     if (options) {
-      if (options.type == 'narrow') {
+      if (options.type === 'narrow') {
         version = 'short';
-      } else if (options.type == 'genitive' && options.item == 'months') {
+      } else if (options.type === 'genitive' && options.item === 'months') {
         version = options.type;
       } 
-      if (options.item == 'days') {
+      if (options.item === 'days') {
         item = 'weekday';
-        first = parseInt(navigator.mozL10n.get('weekStartsOnMonday'));
       }
     }
-    var limit = (item == 'month') ? 11 : 6;
+    var limit = (item === 'month') ? 11 : 6;
 
     var arr = [];
-    for (var i = first; i <= first + limit; i++) {
-        arr.push(navigator.mozL10n.get(item + '-' + i % (limit + 1) + '-' + version));
+    for (var i = 0; i <= limit; i++) {
+        arr.push(navigator.mozL10n.get(item + '-' + i + '-' + version));
     }
     successCB({'value': arr});
   });
@@ -223,7 +221,9 @@ function isDayLightSavingsTime(successCB, failureCB, params) {
 function getFirstDayOfWeek(successCB, failureCB) {
   callIfL10nReady(function() {
     var firstDay = navigator.mozL10n.get('weekStartsOnMonday');
-    successCB({'value': parseInt(firstDay)});
+    // Sunday: 1
+    // Monday: 2
+    successCB({'value': 1 + parseInt(firstDay)});
   });
 }
 
