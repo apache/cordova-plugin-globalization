@@ -195,6 +195,11 @@ options:
         function () { alert('Error getting dateString\n'); },
         { formatLength: 'short', selector: 'date and time' }
     );
+### Android Quirks
+- `formatLength` options are a subset of Unicode [UTS #35](http://unicode.org/reports/tr35/tr35-4.html), 
+default option `short` depends on user selected date format,
+which provides a `year` pattern with 4 digits, not to 2 digits,
+which means that is not completely aligned with [ICU](http://demo.icu-project.org/icu-bin/locexp?d_=en_US&_=en_US).
 
 ### Windows Phone 8 Quirks
 
