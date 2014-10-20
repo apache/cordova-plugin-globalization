@@ -652,9 +652,9 @@ time`.
 ### プロパティ
 
 *   **コード**: エラーの種類を表す次のコードの 1 つ *(数)* 
-    *   GlobalizationError.UNKNOWN_ERROR: 0
+    *   GlobalizationError.UNKNOWN_ERROR： 0
     *   GlobalizationError.FORMATTING_ERROR: 1
-    *   GlobalizationError.PARSING_ERROR: 2
+    *   GlobalizationError.PARSING_ERROR： 2
     *   GlobalizationError.PATTERN_ERROR: 3
 *   **メッセージ**: エラーの説明が含まれていますおよび/または*(文字列)*の詳細をテキスト メッセージ
 

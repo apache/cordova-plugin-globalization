@@ -211,9 +211,9 @@ Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuj
 
 ### Obsługiwane platformy
 
-*   Amazon Fire OS
+*   Amazon ogień OS
 *   Android
-*   BlackBerry 10
+*   Jeżyna 10
 *   iOS
 
 ### Przykład
@@ -325,9 +325,9 @@ time`.
 
 ### Obsługiwane platformy
 
-*   Amazon Fire OS
+*   Amazon ogień OS
 *   Android
-*   BlackBerry 10
+*   Jeżyna 10
 *   iOS
 *   Windows Phone 8
 
@@ -369,9 +369,9 @@ Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuj
 
 ### Obsługiwane platformy
 
-*   Amazon Fire OS
+*   Amazon ogień OS
 *   Android
-*   BlackBerry 10
+*   Jeżyna 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -424,9 +424,9 @@ Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuj
 
 ### Obsługiwane platformy
 
-*   Amazon Fire OS
+*   Amazon ogień OS
 *   Android
-*   BlackBerry 10
+*   Jeżyna 10
 *   iOS
 *   Windows Phone 8
 
@@ -483,9 +483,9 @@ Jeśli występuje błąd odczytu daty, a następnie `errorCallback` wykonuje. Oc
 
 ### Obsługiwane platformy
 
-*   Amazon Fire OS
+*   Amazon ogień OS
 *   Android
-*   BlackBerry 10
+*   Jeżyna 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -580,9 +580,9 @@ Jeśli występuje błąd podczas analizowania ciągu daty, a następnie `errorCa
 
 ### Obsługiwane platformy
 
-*   Amazon Fire OS
+*   Amazon ogień OS
 *   Android
-*   BlackBerry 10
+*   Jeżyna 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
@@ -627,9 +627,9 @@ Jeśli występuje błąd podczas analizowania ciągu liczb, a następnie `errorC
 
 ### Obsługiwane platformy
 
-*   Amazon Fire OS
+*   Amazon ogień OS
 *   Android
-*   BlackBerry 10
+*   Jeżyna 10
 *   iOS
 *   Windows Phone 8
 
@@ -664,9 +664,9 @@ Ten obiekt jest tworzona i wypełniane przez Cordova i wrócił do wywołania zw
 
 ### Obsługiwane platformy
 
-*   Amazon Fire OS
+*   Amazon ogień OS
 *   Android
-*   BlackBerry 10
+*   Jeżyna 10
 *   Firefox OS
 *   iOS
 
