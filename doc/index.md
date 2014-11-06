@@ -29,6 +29,15 @@ displayed in English but dates, times, etc., are displayed as they are in France
 Unfortunately, most mobile platforms currently do not make a distinction between
 these settings. 
 
+This plugin defines global `navigator.globalization` object.
+
+Although in the global scope, it is not available until after the `deviceready` event.
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(navigator.globalization);
+    }
+
 ## Installation
 
     cordova plugin add org.apache.cordova.globalization
