@@ -111,6 +111,16 @@
         </config-file>
 
         <source-file src="src/wp/Globalization.cs" />
+        <source-file src="src/windows/GlobalizationProxy/GlobalizationProxy/Globalization/GlobalizationApiTypes.cs" />
+        <source-file src="src/windows/GlobalizationProxy/GlobalizationProxy/Globalization/GlobalizationImpl.cs" />
+    </platform>
+
+    <!-- windows -->
+    <platform name="windows">
+        <js-module src="src/windows/GlobalizationProxy.js" name="GlobalizationProxy">
+            <runs/>
+        </js-module>
+        <framework src="src/Windows/GlobalizationProxy.winmd" custom="true"/>
     </platform>
 
     <!-- tizen -->

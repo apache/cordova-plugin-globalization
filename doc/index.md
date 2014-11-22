@@ -85,6 +85,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -108,6 +109,12 @@ of the regional variant corresponding to the "Language" setting, separated by
 a hyphen.
 - Note that the regional variant is a property of the "Language" setting and
 not determined by the unrelated "Country/Region" setting on Windows Phone.
+
+### Windows Quirks
+
+- Returns the ISO 639-1 two-letter language code and ISO 3166-1 country code
+of the regional variant corresponding to the "Language" setting, separated by
+a hyphen.
 
 ## navigator.globalization.getLocaleName
 
@@ -135,6 +142,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -156,6 +164,12 @@ method is essentially the same as `navigator.globalizatin.getPreferredLanguage()
 - Returns the ISO 639-1 two-letter language code and ISO 3166-1 country code
 of the regional variant corresponding to the "Regional Format" setting, separated
 by a hyphen.
+
+### Windows Quirks
+
+- Locale setting can be changed in Control Panel -> Clock, Language and Region 
+-> Region -> Administrative -> Change system locale on Windows 8.1/8.0, 
+and in Settings -> Region -> Regional Format on Windows Phone 8.1.
 
 
 ## navigator.globalization.dateToString
@@ -191,6 +205,7 @@ The `options.selector` can be `date`, `time` or `date and time`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -216,6 +231,18 @@ options:
 ### Windows Phone 8 Quirks
 
 - The `formatLength` option supports only `short` and `full` values.
+
+- The pattern for 'date and time' selector is always a full datetime format.
+
+- The returned value may be not completely aligned with ICU depending on a user locale.
+
+### Windows Quirks
+
+- The `formatLength` option supports only `short` and `full` values.
+
+- The pattern for 'date and time' selector is always a full datetime format.
+
+- The returned value may be not completely aligned with ICU depending on a user locale.
 
 ### Firefox OS Quirks
 
@@ -324,6 +351,7 @@ The value of `options.item` can be `months` or `days`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -345,6 +373,15 @@ a series of twelve popup dialogs, one per month, with text similar to
 
 - `options.type` supports a `genitive` value, important for some languages
 
+### Windows Phone 8 Quirks
+
+- The array of months contains 13 elements.
+- The returned array may be not completely aligned with ICU depending on a user locale.
+
+### Windows Quirks
+
+- The array of months contains 13 elements.
+- The returned array may be not completely aligned with ICU depending on a user locale.
 
 ## navigator.globalization.getDatePattern
 
@@ -385,6 +422,7 @@ time`.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -409,6 +447,19 @@ a popup dialog with text such as `pattern: M/d/yyyy h:mm a`:
 
 - The `dst_offset` property is not supported, and always returns zero.
 
+- The pattern may be not completely aligned with ICU depending on a user locale.
+
+### Windows Quirks
+
+- The `formatLength` supports only `short` and `full` values.
+
+- The `pattern` for `date and time` pattern returns only full datetime format.
+
+- The `timezone` returns the full time zone name.
+
+- The `dst_offset` property is not supported, and always returns zero.
+
+- The pattern may be not completely aligned with ICU depending on a user locale.
 
 ## navigator.globalization.getFirstDayOfWeek
 
@@ -436,6 +487,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -447,6 +499,10 @@ popup dialog with text similar to `day: 1`.
         function () {alert('Error getting day\n');}
     );
 
+###	Windows Quirks
+
+- On Windows 8.0/8.1 the value depends on user' calendar preferences. On Windows Phone 8.1 
+the value depends on current locale.
 
 ## navigator.globalization.getNumberPattern
 
@@ -492,6 +548,7 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -525,7 +582,13 @@ Results:
 
 ### Windows Phone 8 Quirks
 
-- The `pattern` property is not supported, and retuens an empty string.
+- The `pattern` property is not supported, and returns an empty string.
+
+- The `fraction` property is not supported, and returns zero.
+
+### Windows Quirks
+
+- The `pattern` property is not supported, and returns an empty string.
 
 - The `fraction` property is not supported, and returns zero.
 
@@ -558,6 +621,7 @@ executes. The error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -602,6 +666,7 @@ The `options.type` can be 'decimal', 'percent', or 'currency'.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -666,6 +731,7 @@ error's expected code is `GlobalizationError.PARSING_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -683,10 +749,23 @@ integer represents an array index.
         {selector: 'date'}
     );
 
-
 ### Windows Phone 8 Quirks
 
 - The `formatLength` option supports only `short` and `full` values.
+
+- The pattern for 'date and time' selector is always a full datetime format.
+
+- The inbound `dateString` parameter should be formed in compliance with a pattern returned by getDatePattern.
+This pattern may be not completely aligned with ICU depending on a user locale.
+
+### Windows Quirks
+
+- The `formatLength` option supports only `short` and `full` values.
+
+- The pattern for 'date and time' selector is always a full datetime format.
+
+- The inbound `dateString` parameter should be formed in compliance with a pattern returned by getDatePattern.
+This pattern may be not completely aligned with ICU depending on a user locale.
 
 ## navigator.globalization.stringToNumber
 
@@ -720,6 +799,7 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
+- Windows
 
 ### Example
 
@@ -758,6 +838,8 @@ This object is created and populated by Cordova, and returned to a callback in t
 - BlackBerry 10
 - Firefox OS
 - iOS
+- Windows Phone 8
+- Windows
 
 ### Example
 
