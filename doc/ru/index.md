@@ -171,11 +171,11 @@
     );
     
 
-### Особенности Windows Phone 8
+### Windows Phone 8 причуды
 
 *   `formatLength`Вариант поддерживает только `short` и `full` значения.
 
-### Особенности Firefox OS
+### Firefox OS причуды
 
 *   `formatLength`не различать `long` и`full` 
 *   только один метод отображения даты (не `long` или `full` версия)
@@ -211,7 +211,7 @@
 
 ### Поддерживаемые платформы
 
-*   Amazon Fire OS
+*   Amazon Fire ОС
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -290,7 +290,7 @@
     );
     
 
-### Особенности Firefox OS
+### Firefox OS причуды
 
 *   `options.type`поддерживает `genitive` значения, важные для некоторых языков
 
@@ -325,7 +325,7 @@ time`.
 
 ### Поддерживаемые платформы
 
-*   Amazon Fire OS
+*   Amazon Fire ОС
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -344,7 +344,7 @@ time`.
     }
     
 
-### Особенности Windows Phone 8
+### Windows Phone 8 причуды
 
 *   `formatLength`Поддерживает только `short` и `full` значения.
 
@@ -369,7 +369,7 @@ time`.
 
 ### Поддерживаемые платформы
 
-*   Amazon Fire OS
+*   Amazon Fire ОС
 *   Android
 *   BlackBerry 10
 *   Firefox OS
@@ -424,7 +424,7 @@ time`.
 
 ### Поддерживаемые платформы
 
-*   Amazon Fire OS
+*   Amazon Fire ОС
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -460,7 +460,7 @@ time`.
     grouping: ,
     
 
-### Особенности Windows Phone 8
+### Windows Phone 8 причуды
 
 *   `pattern`Свойство не поддерживается и retuens является пустой строкой.
 
@@ -483,7 +483,7 @@ time`.
 
 ### Поддерживаемые платформы
 
-*   Amazon Fire OS
+*   Amazon Fire ОС
 *   Android
 *   BlackBerry 10
 *   Firefox OS
@@ -580,7 +580,7 @@ time`.
 
 ### Поддерживаемые платформы
 
-*   Amazon Fire OS
+*   Amazon Fire ОС
 *   Android
 *   BlackBerry 10
 *   Firefox OS
@@ -601,7 +601,7 @@ time`.
     );
     
 
-### Особенности Windows Phone 8
+### Windows Phone 8 причуды
 
 *   `formatLength`Вариант поддерживает только `short` и `full` значения.
 
@@ -627,7 +627,7 @@ time`.
 
 ### Поддерживаемые платформы
 
-*   Amazon Fire OS
+*   Amazon Fire ОС
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -649,7 +649,7 @@ time`.
 
 Объект, представляющий ошибку от глобализации API.
 
-### Параметры
+### Свойства
 
 *   **код**: Один из следующих кодов, представляющих тип ошибки *(Число)* 
     *   GlobalizationError.UNKNOWN_ERROR: 0
@@ -664,7 +664,7 @@ time`.
 
 ### Поддерживаемые платформы
 
-*   Amazon Fire OS
+*   Amazon Fire ОС
 *   Android
 *   BlackBerry 10
 *   Firefox OS

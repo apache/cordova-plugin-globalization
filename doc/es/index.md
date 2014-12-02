@@ -173,7 +173,7 @@ Si el navegador está configurado la `en_US` local, muestra un cuadro de diálog
 
 ### Windows Phone 8 rarezas
 
-*   La opción `formatLength` admite valores sólo `short` y `full`.
+*   El `formatLength` los soportes de la opción `short` y `full` los valores.
 
 ### Firefox OS rarezas
 
@@ -191,17 +191,17 @@ Devuelve una cadena de patrón para analizar los valores de divisas según las p
 
 Devuelve el patrón a la `successCallback` con un objeto de `properties` como un parámetro. Ese objeto debe contener las siguientes propiedades:
 
-*   **pattern**: el patrón de la moneda para analizar los valores de la moneda y el formato. Los patrones siguen [Unicode técnica estándar #35][1]. *(String)*
+*   **patrón**: el patrón de la moneda para analizar los valores de la moneda y el formato. Los patrones siguen [Unicode técnica estándar #35][1]. *(String)*
 
-*   **code**: código de divisa de la ISO 4217 para el patrón. *(String)*
+*   **código**: código de divisa de la ISO 4217 para el patrón. *(String)*
 
-*   **fraction**: el número de dígitos fraccionarios a utilizar al análisis y el formato de números. *(Número)*
+*   **fracción**: el número de dígitos fraccionarios a utilizar al análisis sintáctico y el formato de moneda. *(Número)*
 
-*   **rounding**: el redondeo incrementar para usar cuando el análisis sintáctico y formato. *(Número)*
+*   **redondeo**: el redondeo incremento para utilizar al análisis sintáctico y formato. *(Número)*
 
-*   **decimal**: el símbolo decimal a usar para parsear y formato. *(String)*
+*   **decimal**: el símbolo decimal para analizar y dar formato. *(String)*
 
-*   **grouping**: el símbolo de la agrupación para analizar y dar formato. *(String)*
+*   **agrupación**: el símbolo de la agrupación para analizar y dar formato. *(String)*
 
  [1]: http://unicode.org/reports/tr35/tr35-4.html
 
@@ -211,7 +211,7 @@ Si hay un error obteniendo el patrón, entonces el `errorCallback` ejecuta con u
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -305,9 +305,9 @@ Devuelve una cadena de patrón para analizar las fechas según las preferencias 
 
 Devuelve el patrón a la `successCallback`. El objeto se pasa como parámetro contiene las siguientes propiedades:
 
-*   **pattern**: el patrón para analizar las fechas y el formato de fecha y hora. Los patrones siguen [Unicode técnica estándar #35][1]. *(String)*
+*   **patrón**: el patrón para analizar las fechas y el formato de fecha y hora. Los patrones siguen [Unicode técnica estándar #35][1]. *(String)*
 
-*   **timezone**: el nombre abreviado de la zona horaria en el cliente. *(String)*
+*   **zona horaria**: el nombre abreviado de la zona horaria en el cliente. *(String)*
 
 *   **utc_offset**: la actual diferencia de segundos entre la zona horaria del cliente y el tiempo universal coordinado. *(Número)*
 
@@ -324,7 +324,7 @@ El `options.formatLength` puede ser de `short`, `medium`, `long` o `full`. El `o
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -345,13 +345,13 @@ Cuando el navegador se establece en el `en_US` local, este ejemplo muestra un cu
 
 ### Windows Phone 8 rarezas
 
-*   El `formatLength` apoya valores sólo `short` y `full`.
+*   El `formatLength` sólo es compatible con `short` y `full` los valores.
 
-*   El `pattern` para el patrón de `date and time` devuelve sólo datetime completo formato.
+*   El `pattern` para `date and time` patrón devuelve sólo formato datetime completo.
 
-*   La `timezone` devuelve el nombre de la zona de tiempo completo.
+*   El `timezone` devuelve el nombre de zona de tiempo completo.
 
-*   La propiedad `dst_offset` no es compatible y siempre devuelve cero.
+*   El `dst_offset` no se admite la propiedad, y siempre devuelve cero.
 
 ## navigator.globalization.getFirstDayOfWeek
 
@@ -368,7 +368,7 @@ Si hay un error obteniendo el patrón, entonces el `errorCallback` ejecuta con u
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   BlackBerry 10
 *   Firefox OS
@@ -396,21 +396,21 @@ Devuelve una cadena de patrón para analizar números según las preferencias de
 
 Devuelve el patrón a la `successCallback` con un objeto de `properties` como un parámetro. Ese objeto contiene las siguientes propiedades:
 
-*   **pattern**: el patrón del número a analizar números y el formato. Los patrones siguen [Unicode técnica estándar #35][1]. *(String)*
+*   **patrón**: el patrón del número a analizar números y el formato. Los patrones siguen [Unicode técnica estándar #35][1]. *(String)*
 
-*   **symbol**: el símbolo a utilizar cuando formateo y análisis, como un símbolo por ciento o moneda. *(String)*
+*   **símbolo**: el símbolo a usar cuando formateo y análisis, como un símbolo por ciento o moneda. *(String)*
 
-*   **fraction**: el número de dígitos fraccionarios a utilizar al análisis y el formato de números. *(Número)*
+*   **fracción**: el número de dígitos fraccionarios a utilizar al análisis sintáctico y el formato de números. *(Número)*
 
-*   **rounding**: el redondeo incrementar para usar cuando el análisis sintáctico y formato. *(Número)*
+*   **redondeo**: el redondeo incremento para utilizar al análisis sintáctico y formato. *(Número)*
 
-*   **positive**: el símbolo para números positivos cuando parseo y formato. *(String)*
+*   **positivo**: el símbolo para números positivos al análisis sintáctico y formato. *(String)*
 
-*   **negative**: el símbolo para números negativos al análisis sintáctico y formato. *(String)*
+*   **negativo**: el símbolo para números negativos al análisis sintáctico y formato. *(String)*
 
-*   **decimal**: el símbolo decimal a usar para parsear y formato. *(String)*
+*   **decimal**: el símbolo decimal para analizar y dar formato. *(String)*
 
-*   **grouping**: el símbolo de la agrupación para analizar y dar formato. *(String)*
+*   **agrupación**: el símbolo de la agrupación para analizar y dar formato. *(String)*
 
 Si hay un error obteniendo el patrón, entonces el `errorCallback` ejecuta con un objeto `GlobalizationError` como un parámetro. Código esperado del error es`GlobalizationError.PATTERN_ERROR`.
 
@@ -423,7 +423,7 @@ El `options.type` puede ser `decimal`, `percent` o `currency`.
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -461,9 +461,9 @@ Resultados:
 
 ### Windows Phone 8 rarezas
 
-*   No se admite la propiedad del `pattern` y retuens una cadena vacía.
+*   El `pattern` no se admite la propiedad y retuens una cadena vacía.
 
-*   La `fraction` de propiedad no es compatible y devuelve cero.
+*   El `fraction` no se admite la propiedad, y devuelve cero.
 
 ## navigator.globalization.isDayLightSavingsTime
 
@@ -482,7 +482,7 @@ Si hay un error de lectura de la fecha, entonces el `errorCallback` se ejecuta. 
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   BlackBerry 10
 *   Firefox OS
@@ -551,7 +551,7 @@ Analiza una fecha con formato como una cadena, según las preferencias del usuar
 
 Devuelve la fecha para la devolución de llamada de éxito con un objeto de `properties` como un parámetro. Ese objeto debe tener las siguientes propiedades:
 
-*   **year**: el año de cuatro dígitos. *(Número)*
+*   **año**: el año de cuatro dígitos. *(Número)*
 
 *   **mes**: mes de (0-11). *(Número)*
 
@@ -578,7 +578,7 @@ Si hay un error al analizar la cadena de fecha, entonces el `errorCallback` ejec
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   BlackBerry 10
 *   Firefox OS
@@ -601,7 +601,7 @@ Cuando el navegador se establece en el `en_US` local, muestra un cuadro de diál
 
 ### Windows Phone 8 rarezas
 
-*   La opción `formatLength` admite valores sólo `short` y `full`.
+*   El `formatLength` los soportes de la opción `short` y `full` los valores.
 
 ## navigator.globalization.stringToNumber
 
@@ -625,7 +625,7 @@ El `options.type` puede ser `decimal`, `percent` o `currency`.
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -649,7 +649,7 @@ Un objeto que representa un error de la API de la globalización.
 
 ### Propiedades
 
-*   **code**: Uno de los siguientes códigos que representa el tipo de error *(Número)* 
+*   **Código**: Uno de los siguientes códigos que representa el tipo de error *(Número)* 
     *   GlobalizationError.UNKNOWN_ERROR: 0
     *   GlobalizationError.FORMATTING_ERROR: 1
     *   GlobalizationError.PARSING_ERROR: 2
@@ -662,7 +662,7 @@ Este objeto es creado y poblada por Córdoba y regresó a una devolución de lla
 
 ### Plataformas soportadas
 
-*   Amazon fire OS
+*   Amazon fuego OS
 *   Android
 *   BlackBerry 10
 *   Firefox OS
