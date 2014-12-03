@@ -80,3 +80,9 @@
 
 ### 0.3.2 (Oct 03, 2014)
 * CB-7548 [BlackBerry10] Re-implement getPreferredLanguage() and getLocaleName().
+
+### 0.3.3 (Dec 02, 2014)
+* CB-7977 Mention `deviceready` in plugin docs
+* [CB-7766] Add quirk note about **Android** `dateToString`
+* Errors in weekdays fixedli; `getDateNames` should return (Sun - Sat) in all locales; `getFirstDayOfWeek` should return 1 for Sunday and 2 for Monday; bunch of jsHint fixes
+* CB-7700 cordova-plugin-globalization documentation translation: cordova-plugin-globalization
