@@ -266,7 +266,7 @@ namespace GlobalizationProxy.Globalization
             }
 
             DateTime date = DateTime.ParseExact(globalOptions.DateString, format, CultureInfo.CurrentCulture);
-            return new DateFormat(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond);
+            return new DateFormat(date.Year, date.Month - 1, date.Day, date.Hour, date.Minute, date.Second, date.Millisecond);
         }
 
         /// <summary>
@@ -519,19 +519,19 @@ namespace GlobalizationProxy.Globalization
                 case GlobalizationOptions.Percent:
                     {
                         symbol = formatInfo.PercentSymbol;
-                        pattern = new NumberPattern("", symbol, 0, formatInfo.PercentPositivePattern.ToString(), formatInfo.PercentNegativePattern.ToString(), 0, formatInfo.PercentDecimalSeparator, formatInfo.PercentGroupSeparator);
+                        pattern = new NumberPattern("", symbol, 0, formatInfo.PercentPositivePattern.ToString(), formatInfo.NegativeSign, 0, formatInfo.PercentDecimalSeparator, formatInfo.PercentGroupSeparator);
                         break;
                     }
                 case GlobalizationOptions.Currency:
                     {
                         symbol = formatInfo.CurrencySymbol;
-                        pattern = new NumberPattern("", symbol, 0, formatInfo.CurrencyPositivePattern.ToString(), formatInfo.CurrencyNegativePattern.ToString(), 0, formatInfo.CurrencyDecimalSeparator, formatInfo.CurrencyGroupSeparator);
+                        pattern = new NumberPattern("", symbol, 0, formatInfo.CurrencyPositivePattern.ToString(), formatInfo.NegativeSign, 0, formatInfo.CurrencyDecimalSeparator, formatInfo.CurrencyGroupSeparator);
                         break;
                     }
                 default:
                     {
                         symbol = formatInfo.NumberDecimalSeparator;
-                        pattern = new NumberPattern("", symbol, 0, "", formatInfo.NumberNegativePattern.ToString(), 0, formatInfo.NumberDecimalSeparator, formatInfo.NumberGroupSeparator);
+                        pattern = new NumberPattern("", symbol, 0, "", formatInfo.NegativeSign, 0, formatInfo.NumberDecimalSeparator, formatInfo.NumberGroupSeparator);
                         break;
                     }
             }

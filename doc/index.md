@@ -168,7 +168,7 @@ by a hyphen.
 ### Windows Quirks
 
 - Locale setting can be changed in Control Panel -> Clock, Language and Region 
--> Region -> Administrative -> Change system locale on Windows 8.1/8.0, 
+-> Region -> Formats -> Format, 
 and in Settings -> Region -> Regional Format on Windows Phone 8.1.
 
 
@@ -286,6 +286,7 @@ error's expected code is `GlobalizationError.FORMATTING_ERROR`.
 - Android
 - BlackBerry 10
 - iOS
+- Windows
 
 ### Example
 
@@ -314,6 +315,10 @@ Expected result:
     rounding: 0
     decimal: .
     grouping: ,
+
+### Windows Quirks
+
+- Only 'code' and 'fraction' properties are supported
 
 
 ## navigator.globalization.getDateNames
@@ -380,7 +385,7 @@ a series of twelve popup dialogs, one per month, with text similar to
 
 ### Windows Quirks
 
-- The array of months contains 13 elements.
+- The array of months contains 12 elements.
 - The returned array may be not completely aligned with ICU depending on a user locale.
 
 ## navigator.globalization.getDatePattern
@@ -590,8 +595,6 @@ Results:
 
 - The `pattern` property is not supported, and returns an empty string.
 
-- The `fraction` property is not supported, and returns zero.
-
 
 ## navigator.globalization.isDayLightSavingsTime
 
@@ -680,6 +683,13 @@ dialog with text similar to `number: 3.142`:
         {type:'decimal'}
     );
 
+### Windows Quirks
+
+- Windows 8.0 does not support number rounding, therefore values will not be rounded automatically.
+
+- On Windows 8.1 and Windows Phone 8.1 fractional part is being truncated instead of rounded in case of `percent` number type therefore fractional digits count is set to 0.
+
+- `percent` numbers are not grouped as they can't be parsed in stringToNumber if grouped.
 
 ## navigator.globalization.stringToDate
 
@@ -813,6 +823,16 @@ popup dialog with text similar to `number: 1234.56`:
         {type:'decimal'}
     );
 
+### Windows Phone 8 Quirks	
+
+- In case of `percent` type the returned value is not divided by 100.
+
+### Windows Quirks	
+	
+- The string must strictly conform to the locale format. For example, percent symbol should be 
+separated by space for 'en-US' locale if the type parameter is 'percent'.
+
+- `percent` numbers must not be grouped to be parsed correctly.
 
 ## GlobalizationError
 

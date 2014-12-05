@@ -50,12 +50,16 @@ exports.defineAutoTests = function () {
                 },
                 fail.bind(null, done));
             });
-            it("globalization.spec.4 getPreferredLanguage return string should have a hyphen", function (done) {
+            it("globalization.spec.4 getPreferredLanguage return string should contain one or more language subtags separated by hyphen", function (done) {
                 navigator.globalization.getPreferredLanguage(function (a) {
                     checkPreferredLanguage(a);
                     expect(a.value.indexOf('_')).toBe(-1);
-                    expect(a.value.indexOf('-')).toBeGreaterThan(0);
-                    done()
+
+                    // A language tag is composed from a sequence of one or more "subtags", separated by hyphen.
+                    // https://tools.ietf.org/html/bcp47#section-2.1
+                    expect(a.value.split('-').length).toBeGreaterThan(0); 
+
+                    done();
                 }, fail.bind(null, done));
             });
         });
