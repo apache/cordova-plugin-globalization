@@ -30,7 +30,6 @@
 {
     CDVPluginResult* result = nil;
 
-    NSLog(@"log1");
     // Source: http://stackoverflow.com/questions/3910244/getting-current-device-language-in-ios
     // (should be OK)
     NSString* language = [[NSLocale preferredLanguages] objectAtIndex:0];
