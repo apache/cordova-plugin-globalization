@@ -88,6 +88,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -118,6 +119,10 @@ not determined by the unrelated "Country/Region" setting on Windows Phone.
 of the regional variant corresponding to the "Language" setting, separated by
 a hyphen.
 
+### Browser Quirks
+
+- Falls back on getLocaleName
+
 ## navigator.globalization.getLocaleName
 
 Returns the BCP 47 compliant tag for the client's current locale setting.
@@ -145,6 +150,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -173,6 +179,9 @@ by a hyphen.
 -> Region -> Formats -> Format, 
 and in Settings -> Region -> Regional Format on Windows Phone 8.1.
 
+### Browser Quirks
+
+- IE returns the locale of operating system. Chrome and Firefox return browser language tag.
 
 ## navigator.globalization.dateToString
 
@@ -208,6 +217,7 @@ The `options.selector` can be `date`, `time` or `date and time`.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -245,6 +255,14 @@ options:
 - The pattern for 'date and time' selector is always a full datetime format.
 
 - The returned value may be not completely aligned with ICU depending on a user locale.
+
+### Browser Quirks
+
+- Only 79 locales are supported because moment.js is used in this method.
+
+- The returned value may be not completely aligned with ICU depending on a user locale.
+
+- `time` selector supports `full` and `short` formatLength only.
 
 ### Firefox OS Quirks
 
@@ -359,6 +377,7 @@ The value of `options.item` can be `months` or `days`.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -389,6 +408,11 @@ a series of twelve popup dialogs, one per month, with text similar to
 
 - The array of months contains 12 elements.
 - The returned array may be not completely aligned with ICU depending on a user locale.
+
+### Browser Quirks
+
+- Date names are not completely aligned with ICU
+- The array of months contains 12 elements.
 
 ## navigator.globalization.getDatePattern
 
@@ -430,6 +454,7 @@ time`.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -468,6 +493,13 @@ a popup dialog with text such as `pattern: M/d/yyyy h:mm a`:
 
 - The pattern may be not completely aligned with ICU depending on a user locale.
 
+### Browser Quirks
+
+- The 'pattern' property is not supported and returns empty string.
+
+- Only Chrome returns 'timezone' property. Its format is "Part of the world/{City}".
+Other browsers return empty string.
+
 ## navigator.globalization.getFirstDayOfWeek
 
 Returns the first day of the week according to the client's user
@@ -495,6 +527,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -510,6 +543,10 @@ popup dialog with text similar to `day: 1`.
 
 - On Windows 8.0/8.1 the value depends on user' calendar preferences. On Windows Phone 8.1 
 the value depends on current locale.
+
+### Browser Quirks
+
+- Only 79 locales are supported because moment.js is used in this method.
 
 ## navigator.globalization.getNumberPattern
 
@@ -556,6 +593,7 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -598,6 +636,10 @@ Results:
 - The `pattern` property is not supported, and returns an empty string.
 
 
+### Browser Quirks
+
+- getNumberPattern is supported in Chrome only; the only defined property is `pattern`.
+
 ## navigator.globalization.isDayLightSavingsTime
 
 Indicates whether daylight savings time is in effect for a given date
@@ -627,6 +669,7 @@ executes. The error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -672,6 +715,7 @@ The `options.type` can be 'decimal', 'percent', or 'currency'.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -692,6 +736,10 @@ dialog with text similar to `number: 3.142`:
 - On Windows 8.1 and Windows Phone 8.1 fractional part is being truncated instead of rounded in case of `percent` number type therefore fractional digits count is set to 0.
 
 - `percent` numbers are not grouped as they can't be parsed in stringToNumber if grouped.
+
+### Browser Quirks
+
+- `currency` type is not supported.
 
 ## navigator.globalization.stringToDate
 
@@ -744,6 +792,7 @@ error's expected code is `GlobalizationError.PARSING_ERROR`.
 - iOS
 - Windows Phone 8
 - Windows
+- Browser
 
 ### Example
 
@@ -778,6 +827,14 @@ This pattern may be not completely aligned with ICU depending on a user locale.
 
 - The inbound `dateString` parameter should be formed in compliance with a pattern returned by getDatePattern.
 This pattern may be not completely aligned with ICU depending on a user locale.
+
+### Browser Quirks
+
+- Only 79 locales are supported because moment.js is used in this method.
+
+- Inbound string should be aligned with `dateToString` output format and may not completely aligned with ICU depending on a user locale.
+
+- `time` selector supports `full` and `short` formatLength only.
 
 ## navigator.globalization.stringToNumber
 

@@ -21,7 +21,8 @@
 
 exports.defineAutoTests = function () {
     var isWindowsPhone = cordova.platformId == 'windowsphone',
-        isWindows = (cordova.platformId === "windows") || (cordova.platformId === "windows8");
+        isWindows = (cordova.platformId === "windows") || (cordova.platformId === "windows8"),
+        isBrowser = cordova.platformId === "browser";
 
     var fail = function (done) {
         expect(true).toBe(false);
@@ -89,8 +90,13 @@ exports.defineAutoTests = function () {
                 navigator.globalization.getLocaleName(function (a) {
                     checkLocaleName(a);
                     expect(a.value.indexOf('_')).toBe(-1);
-                    expect(a.value.indexOf('-')).toBeGreaterThan(0);
-                    done()
+                    if (!isBrowser){
+                        // The browser implementation returns non-BCP 47 compatible
+                        // value in Chrome so we need to skip this expectation. See
+                        // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-1
+                        expect(a.value.indexOf('-')).toBeGreaterThan(0);
+                    }
+                    done();
                 }, fail.bind(null, done));
             });
         });
@@ -240,9 +246,19 @@ exports.defineAutoTests = function () {
                 expect(typeof a).toBe('object');
                 expect(a.pattern).toBeDefined();
                 expect(typeof a.pattern).toBe('string');
-                expect(a.pattern.length > 0).toBe(true);
+                if (!isBrowser) {
+                    // In browser the 'pattern' property is not supported and returns empty string.
+                    // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-4
+                    expect(a.pattern.length > 0).toBe(true);
+                }
                 expect(a.timezone).toBeDefined();
                 expect(typeof a.timezone).toBe('string');
+                if (!isBrowser) {
+                    // The browser platform partially supports 'timezone'. Only Chrome returns 'timezone' property.
+                    // Its format is "Part of the world/{City}". Other browsers return empty string.
+                    // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-4
+                    expect(a.pattern.length > 0).toBe(true);
+                }
                 expect(a.timezone.length > 0).toBe(true);
                 expect(a.utc_offset).toBeDefined();
                 expect(typeof a.utc_offset).toBe('number');
@@ -375,6 +391,11 @@ exports.defineAutoTests = function () {
                 { type: 'percent' });
             });
             it("globalization.spec.32 numberToString using type=currency options, should be called with a Properties object", function (done) {
+                // the numberToString using type=currency is not supported on browser
+                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-7
+                if (isBrowser) {
+                    pending();
+                }
                 navigator.globalization.numberToString(5.20, function (a) {
                     checkNumberToString(a);
                     done();
@@ -396,6 +417,11 @@ exports.defineAutoTests = function () {
                 expect(typeof navigator.globalization.stringToNumber == 'function').toBe(true);
             });
             it("globalization.spec.34 stringToNumber using default options, should be called with a Properties object", function (done) {
+                // the stringToNumber is not supported on browser
+                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#supported-platforms-11
+                if (isBrowser) {
+                    pending();
+                }
                 var win = function (a) {
                     checkStringToNumber(a);
                     done();
@@ -406,6 +432,11 @@ exports.defineAutoTests = function () {
                 }, fail.bind(null, done));
             });
             it("globalization.spec.35 stringToNumber using type=percent options, should be called with a Properties object", function (done) {
+                // the stringToNumber is not supported on browser
+                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#supported-platforms-11
+                if (isBrowser) {
+                    pending();
+                }
                 var win = function (a) {
                     checkStringToNumber(a);
                     done();
@@ -446,9 +477,10 @@ exports.defineAutoTests = function () {
                 expect(typeof navigator.globalization.getNumberPattern == 'function').toBe(true);
             });
             it("globalization.spec.37 getNumberPattern using default options, success callback should be called with a Properties object", function (done) {
-                // the pattern property is not supported on windows and windows phone
+                // the pattern property is not supported on windows, windows phone and browser
                 // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-phone-8-quirks-5
-                if (isWindows || isWindowsPhone) {
+                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-6
+                if (isWindows || isWindowsPhone || isBrowser) {
                     pending();
                 }
                 navigator.globalization.getNumberPattern(function (a) {
@@ -457,9 +489,10 @@ exports.defineAutoTests = function () {
                 }, fail.bind(null, done));
             });
             it("globalization.spec.38 getNumberPattern using type=percent, success callback should be called with a Properties object", function (done) {
-                // the pattern property is not supported on windows and windows phone
+                // the pattern property is not supported on windows, windows phone and browser
                 // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-phone-8-quirks-5
-                if (isWindows || isWindowsPhone) {
+                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-6
+                if (isWindows || isWindowsPhone || isBrowser) {
                     pending();
                 }
                 navigator.globalization.getNumberPattern(function (a) {
@@ -468,9 +501,10 @@ exports.defineAutoTests = function () {
                 }, fail.bind(null, done), { type: 'percent' });
             });
             it("globalization.spec.39 getNumberPattern using type=currency, success callback should be called with a Properties object", function (done) {
-                // the pattern property is not supported on windows and windows phone
+                // the pattern property is not supported on windows, windows phone and browser
                 // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-phone-8-quirks-5
-                if (isWindows || isWindowsPhone) {
+                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-6
+                if (isWindows || isWindowsPhone || isBrowser) {
                     pending();
                 }
                 navigator.globalization.getNumberPattern(function (a) {
@@ -492,8 +526,8 @@ exports.defineAutoTests = function () {
             it("globalization.spec.41 getCurrencyPattern using EUR for currency, success callback should be called with a Properties object", function (done) {
                 // only `code` and `fraction` properties are supported on windows
                 // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-quirks-3
-                // wp8 is unsupported
-                if (isWindowsPhone || isWindows) {
+                // wp8 and browser are unsupported
+                if (isWindowsPhone || isWindows || isBrowser) {
                     pending();
                 }
                 navigator.globalization.getCurrencyPattern("EUR", function (a) {
