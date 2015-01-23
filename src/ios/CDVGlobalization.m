@@ -106,7 +106,7 @@
     NSDictionary* options;
 
     if ([command.arguments count] > 0) {
-        options = [command.arguments objectAtIndex:0];
+        options = [command argumentAtIndex:0];
     }
     if (!options) {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
@@ -205,7 +205,7 @@
     NSDictionary* options;
 
     if ([command.arguments count] > 0) {
-        options = [command.arguments objectAtIndex:0];
+        options = [command argumentAtIndex:0];
     }
     if (!options) {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
@@ -330,7 +330,7 @@
     NSDictionary* options;
 
     if ([command.arguments count] > 0) {
-        options = [command.arguments objectAtIndex:0];
+        options = [command argumentAtIndex:0];
     }
     if (!options) {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
@@ -429,7 +429,7 @@
     NSDictionary* options;
 
     if ([command.arguments count] > 0) {
-        options = [command.arguments objectAtIndex:0];
+        options = [command argumentAtIndex:0];
     }
     if (!options) {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
@@ -513,7 +513,7 @@
     NSDictionary* options;
 
     if ([command.arguments count] > 0) {
-        options = [command.arguments objectAtIndex:0];
+        options = [command argumentAtIndex:0];
     }
     if (!options) {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
@@ -579,7 +579,7 @@
     NSDictionary* options;
 
     if ([command.arguments count] > 0) {
-        options = [command.arguments objectAtIndex:0];
+        options = [command argumentAtIndex:0];
     }
     if (!options) {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
@@ -656,7 +656,7 @@
     NSDictionary* options;
 
     if ([command.arguments count] > 0) {
-        options = [command.arguments objectAtIndex:0];
+        options = [command argumentAtIndex:0];
     }
     if (!options) {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
@@ -740,7 +740,7 @@
     NSDictionary* options;
 
     if ([command.arguments count] > 0) {
-        options = [command.arguments objectAtIndex:0];
+        options = [command argumentAtIndex:0];
     }
     if (!options) {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
@@ -834,7 +834,7 @@
     NSDictionary* options;
 
     if ([command.arguments count] > 0) {
-        options = [command.arguments objectAtIndex:0];
+        options = [command argumentAtIndex:0];
     }
     if (!options) {
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no options given"];
