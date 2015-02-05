@@ -86,3 +86,7 @@
 * [CB-7766] Add quirk note about **Android** `dateToString`
 * Errors in weekdays fixedli; `getDateNames` should return (Sun - Sat) in all locales; `getFirstDayOfWeek` should return 1 for Sunday and 2 for Monday; bunch of jsHint fixes
 * CB-7700 cordova-plugin-globalization documentation translation: cordova-plugin-globalization
+
+### 0.3.4 (Feb 04, 2015)
+* CB-8351 ios: Use argumentForIndex rather than NSArray extension
+* CB-7972 Add cordova-plugin-globalization support for Windows platform
