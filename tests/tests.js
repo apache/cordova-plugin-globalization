@@ -20,6 +20,9 @@
 */
 
 exports.defineAutoTests = function () {
+    var isWindowsPhone = cordova.platformId == 'windowsphone',
+        isWindows = (cordova.platformId === "windows") || (cordova.platformId === "windows8");
+
     var fail = function (done) {
         expect(true).toBe(false);
         done();
@@ -443,18 +446,33 @@ exports.defineAutoTests = function () {
                 expect(typeof navigator.globalization.getNumberPattern == 'function').toBe(true);
             });
             it("globalization.spec.37 getNumberPattern using default options, success callback should be called with a Properties object", function (done) {
+                // the pattern property is not supported on windows and windows phone
+                // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-phone-8-quirks-5
+                if (isWindows || isWindowsPhone) {
+                    pending();
+                }
                 navigator.globalization.getNumberPattern(function (a) {
                     checkNumberPattern(a);
                     done();
                 }, fail.bind(null, done));
             });
             it("globalization.spec.38 getNumberPattern using type=percent, success callback should be called with a Properties object", function (done) {
+                // the pattern property is not supported on windows and windows phone
+                // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-phone-8-quirks-5
+                if (isWindows || isWindowsPhone) {
+                    pending();
+                }
                 navigator.globalization.getNumberPattern(function (a) {
                     checkNumberPattern(a);
                     done();
                 }, fail.bind(null, done), { type: 'percent' });
             });
             it("globalization.spec.39 getNumberPattern using type=currency, success callback should be called with a Properties object", function (done) {
+                // the pattern property is not supported on windows and windows phone
+                // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-phone-8-quirks-5
+                if (isWindows || isWindowsPhone) {
+                    pending();
+                }
                 navigator.globalization.getNumberPattern(function (a) {
                     checkNumberPattern(a);
                     done();
@@ -464,10 +482,20 @@ exports.defineAutoTests = function () {
 
         describe("getCurrencyPattern", function () {
             it("globalization.spec.1 should exist", function () {
+                // wp8 is unsupported
+                if (isWindowsPhone) {
+                    pending();
+                }
                 expect(typeof navigator.globalization.getCurrencyPattern).toBeDefined();
                 expect(typeof navigator.globalization.getCurrencyPattern == 'function').toBe(true);
             });
             it("globalization.spec.41 getCurrencyPattern using EUR for currency, success callback should be called with a Properties object", function (done) {
+                // only `code` and `fraction` properties are supported on windows
+                // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-quirks-3
+                // wp8 is unsupported
+                if (isWindowsPhone || isWindows) {
+                    pending();
+                }
                 navigator.globalization.getCurrencyPattern("EUR", function (a) {
                     expect(a).toBeDefined();
                     expect(typeof a).toBe('object');
