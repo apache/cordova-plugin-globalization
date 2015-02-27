@@ -21,6 +21,16 @@
 
 이 플러그인 정보를 가져오고 사용자의 로캘, 언어 및 표준 시간대에 특정 작업을 수행 합니다. 로캘 및 언어의 차이점을 참고: 로캘 어떻게 숫자, 날짜 및 시간 표시 되는 제어 영역의 언어 어떤 언어 텍스트를 결정 하는 반면, 로캘 설정에 관계 없이 나타납니다. 종종 개발자 로캘 설정을 모두를 사용 하 여 하지만 거기에 아무 이유 없이 사용자 "영어"로 그녀의 언어를 설정할 수 없습니다 있지만 "프랑스어" 로캘을 영어 하지만 날짜, 시간, 등, 텍스트 표시 되도록 표시 됩니다 그들은 프랑스에. 불행히도, 대부분의 모바일 플랫폼 현재 만들지 않는다 이러한 설정 구분.
 
+이 플러그인 글로벌 `navigator.globalization` 개체를 정의합니다.
+
+전역 범위에 있지만 그것은 불가능까지 `deviceready` 이벤트 후.
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(navigator.globalization);
+    }
+    
+
 ## 설치
 
     cordova plugin add org.apache.cordova.globalization
@@ -54,9 +64,9 @@
 
 ### 설명
 
-BCP 47 규격 언어 식별자 태그를 반환 합니다는 `successCallback` 와 `properties` 개체를 매개 변수로 합니다. 있어야 해당 개체는 `value` 속성을 `String` 값.
+매개 변수로 `속성` 개체와 `successCallback`를 BCP 47 규격 언어 식별자 태그를 반환합니다. 해당 개체 `값` 속성을 `문자열` 값으로 있어야 합니다.
 
-언어, 점점 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.UNKNOWN_ERROR`.
+점점 언어 오류가 있는 경우에, 다음 `errorCallback` 실행 `GlobalizationError` 개체와 매개 변수로. 오류의 예상된 코드는 `GlobalizationError.UNKNOWN_ERROR`.
 
 ### 지원 되는 플랫폼
 
@@ -66,10 +76,11 @@ BCP 47 규격 언어 식별자 태그를 반환 합니다는 `successCallback` �
 *   Firefox 운영 체제
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en-US` 언어,이 텍스트와 함께 팝업 대화 상자를 표시 한다 `language: en-US` :
+브라우저 `EN-US` 언어로 설정 되어,이 텍스트와 함께 팝업 대화 상자가 표시 되어야 합니다 `언어: en-US`:
 
     navigator.globalization.getPreferredLanguage(
         function (language) {alert('language: ' + language.value + '\n');},
@@ -86,6 +97,10 @@ BCP 47 규격 언어 식별자 태그를 반환 합니다는 `successCallback` �
 *   반환 ISO 639-1 두 글자 언어 코드 및 ISO 3166-1 국가 코드의 "언어" 설정, 하이픈으로 구분 된 해당 지역 이체.
 *   Note 지역 변종 "언어" 설정의 속성 이며 Windows Phone 관련 없는 "국가/지역" 설정에 의해 결정 되지.
 
+### 윈도우 특수
+
+*   반환 ISO 639-1 두 글자 언어 코드 및 ISO 3166-1 국가 코드의 "언어" 설정, 하이픈으로 구분 된 해당 지역 이체.
+
 ## navigator.globalization.getLocaleName
 
 클라이언트의 현재 로캘 설정에 대 한 BCP 47 호환 태그를 반환합니다.
@@ -95,9 +110,9 @@ BCP 47 규격 언어 식별자 태그를 반환 합니다는 `successCallback` �
 
 ### 설명
 
-BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback` 와 함께 한 `properties` 개체를 매개 변수로. 있어야 해당 개체는 `value` 속성을 `String` 값. 두 자리 소문자 언어 코드, 두 글자 대문자 국가 코드와 하이픈으로 분리 된 (지정 되지 않은) 변형 코드 로캘 태그 구성 됩니다.
+매개 변수로 `properties` 개체와 `successCallback`를 BCP 47 규격 언어 식별자 태그를 반환합니다. 해당 개체 `value` 속성을 `String` 값으로 있어야 합니다. 두 자리 소문자 언어 코드, 두 글자 대문자 국가 코드와 하이픈으로 분리 된 (지정 되지 않은) 변형 코드 로캘 태그 구성 됩니다.
 
-로캘, 점점 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.UNKNOWN_ERROR`.
+로케일을 받고 오류가 있는 경우에, 다음 `errorCallback` 실행 `GlobalizationError` 개체와 매개 변수로. 오류의 예상된 코드는 `GlobalizationError.UNKNOWN_ERROR`.
 
 ### 지원 되는 플랫폼
 
@@ -107,10 +122,11 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 *   Firefox 운영 체제
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en-US` 로케일, 텍스트와 함께 팝업 대화 상자가 표시 됩니다`locale: en-US`.
+이 텍스트와 함께 팝업 대화 상자를 표시 하는 브라우저는 `en-US` 로케일으로 설정 되어, `로캘: EN-US`.
 
     navigator.globalization.getLocaleName(
         function (locale) {alert('locale: ' + locale.value + '\n');},
@@ -120,11 +136,15 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 
 ### 안 드 로이드 단점
 
-*   자바 구분 하지 않습니다 설정된 "언어"를 설정된 "로캘" 이므로이 방법은 기본적으로 동일`navigator.globalizatin.getPreferredLanguage()`.
+*   자바 구분 하지 않습니다 설정된 "language"를 설정된 "locale" 그래서이 메서드는 기본적으로 `navigator.globalizatin.getPreferredLanguage()`와 동일.
 
 ### Windows Phone 8 단점
 
 *   반환 ISO 639-1 두 글자 언어 코드 및 ISO 3166-1 국가 코드 지역 변형 하이픈으로 구분 된 "지역 포맷" 설정에 해당 합니다.
+
+### 윈도우 특수
+
+*   시계, 언어 및 지역 지역 포맷 형식,->->->-> 제어판에서 및 Windows Phone 8.1에 국가별 형식-> 지역의-> 설정에서 로캘 설정을 변경할 수 있습니다.
 
 ## navigator.globalization.dateToString
 
@@ -135,20 +155,20 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 
 ### 설명
 
-서식이 지정 된 날짜를 반환 합니다 `String` 통해는 `value` 개체에서 액세스할 수 있는 속성을 매개 변수로 전달 되는`successCallback`.
+`successCallback` 매개 변수로 전달 된 개체에서 액세스할 수 있는 `값` 속성을 통해 `문자열` 형식이 지정 된 날짜를 반환.
 
-인바운드는 `date` 매개 변수 유형 이어야 합니다`Date`.
+인바운드 `date` 매개 변수는 `Date` 형식 이어야 합니다..
 
-날짜 서식을 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.FORMATTING_ERROR`.
+날짜 형식 오류가 있는 경우에, 다음 `errorCallback` 실행 `GlobalizationError` 개체와 매개 변수로. 오류의 예상된 코드는 `GlobalizationError.FORMATTING_ERROR`.
 
-`options`매개 변수는 선택적 이며 그것의 기본 값은:
+`options` 매개 변수는 선택적 이며 그것의 기본 값은:
 
-    {formatLength: '짧은' 선택기: '날짜 및 시간'}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`수 있는 `short` , `medium` , `long` , 또는`full`.
+`options.formatLength` `short`, `medium`, `long` 또는 `full` 수 있습니다..
 
-`options.selector`수 있는 `date` , `time` 또는`date and time`.
+`options.selector` `date`, `time` 또는 `date and time` 수 있습니다..
 
 ### 지원 되는 플랫폼
 
@@ -158,10 +178,11 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 *   Firefox 운영 체제
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우는 `en_US` 로케일,이 텍스트에 유사한 팝업 대화 상자가 표시 됩니다 `date: 9/25/2012 4:21PM` 기본 옵션을 사용 하 여:
+이 텍스트와 유사한 팝업 대화 상자를 표시 하는 브라우저 `en_US` 로케일으로 설정 되어 있으면 `날짜: 2012 년 9 월 25 일 오후 4 시 21 분` 기본 옵션을 사용 하 여:
 
     navigator.globalization.dateToString(
         new Date(),
@@ -171,14 +192,33 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
     );
     
 
+### 안 드 로이드 단점
+
+*   `formatLength` 옵션은 유니코드 [UTS #35][1]의 하위 집합입니다. 내에서 사용자 선택한 날짜 형식에는 기본 옵션 `짧은` 따라 `설정-> 시스템-> 날짜 및 시간 날짜 형식을 선택->`, 4 자리, 2 자리 하지와 `년` 패턴을 제공 하는. 즉 그 하지 완전히 정렬 되 [중 환자 실][2].
+
+ [1]: http://unicode.org/reports/tr35/tr35-4.html
+ [2]: http://demo.icu-project.org/icu-bin/locexp?d_=en_US&_=en_US
+
 ### Windows Phone 8 단점
 
-*   `formatLength`만 지원 옵션 `short` 및 `full` 값.
+*   `formatLength` 옵션 `short` 하 고 `full` 값만 지원합니다.
+
+*   'date and time' 선택기에 대 한 패턴은 항상 전체 날짜/시간 형식입니다.
+
+*   반환 된 값 사용자 로캘에 따라 ICU와 완전히 정렬 수 있습니다.
+
+### 윈도우 특수
+
+*   `formatLength` 옵션 `short` 하 고 `full` 값만 지원합니다.
+
+*   'date and time' 선택기에 대 한 패턴은 항상 전체 날짜/시간 형식입니다.
+
+*   반환 된 값 사용자 로캘에 따라 ICU와 완전히 정렬 수 있습니다.
 
 ### 파이어 폭스 OS 단점
 
-*   `formatLength`구별 하지 `long` 및`full` 
-*   날짜를 표시 하는 하나의 방법을 (아무 `long` 또는 `full` 버전)
+*   `formatLength` `long` 및 `full`를 구별 하지는 
+*   날짜 (아니 `long` 또는 `full` 버전)를 표시 하는 하나의 방법
 
 ## navigator.globalization.getCurrencyPattern
 
@@ -189,25 +229,23 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 
 ### 설명
 
-패턴을 반환 합니다에 `successCallback` 와 함께 한 `properties` 개체를 매개 변수로. 해당 개체에는 다음과 같은 속성이 포함 되어야 합니다.
+매개 변수로 `properties` 개체와 `successCallback`에 패턴을 반환합니다. 해당 개체에는 다음과 같은 속성이 포함 되어야 합니다.
 
-*   **패턴**: 통화 패턴 서식을 지정 하 여 통화 값을 구문 분석 합니다. 패턴에 따라 [유니코드 기술 표준 #35][1]. *(문자열)*
+*   **pattern**: 통화 패턴 서식을 지정 하 여 통화 값을 구문 분석 합니다. 패턴에 따라 [유니코드 기술 표준 #35][1]. *(문자열)*
 
-*   **코드**: ISO 4217 통화 코드 패턴. *(문자열)*
+*   **code**: ISO 4217 통화 코드 패턴. *(문자열)*
 
-*   **분수**: 구문 분석 하 고 통화 서식을 사용 하 여 소수 자릿수의 수. *(수)*
+*   **fraction**: 구문 분석 하 고 통화 서식을 사용 하 여 소수 자릿수의 수. *(수)*
 
-*   **반올림**: 라운딩 때 구문 분석 및 서식 지정을 사용 하 여 증가 합니다. *(수)*
+*   **rounding**: 라운딩 때 구문 분석 및 서식 지정을 사용 하 여 증가 합니다. *(수)*
 
-*   **10 진수**: 구문 분석 및 서식 지정에 사용할 소수점 기호가. *(문자열)*
+*   **decimal**: 구문 분석 및 서식 지정에 사용할 소수점 기호가. *(문자열)*
 
-*   **그룹화**: 구문 분석 및 서식 지정에 사용할 그룹화 기호. *(문자열)*
+*   **grouping**: 구문 분석 및 서식 지정에 사용할 그룹화 기호. *(문자열)*
 
- [1]: http://unicode.org/reports/tr35/tr35-4.html
+인바운드 `currencyCode` 매개 변수는 ISO 4217 통화 코드, 예를 들어 '미화' 중 하나의 `문자열` 이어야 합니다.
 
-인바운드는 `currencyCode` 매개 변수 이어야 합니다는 `String` 의 ISO 4217 통화 코드, 예를 들어 '미화' 중 하나.
-
-패턴을 얻는 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.FORMATTING_ERROR`.
+오류 패턴을 얻는 경우에, 다음 `errorCallback` 실행 `GlobalizationError` 개체와 매개 변수로. 오류의 예상된 코드는 `GlobalizationError.FORMATTING_ERROR`.
 
 ### 지원 되는 플랫폼
 
@@ -215,10 +253,11 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 *   안 드 로이드
 *   블랙베리 10
 *   iOS
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en_US` 로캘 및 선택한 통화는 미국 달러,이 예제에서는 수행 결과를 유사한 텍스트와 팝업 대화 상자가 표시 됩니다:
+브라우저 `en_US` 로케일으로 설정 되어 있고 선택한 통화는 미국 달러,이 예제 수행 결과를 유사한 텍스트 팝업 대화 상자를 표시 합니다.
 
     navigator.globalization.getCurrencyPattern(
         'USD',
@@ -244,6 +283,10 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
     grouping: ,
     
 
+### 윈도우 특수
+
+*   'code'와 'fraction' 속성만 지원 됩니다.
+
 ## navigator.globalization.getDateNames
 
 달의 이름 또는 클라이언트의 사용자 환경 설정 및 일정에 따라 매일의 배열을 반환합니다.
@@ -253,18 +296,18 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 
 ### 설명
 
-이름의 배열을 반환 합니다는 `successCallback` 와 `properties` 개체를 매개 변수로 합니다. 해당 개체를 포함 한 `value` 속성으로는 `Array` 의 `String` 값. 배열 기능 이름과 년 또는 선택한 옵션에 따라 일주일의 첫날 첫 번째 달에서 시작.
+매개 변수로 `properties` 개체와 `successCallback`에 이름 배열을 반환합니다. 해당 개체에는 `value` 속성을의 `문자열` 값 `배열` 포함 되어 있습니다. 배열 기능 이름과 년 또는 선택한 옵션에 따라 일주일의 첫날 첫 번째 달에서 시작.
 
-이름을 얻는 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.UNKNOWN_ERROR`.
+이름을 얻는 오류가 있는 경우에, 다음 `errorCallback` 실행 `GlobalizationError` 개체와 매개 변수로. 오류의 예상된 코드는 `GlobalizationError.UNKNOWN_ERROR`.
 
-`options`매개 변수는 선택적 이며 그것의 기본 값은:
+`options` 매개 변수는 선택적 이며 그것의 기본 값은:
 
     {type:'wide', item:'months'}
     
 
-값 `options.type` 일 수 있다 `narrow` 또는`wide`.
+`narrow` 또는 `wide` `options.type`의 값 수 있습니다..
 
-값 `options.item` 일 수 있다 `months` 또는`days`.
+`pptions.item`의 값은 `month` 또는 `days` 수 있습니다..
 
 ### 지원 되는 플랫폼
 
@@ -274,10 +317,11 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 *   Firefox 운영 체제
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en_US` 로케일,이 예에서는 표시 12 팝업 대화 상자, 텍스트 비슷한 한달에 하나 시리즈 `month: January` :
+브라우저는 `en_US` 로케일으로 설정 되어,이 예에서는 표시 12 팝업 대화 상자, 텍스트 비슷한 한달에 하나 시리즈 `달: 1 월`:
 
     navigator.globalization.getDateNames(
         function (names) {
@@ -292,7 +336,17 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 
 ### 파이어 폭스 OS 단점
 
-*   `options.type`지원 한 `genitive` 값, 일부 언어에 대 한 중요 한
+*   `options.type` `genitive` 값, 일부 언어에 대 한 중요 한 지원
+
+### Windows Phone 8 단점
+
+*   달의 배열 13 요소가 포함 됩니다.
+*   반환 된 배열은 사용자 로캘에 따라 ICU와 완전히 정렬 수 있습니다.
+
+### 윈도우 특수
+
+*   달의 배열에는 12 요소가 포함 됩니다.
+*   반환 된 배열은 사용자 로캘에 따라 ICU와 완전히 정렬 수 있습니다.
 
 ## navigator.globalization.getDatePattern
 
@@ -303,25 +357,24 @@ BCP 47 준수 로캘 식별자 문자열을 반환 합니다에 `successCallback
 
 ### 설명
 
-패턴을 반환 합니다 `successCallback` . 매개 변수로 전달 된 개체에는 다음 속성이 포함 되어 있습니다.
+`SuccessCallback`에 패턴을 반환합니다. 매개 변수로 전달 된 개체에는 다음 속성이 포함 되어 있습니다.
 
-*   **패턴**: 포맷 하 고 날짜를 구문 분석할 날짜 및 시간 패턴. 패턴에 따라 [유니코드 기술 표준 #35][1]. *(문자열)*
+*   **pattern**: 포맷 하 고 날짜를 구문 분석할 날짜 및 시간 패턴. 패턴에 따라 [유니코드 기술 표준 #35][1]. *(문자열)*
 
-*   **시간대**: 클라이언트에 표준 시간대의 약식된 이름. *(문자열)*
+*   **timezone**: 클라이언트에 표준 시간대의 약식된 이름. *(문자열)*
 
 *   **utc_offset**: 클라이언트의 시간대와 세계시 간의 초에서 현재 차이. *(수)*
 
 *   **dst_offset**: 클라이언트의 비 일광 절약 간격 (초)에 현재 일광 절약 시간제 오프셋의 시간대와 클라이언트의 일광 절약의 시간대. *(수)*
 
-패턴을 얻는 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로 합니다. 오류의 예상 된 코드는`GlobalizationError.PATTERN_ERROR`.
+오류 패턴을 얻는 경우에, `errorCallback` `GlobalizationError` 개체와 매개 변수로 실행 합니다. 오류의 예상된 코드는 `GlobalizationError.PATTERN_ERROR`.
 
-`options`매개 변수는 선택적 이며 기본값은 다음 값:
+`options` 매개 변수는 선택적 이며 기본값은 다음 값:
 
-    {formatLength: '짧은' 선택기: '날짜 및 시간'}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`수 있는 `short` , `medium` , `long` , 또는 `full` . `options.selector`수 있는 `date` , `time` 또는`date and
-time`.
+`options.formatLength` `short`, `medium`, `long` 또는 `full` 수 있습니다. `options.selector` `date`, `time` 또는 `date and time` 수 있습니다..
 
 ### 지원 되는 플랫폼
 
@@ -330,10 +383,11 @@ time`.
 *   블랙베리 10
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en_US` 로캘,이 예제에서는 같은 텍스트와 함께 팝업 대화 상자를 표시 `pattern: M/d/yyyy h:mm a` :
+브라우저 `en_US` 로케일으로 설정 하면이 예제에서는 같은 텍스트와 함께 팝업 대화 표시 `패턴: M/d/yyyy h:mm를`:
 
     function checkDatePattern() {
         navigator.globalization.getDatePattern(
@@ -346,13 +400,27 @@ time`.
 
 ### Windows Phone 8 단점
 
-*   `formatLength`만 지원 `short` 및 `full` 값.
+*   `formatLength` 옵션 `short` 하 고 `full` 값만 지원합니다.
 
-*   `pattern`에 대 한 `date and time` 패턴 전체 datetime 형식만 반환 합니다.
+*   `date and time` 패턴에 대 한 `pattern` 전체 datetime 형식만을 반환합니다.
 
-*   `timezone`풀 타임 영역 이름을 반환 합니다.
+*   `timezone` 전체 시간 영역 이름을 반환합니다.
 
-*   `dst_offset`속성은 지원 되지 않으며 항상 반환 0.
+*   `dst_offset` 속성은 지원 되지 않으며 항상 0을 반환 합니다.
+
+*   패턴은 사용자 로캘에 따라 ICU와 완전히 정렬 수 있습니다.
+
+### 윈도우 특수
+
+*   `formatLength` 옵션 `short` 하 고 `full` 값만 지원합니다.
+
+*   `date and time` 패턴에 대 한 `pattern` 전체 datetime 형식만을 반환합니다.
+
+*   `timezone` 전체 시간 영역 이름을 반환합니다.
+
+*   `dst_offset` 속성은 지원 되지 않으며 항상 0을 반환 합니다.
+
+*   패턴은 사용자 로캘에 따라 ICU와 완전히 정렬 수 있습니다.
 
 ## navigator.globalization.getFirstDayOfWeek
 
@@ -363,9 +431,9 @@ time`.
 
 ### 설명
 
-주일의 일 1 일요일으로 간주 됩니다 1에서 시작 하는 번호가 지정 됩니다. 하루에 반환 합니다는 `successCallback` 와 `properties` 개체를 매개 변수로. 있어야 해당 개체는 `value` 속성을 `Number` 값.
+주일의 일 1 일요일으로 간주 됩니다 1에서 시작 하는 번호가 지정 됩니다. 매개 변수로 `properties` 개체와 `successCallback`를 날짜를 반환합니다. 해당 개체 `숫자` 값으로 `value` 속성이 있어야 합니다.
 
-패턴을 얻는 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.UNKNOWN_ERROR`.
+오류 패턴을 얻는 경우에, 다음 `errorCallback` 실행 `GlobalizationError` 개체와 매개 변수로. 오류의 예상된 코드는 `GlobalizationError.PATTERN_ERROR`.
 
 ### 지원 되는 플랫폼
 
@@ -375,16 +443,21 @@ time`.
 *   Firefox 운영 체제
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en_US` 로케일,이 텍스트에 유사한 팝업 대화 상자가 표시 됩니다`day: 1`.
+이 텍스트와 유사한 팝업 대화 상자를 표시 하는 브라우저는 `en_US` 로케일으로 설정 되어, `하루: 1`.
 
     navigator.globalization.getFirstDayOfWeek(
         function (day) {alert('day: ' + day.value + '\n');},
         function () {alert('Error getting day\n');}
     );
     
+
+### 윈도우 특수
+
+*   윈도우 8.0 또는 8.1에 값 사용자에 따라 달라 집니다 ' 캘린더 환경 설정. Windows Phone 8.1에 가치는 현재 로케일에 따라 다릅니다.
 
 ## navigator.globalization.getNumberPattern
 
@@ -395,32 +468,32 @@ time`.
 
 ### 설명
 
-패턴을 반환 합니다에 `successCallback` 와 함께 한 `properties` 개체를 매개 변수로. 해당 개체에는 다음 속성이 포함 되어 있습니다.
+매개 변수로 `properties` 개체와 `successCallback`에 패턴을 반환합니다. 해당 개체에는 다음 속성이 포함 되어 있습니다.
 
-*   **패턴**: 포맷 하 고 숫자를 구문 분석할 숫자 패턴. 패턴에 따라 [유니코드 기술 표준 #35][1]. *(문자열)*
+*   **pattern**: 포맷 하 고 숫자를 구문 분석할 숫자 패턴. 패턴에 따라 [유니코드 기술 표준 #35][1]. *(문자열)*
 
-*   **기호**: 때 서식 지정 및 구문 분석, % 또는 통화 기호 등을 사용 하 여 기호. *(문자열)*
+*   **symbol**: 때 서식 지정 및 구문 분석, % 또는 통화 기호 등을 사용 하 여 기호. *(문자열)*
 
-*   **분수**: 구문 분석 하 고 숫자 서식을 사용 하 여 소수 자릿수의 수. *(수)*
+*   **fraction**: 구문 분석 하 고 통화 서식을 사용 하 여 소수 자릿수의 수. *(수)*
 
-*   **반올림**: 라운딩 때 구문 분석 및 서식 지정을 사용 하 여 증가 합니다. *(수)*
+*   **rounding**: 라운딩 때 구문 분석 및 서식 지정을 사용 하 여 증가 합니다. *(수)*
 
-*   **양수**: 양수 때 구문 분석 및 서식 지정에 사용할 기호. *(문자열)*
+*   **positive**: 양수 때 구문 분석 및 서식 지정에 사용할 기호. *(문자열)*
 
-*   **음수**: 음수 때 구문 분석 및 서식 지정에 사용할 기호. *(문자열)*
+*   **negative**: 음수 때 구문 분석 및 서식 지정에 사용할 기호. *(문자열)*
 
-*   **10 진수**: 구문 분석 및 서식 지정에 사용할 소수점 기호가. *(문자열)*
+*   **decimal**: 구문 분석 및 서식 지정에 사용할 소수점 기호가. *(문자열)*
 
-*   **그룹화**: 구문 분석 및 서식 지정에 사용할 그룹화 기호. *(문자열)*
+*   **grouping**: 구문 분석 및 서식 지정에 사용할 그룹화 기호. *(문자열)*
 
-패턴을 얻는 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.PATTERN_ERROR`.
+오류 패턴을 얻는 경우에, 다음 `errorCallback` 실행 `GlobalizationError` 개체와 매개 변수로. 오류의 예상된 코드는 `GlobalizationError.PATTERN_ERROR`.
 
-`options`매개 변수는 선택적 이며 기본값은:
+`options` 매개 변수는 선택적 이며 그것의 기본 값은:
 
-    {유형: '10 진수'}
+    {type:'decimal'}
     
 
-`options.type`수 있는 `decimal` , `percent` , 또는`currency`.
+`Options.type` `decimal`, `percent` 또는 `currency` 수 있습니다..
 
 ### 지원 되는 플랫폼
 
@@ -429,10 +502,11 @@ time`.
 *   블랙베리 10
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en_US` 로케일,이 수행 결과를 유사한 텍스트 팝업 대화 상자를 표시 합니다:
+브라우저는 `en_US` 로케일으로 설정 되어,이 수행 결과를 유사한 텍스트와 팝업 대화 상자가 표시 되어야 합니다.
 
     navigator.globalization.getNumberPattern(
         function (pattern) {alert('pattern: '  + pattern.pattern  + '\n' +
@@ -462,9 +536,13 @@ time`.
 
 ### Windows Phone 8 단점
 
-*   `pattern`속성은 지원 되지 않습니다, 및 retuens는 빈 문자열.
+*   `pattern` 속성은 지원 되지 않으며 빈 문자열을 반환 합니다.
 
-*   `fraction`속성은 지원 되지 않습니다, 그리고 반환 0.
+*   `fraction` 속성은 지원 되지 않으며 0을 반환 합니다.
+
+### 윈도우 특수
+
+*   `pattern` 속성은 지원 되지 않으며 빈 문자열을 반환 합니다.
 
 ## navigator.globalization.isDayLightSavingsTime
 
@@ -475,11 +553,11 @@ time`.
 
 ### 설명
 
-나타냅니다 여부 일광 절약 시간 적용 하는 `successCallback` 와 `properties` 개체를 매개 변수로. 있어야 해당 개체는 `dst` 속성을 `Boolean` 값. A `true` 값 나타냅니다 일광 절약 시간이 특정된 날짜에 대해 적용 되 고 `false` 하지 않음을 나타냅니다.
+매개 변수로 `속성` 개체와 `successCallback`에 일광 절약 시간이 적용 됩니다 여부를 나타냅니다. 해당 개체는 `dst` 속성을 `Boolean` 값으로 있어야 합니다. 값이 `true 이면` 지정 된 날짜에 대 한 적용 되는 일광 절약 시간 `false` 하지 않음을 나타냅니다 나타냅니다.
 
-인바운드 매개 변수는 `date` 형식 이어야 합니다`Date`.
+인바운드 매개 변수 `date` 형식 `Date`의 이어야 한다.
 
-날짜 읽기 오류가 발생 하는 경우 다음 `errorCallback` 를 실행 합니다. 오류의 예상 된 코드는`GlobalizationError.UNKNOWN_ERROR`.
+날짜 읽기 오류가 있는 경우에, `errorCallback` 실행 합니다. 오류의 예상된 코드는 `GlobalizationError.UNKNOWN_ERROR`.
 
 ### 지원 되는 플랫폼
 
@@ -489,10 +567,11 @@ time`.
 *   Firefox 운영 체제
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-여름 동안에, 브라우저 DST 설정 표준 시간대로 설정 되어 있으면이 텍스트 비슷한 팝업 대화 상자를 표시 해야 하 고 `dst: true` :
+여름 동안에, 브라우저 DST 설정 표준 시간대로 설정 되어 있으면이 텍스트 비슷한 팝업 대화 상자를 표시 해야 하는 고 `dst: 진정한`:
 
     navigator.globalization.isDayLightSavingsTime(
         new Date(),
@@ -510,16 +589,16 @@ time`.
 
 ### 설명
 
-서식이 지정 된 숫자 문자열을 반환 합니다에 `successCallback` 와 함께 한 `properties` 개체를 매개 변수로. 있어야 해당 개체는 `value` 속성을 `String` 값.
+서식이 지정 된 숫자 문자열을 매개 변수로 `properties` 개체와 `successCallback`에 돌아갑니다. 해당 개체 `값` 속성을 `문자열` 값으로 있어야 합니다.
 
-번호, 서식 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.FORMATTING_ERROR`.
+숫자 서식을 오류가 있는 경우에, 다음 `errorCallback` 실행 `GlobalizationError` 개체와 매개 변수로. 오류의 예상된 코드는 `GlobalizationError.FORMATTING_ERROR`.
 
-`options`매개 변수는 선택적 이며 그것의 기본 값은:
+`options` 매개 변수는 선택적 이며 그것의 기본 값은:
 
-    {유형: '10 진수'}
+    {type:'decimal'}
     
 
-`options.type`'소수', '%' 또는 '통화' 될 수 있습니다.
+`options.type`는 'decimal', 'percent' 또는 'currency' 될 수 있습니다.
 
 ### 지원 되는 플랫폼
 
@@ -528,10 +607,11 @@ time`.
 *   블랙베리 10
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en_US` 로케일,이 텍스트에 유사한 팝업 대화 상자가 표시 됩니다 `number: 3.142` :
+이 텍스트와 유사한 팝업 대화 상자를 표시 하는 브라우저는 `en_US` 로케일으로 설정 되어, `번호: 3.142`:
 
     navigator.globalization.numberToString(
         3.1415926,
@@ -540,6 +620,14 @@ time`.
         {type:'decimal'}
     );
     
+
+### 윈도우 특수
+
+*   Windows 8.0 숫자 반올림을 지원 하지 않습니다, 그리고 따라서 값 하지 반올림 됩니다 자동으로.
+
+*   윈도 즈 8.1와 Windows Phone 8.1 소수 부분이 되 고 잘린다 대신 `percent` 숫자 유형에 따라서 소수 자릿수의 경우 반올림에 0으로 설정 됩니다.
+
+*   그룹화 하는 경우 stringToNumber에서 구문 분석할 수 없는 `percent` 숫자 그룹화 하지는.
 
 ## navigator.globalization.stringToDate
 
@@ -550,33 +638,32 @@ time`.
 
 ### 설명
 
-날짜와 함께 성공 콜백 반환 된 `properties` 개체를 매개 변수로. 해당 개체는 다음 속성이 있어야 합니다.
+매개 변수로 `properties` 개체와 성공 콜백 하는 날짜를 반환합니다. 해당 개체는 다음 속성이 있어야 합니다.
 
-*   **년**: 4 자리 연도. *(수)*
+*   **year**: 4 자리 연도. *(수)*
 
-*   **달**: 달 (0-11). *(수)*
+*   **month**: 달 (0-11). *(수)*
 
-*   **주**: (1-31)에서 하루. *(수)*
+*   **day**: (1-31)에서 하루. *(수)*
 
-*   **시간**: 1 시간 (0-23). *(수)*
+*   **hour**: 1 시간 (0-23). *(수)*
 
-*   **분**: 분 (0-59)에서. *(수)*
+*   **minute**: 분 (0-59)에서. *(수)*
 
-*   **두 번째**: (0-59)에서 두 번째. *(수)*
+*   **Second**: (0-59)에서 두 번째. *(수)*
 
-*   **밀리초**: 모든 플랫폼에서 사용할 수 없습니다 (0-999)에서 밀리초. *(수)*
+*   **milisecond**: 모든 플랫폼에서 사용할 수 없습니다 (0-999)에서 밀리초. *(수)*
 
-인바운드는 `dateString` 매개 변수 유형 이어야 합니다`String`.
+인바운드 `dateString` 매개 변수 형식이 `String` 이어야 합니다..
 
-`options`매개 변수는 선택적 이며 기본값은 다음 값:
+`options` 매개 변수는 선택적 이며 기본값은 다음 값:
 
-    {formatLength: '짧은' 선택기: '날짜 및 시간'}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`수 있는 `short` , `medium` , `long` , 또는 `full` . `options.selector`수 있는 `date` , `time` 또는`date and
-time`.
+`options.formatLength` `short`, `medium`, `long` 또는 `full` 수 있습니다. `options.selector` `date`, `time` 또는 `date and time` 수 있습니다..
 
-날짜 문자열을 구문 분석 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.PARSING_ERROR`.
+날짜 문자열을 구문 분석 오류가 있는 경우에, 다음 `errorCallback` 실행 된 `GlobalizationError` 개체를 매개 변수로 합니다. 오류의 예상된 코드는 `GlobalizationError.PARSING_ERROR`.
 
 ### 지원 되는 플랫폼
 
@@ -586,10 +673,11 @@ time`.
 *   Firefox 운영 체제
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en_US` 로케일,이 텍스트에 유사한 팝업 대화 상자가 표시 됩니다 `month:8 day:25 year:2012` . 유의 정수는 한 달 미만의 문자열, 달 정수로 나타내는 배열 인덱스.
+브라우저 `en_US` 로케일으로 설정 하면 텍스트가 `달: 8 날: 25 년: 2012`와 유사한 팝업 대화 상자가 표시 됩니다. 유의 정수는 한 달 미만의 문자열, 달 정수로 나타내는 배열 인덱스.
 
     navigator.globalization.stringToDate(
         '9/25/2012',
@@ -603,7 +691,19 @@ time`.
 
 ### Windows Phone 8 단점
 
-*   `formatLength`만 지원 옵션 `short` 및 `full` 값.
+*   `formatLength` 옵션 `short` 하 고 `full` 값만 지원합니다.
+
+*   'date and time' 선택기에 대 한 패턴은 항상 전체 날짜/시간 형식입니다.
+
+*   인바운드 `dateString` 매개 변수 getDatePattern에 의해 반환 된 패턴에 따라 형성 되어야 한다. 이 패턴 사용자 로캘에 따라 ICU와 완전히 정렬 수 있습니다.
+
+### 윈도우 특수
+
+*   `formatLength` 옵션 `short` 하 고 `full` 값만 지원합니다.
+
+*   'date and time' 선택기에 대 한 패턴은 항상 전체 날짜/시간 형식입니다.
+
+*   인바운드 `dateString` 매개 변수 getDatePattern에 의해 반환 된 패턴에 따라 형성 되어야 한다. 이 패턴 사용자 로캘에 따라 ICU와 완전히 정렬 수 있습니다.
 
 ## navigator.globalization.stringToNumber
 
@@ -614,16 +714,16 @@ time`.
 
 ### 설명
 
-번호를 반환 합니다는 `successCallback` 와 `properties` 개체를 매개 변수로 합니다. 있어야 해당 개체는 `value` 속성을 `Number` 값.
+매개 변수로 `속성` 개체와 `successCallback`을 수를 반환합니다. 해당 개체 `Number` 값으로 `value` 속성이 있어야 합니다.
 
-숫자 문자열을 구문 분석 오류가 발생 하는 경우는 `errorCallback` 로 실행 한 `GlobalizationError` 개체를 매개 변수로. 오류의 예상 된 코드는`GlobalizationError.PARSING_ERROR`.
+숫자 문자열을 구문 분석 오류가 있는 경우에, 다음 `errorCallback` 실행 된 `GlobalizationError` 개체를 매개 변수로 합니다. 오류의 예상된 코드는 `GlobalizationError.PARSING_ERROR`.
 
-`options`매개 변수는 선택적 이며 기본값은 다음 값:
+`options` 매개 변수는 선택적 이며 기본값은 다음 값:
 
-    {유형: '10 진수'}
+    {type:'decimal'}
     
 
-`options.type`수 있는 `decimal` , `percent` , 또는`currency`.
+`Options.type` `decimal`, `percent` 또는 `currency` 수 있습니다..
 
 ### 지원 되는 플랫폼
 
@@ -632,10 +732,11 @@ time`.
 *   블랙베리 10
 *   iOS
 *   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-브라우저 설정 된 경우에 `en_US` 로케일,이 텍스트와 유사한 팝업 대화 상자를 표시 한다 `number: 1234.56` :
+브라우저 `en_US` 로케일으로 설정 되어,이 텍스트와 유사한 팝업 대화 상자가 표시 되어야 합니다 `번호: 1234.56`:
 
     navigator.globalization.stringToNumber(
         '1234.56',
@@ -645,18 +746,28 @@ time`.
     );
     
 
+### Windows Phone 8 단점
+
+*   `percent` 타입의 경우 반환 되는 값 없는 100로 나눕니다.
+
+### 윈도우 특수
+
+*   문자열 로캘 형식 엄격 하 게 준수 해야 합니다. 예를 들어, 백분율 기호 형식 매개 변수 '%' 일 경우 ' en-US ' 로케일에 대 한 공간에 의해 분리 되어야 한다.
+
+*   `percent` 번호 올바르게 구문 분석 하지 그룹화 해야 합니다.
+
 ## GlobalizationError
 
 세계화 API에서 오류를 나타내는 개체입니다.
 
 ### 속성
 
-*   **코드**: 오류 형식을 나타내는 다음 코드 중 하나 *(수)* 
+*   **code**: 오류 형식을 나타내는 다음 코드 중 하나 *(수)* 
     *   GlobalizationError.UNKNOWN_ERROR: 0
     *   GlobalizationError.FORMATTING_ERROR: 1
     *   GlobalizationError.PARSING_ERROR: 2
     *   GlobalizationError.PATTERN_ERROR: 3
-*   **메시지**: 오류 설명을 포함 및/또는 *(문자열)를* 자세히 설명 하는 텍스트 메시지
+*   **message**: 오류 설명을 포함 및/또는 *(문자열)를* 자세히 설명 하는 텍스트 메시지
 
 ### 설명
 
@@ -669,10 +780,12 @@ time`.
 *   블랙베리 10
 *   Firefox 운영 체제
 *   iOS
+*   Windows Phone 8
+*   윈도우
 
 ### 예를 들어
 
-유사한 텍스트와 팝업 대화 상자가 표시 됩니다 다음 오류 콜백 실행 되 면 `code: 3` 와`message:`
+유사한 텍스트와 팝업 대화 상자가 표시 됩니다 다음 오류 콜백 실행 되 면 `코드: 3` 및 `메시지:`
 
     function errorCallback(error) {
         alert('code: ' + error.code + '\n' +

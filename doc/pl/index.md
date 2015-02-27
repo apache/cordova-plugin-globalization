@@ -21,6 +21,16 @@
 
 Ten plugin uzyskuje informacje i wykonuje operacje specyficzne dla użytkownika ustawienia regionalne, język i strefa czasowa. Zwróć uwagę na różnicę między ustawień regionalnych i językowych: regionalny kontroli jak liczby, daty i godziny są wyświetlane dla regionu, podczas gdy język określa, jaki tekst w języku pojawia się jako, niezależnie od ustawień regionalnych. Często Deweloperzy używają regionalny do zarówno ustawienia, ale nie ma żadnego powodu, które użytkownik nie mógł ustawić jej język "Polski" regionalny "Francuski", tak, że tekst jest wyświetlany w angielski, ale daty, godziny, itp., są wyświetlane są one we Francji. Niestety najbardziej mobilnych platform obecnie nie wprowadzają rozróżnienia tych ustawień.
 
+Ten plugin określa globalne `navigator.globalization` obiektu.
+
+Chociaż w globalnym zasięgu, to nie dostępne dopiero po `deviceready` imprezie.
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(navigator.globalization);
+    }
+    
+
 ## Instalacja
 
     cordova plugin add org.apache.cordova.globalization
@@ -54,9 +64,9 @@ Znacznik języka BCP 47 uzyskać bieżący język klienta.
 
 ### Opis
 
-Zwraca tag identyfikator język zgodny z BCP-47 `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `value` Właściwość `String` wartość.
+Zwraca BCP 47 język zgodny Identyfikator tagu do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `wartość` Właściwość `ciąg`.
 
-Jeśli tu jest błąd w języku, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.UNKNOWN_ERROR`.
+Jeśli tu jest błąd w języku, następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu to `GlobalizationError.UNKNOWN_ERROR`.
 
 ### Obsługiwane platformy
 
@@ -66,10 +76,11 @@ Jeśli tu jest błąd w języku, a następnie `errorCallback` wykonuje z `Global
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en-US` języka, to należy wyświetlić wyskakujące okno z tekstem `language: en-US` :
+Gdy przeglądarka jest ustawiony język `En US`, to należy wyświetlić wyskakujące okno z tekstem `Język: en US`:
 
     navigator.globalization.getPreferredLanguage(
         function (language) {alert('language: ' + language.value + '\n');},
@@ -86,6 +97,10 @@ Kiedy przeglądarka jest ustawiona na `en-US` języka, to należy wyświetlić w
 *   Zwraca ISO 639-1 dwuliterowy kod języka i kod ISO 3166-1 kraju regionalne wariant odpowiadający "Język" ustawienie, oddzielone myślnikiem.
 *   Należy zauważyć, że regionalne wariant jest Właściwość ustawieniem "Language" i nie określona przez ustawienie "Kraj" niepowiązanych na Windows Phone.
 
+### Windows dziwactwa
+
+*   Zwraca ISO 639-1 dwuliterowy kod języka i kod ISO 3166-1 kraju regionalne wariant odpowiadający "Język" ustawienie, oddzielone myślnikiem.
+
 ## navigator.globalization.getLocaleName
 
 Zwraca znacznik zgodny z BCP 47 dla klienta bieżące ustawienia regionalne.
@@ -95,9 +110,9 @@ Zwraca znacznik zgodny z BCP 47 dla klienta bieżące ustawienia regionalne.
 
 ### Opis
 
-Zwraca ciąg identyfikatora regionalny zgodny z BCP 47 `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `value` Właściwość `String` wartość. Tag regionalnych będzie się składać z ma³e dwuliterowy kod języka, dwie litery wielkie litery kodu kraju i (nieokreślone) kod wariantu, oddzielone myślnikiem.
+Zwraca ciąg identyfikatora regionalny zgodny z BCP 47 `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `wartość` Właściwość `ciąg`. Tag regionalnych będzie się składać z ma³e dwuliterowy kod języka, dwie litery wielkie litery kodu kraju i (nieokreślone) kod wariantu, oddzielone myślnikiem.
 
-Jeśli tu jest błąd ustawienia regionalne, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.UNKNOWN_ERROR`.
+Jeśli tu jest błąd ustawienia regionalne, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu to `GlobalizationError.UNKNOWN_ERROR`.
 
 ### Obsługiwane platformy
 
@@ -107,10 +122,11 @@ Jeśli tu jest błąd ustawienia regionalne, a następnie `errorCallback` wykonu
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en-US` Ustawienia regionalne, to wyświetla okno dialogowe popup z tekstem`locale: en-US`.
+Gdy przeglądarka jest ustawiona na `Pl pl` regionalne, wyświetla okno popup z tekstem `regionalny: en US`.
 
     navigator.globalization.getLocaleName(
         function (locale) {alert('locale: ' + locale.value + '\n');},
@@ -120,11 +136,15 @@ Kiedy przeglądarka jest ustawiona na `en-US` Ustawienia regionalne, to wyświet
 
 ### Dziwactwa Androida
 
-*   Java nie rozróżnia się między zestaw "języka" i ustaw "regionalny", więc ta metoda jest zasadniczo taka sama, jak`navigator.globalizatin.getPreferredLanguage()`.
+*   Java nie rozróżnia się między zestaw "language" i ustaw "locale", więc ta metoda jest zasadniczo taka sama, jak `navigator.globalizatin.getPreferredLanguage()`.
 
 ### Windows Phone 8 dziwactwa
 
 *   Zwraca ISO 639-1 dwuliterowy kod języka i kod ISO 3166-1 kraju regionalne wariant odpowiednie ustawienie "Format regionalny", oddzielone myślnikiem.
+
+### Windows dziwactwa
+
+*   Regionalny można zmienić w panelu sterowania-> zegar, język i Region-> w regionie-> formaty-> Format i w ustawieniach-> w regionie-> Format regionalny na Windows Phone 8.1.
 
 ## navigator.globalization.dateToString
 
@@ -135,20 +155,20 @@ Zwraca daty sformatowane jako ciąg regionalny klient i strefa czasowa.
 
 ### Opis
 
-Zwraca datę sformatowaną `String` za pomocą `value` Właściwość z obiektu przekazane jako parametr`successCallback`.
+Zwraca datę sformatowany `ciąg` poprzez `wartość` Właściwość dostępne od obiektu przekazane jako parametr do `successCallback`.
 
-Przychodzących `date` parametr powinien być typu`Date`.
+Parametr przychodzący `date` powinny być typu `Date`.
 
-Jeśli występuje błąd formatowania daty, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.FORMATTING_ERROR`.
+Jeśli występuje błąd formatowania daty, a następnie `errorCallback` wykonuje z obiektu `GlobalizationError` jako parametr. Oczekiwany kod błędu to `GlobalizationError.FORMATTING_ERROR`.
 
-`options`Parametr jest opcjonalny, a jego wartości domyślne są:
+`Opcje` parametr jest opcjonalny, a jego wartości domyślne są:
 
-    {formatLength: "krótkie", wybór: "Data i czas"}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`Może być `short` , `medium` , `long` , lub`full`.
+`options.formatLength` może być `short`, `medium`, `long` lub `full`.
 
-`options.selector`Może być `date` , `time` lub`date and time`.
+`options.selector` może być `date`, `time` lub `date and time`.
 
 ### Obsługiwane platformy
 
@@ -158,10 +178,11 @@ Jeśli występuje błąd formatowania daty, a następnie `errorCallback` wykonuj
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Jeśli przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to wyświetla okno dialogowe popup z tekst podobny do `date: 9/25/2012 4:21PM` przy użyciu opcji domyślnych:
+Jeśli przeglądarka jest ustawiona na `pl` regionalne, to wyświetla okno dialogowe popup z tekst podobny do `Data: 9/25/2012 4:21 PM` przy użyciu opcji domyślnych:
 
     navigator.globalization.dateToString(
         new Date(),
@@ -171,13 +192,32 @@ Jeśli przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to wyświe
     );
     
 
+### Dziwactwa Androida
+
+*   `formatLength` opcje są podzbiorem Unicode [UTS #35][1]. Domyślnie opcja `Krótki` zależy od użytkownika format daty wybranej w `Ustawienia -> System -> Data i czas -> Wybierz format daty`, które zapewniają wzór `roku` tylko z 4 cyfr, nie 2 cyfry. Oznacza to, że nie jest to całkowicie dostosowane do [ICU][2].
+
+ [1]: http://unicode.org/reports/tr35/tr35-4.html
+ [2]: http://demo.icu-project.org/icu-bin/locexp?d_=en_US&_=en_US
+
 ### Windows Phone 8 dziwactwa
 
-*   `formatLength`Opcja obsługuje tylko `short` i `full` wartości.
+*   Opcja `formatLength` obsługuje tylko `short` i `full` wartości.
+
+*   Wzór dla selektora "date and time" jest zawsze pełna datetime format.
+
+*   Zwracana wartość może być nie całkowicie dostosowane z ICU w zależności od ustawienia regionalne użytkownika.
+
+### Windows dziwactwa
+
+*   Opcja `formatLength` obsługuje tylko `short` i `full` wartości.
+
+*   Wzór dla selektora "date and time" jest zawsze pełna datetime format.
+
+*   Zwracana wartość może być nie całkowicie dostosowane z ICU w zależności od ustawienia regionalne użytkownika.
 
 ### Firefox OS dziwactwa
 
-*   `formatLength`nie jest odróżnienie `long` i`full` 
+*   `formatLength` nie jest rozróżnienie, `long` i `full` 
 *   tylko jedna metoda wyświetlania daty (nie `long` lub `full` wersja)
 
 ## navigator.globalization.getCurrencyPattern
@@ -191,23 +231,21 @@ Zwraca ciąg wzór do formatu i analizy wartości walut według preferencji uży
 
 Zwraca wzór do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien zawierać następujące właściwości:
 
-*   **wzór**: wzór waluty wobec układ graficzny i analizy wartości waluty. Wzory wykonaj [techniczny Standard Unicode #35][1]. *(String)*
+*   **pattern**: wzór waluty wobec układ graficzny i analizy wartości waluty. Wzory wykonaj [techniczny Standard Unicode #35][1]. *(String)*
 
-*   **Kod**: kod waluty The ISO 4217 dla wzorca. *(String)*
+*   **code**: kod waluty The ISO 4217 dla wzorca. *(String)*
 
-*   **frakcja**: liczba cyfr ułamkowych podczas analizowania i Formatowanie walutowe. *(Liczba)*
+*   **fraction**: liczba cyfr ułamkowych podczas analizowania i Formatowanie walutowe. *(Liczba)*
 
-*   **zaokrąglania**: Zaokrąglenie przyrost podczas analizowania i formatowanie. *(Liczba)*
+*   **rounding**: Zaokrąglenie przyrost podczas analizowania i formatowanie. *(Liczba)*
 
-*   **dziesiętny**: symbolu dziesiętnego używać do analizowania i formatowanie. *(String)*
+*   **decimal**: symbolu dziesiętnego używać do analizowania i formatowanie. *(String)*
 
-*   **grupowanie**: symbol grupowania dla analizy i formatowanie. *(String)*
+*   **grouping**: symbol grupowania dla analizy i formatowanie. *(String)*
 
- [1]: http://unicode.org/reports/tr35/tr35-4.html
+Parametr przychodzący `currencyCode` powinna być `ciągiem` jednego z kodów ISO 4217 waluty, na przykład "USD".
 
-Przychodzących `currencyCode` parametr powinien być `String` jednego z kodów ISO 4217 waluty, na przykład "USD".
-
-Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.FORMATTING_ERROR`.
+Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuje z obiektu `GlobalizationError` jako parametr. Oczekiwany kod błędu to `GlobalizationError.FORMATTING_ERROR`.
 
 ### Obsługiwane platformy
 
@@ -215,10 +253,11 @@ Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuj
 *   Android
 *   Jeżyna 10
 *   iOS
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne i wybranej waluty dolarów amerykańskich, w tym przykładzie wyświetla okno dialogowe popup z tekstem podobne do wyników, które należy wykonać:
+Gdy przeglądarka jest ustawiona na `pl` regionalne i wybranej waluty dolarów amerykańskich, w tym przykładzie wyświetla wyskakujące okno z tekstem podobne do wyników, które należy wykonać:
 
     navigator.globalization.getCurrencyPattern(
         'USD',
@@ -244,6 +283,10 @@ Oczekiwany wynik:
     grouping: ,
     
 
+### Windows dziwactwa
+
+*   Obsługiwane są tylko właściwości "code" i "fraction"
+
 ## navigator.globalization.getDateNames
 
 Zwraca tablicę nazwy miesięcy i dni tygodnia, w zależności od preferencji użytkownika klienta i kalendarz.
@@ -253,31 +296,32 @@ Zwraca tablicę nazwy miesięcy i dni tygodnia, w zależności od preferencji u�
 
 ### Opis
 
-Zwraca tablicę nazw do `successCallback` z `properties` obiektu jako parametr. Ten obiekt zawiera `value` Właściwość z `Array` z `String` wartości. Nazwy funkcji Tablica albo od pierwszego miesiąca w roku lub pierwszego dnia tygodnia, w zależności od wybranej opcji.
+Zwraca tablicę nazw do `successCallback` z `properties` obiektu jako parametr. Ten obiekt zawiera właściwość `wartość` z `tablicy` wartości `ciąg`. Nazwy funkcji Tablica albo od pierwszego miesiąca w roku lub pierwszego dnia tygodnia, w zależności od wybranej opcji.
 
-Jeśli występuje błąd uzyskiwania nazwy, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.UNKNOWN_ERROR`.
+Jeśli występuje błąd uzyskiwania nazwy, a następnie `errorCallback` wykonuje z obiektu `GlobalizationError` jako parametr. Oczekiwany kod błędu to `GlobalizationError.UNKNOWN_ERROR`.
 
-`options`Parametr jest opcjonalny, a jego wartości domyślne są:
+`options` parametr jest opcjonalny, a jego wartości domyślne są:
 
     {type:'wide', item:'months'}
     
 
-Wartość `options.type` może być `narrow` lub`wide`.
+Wartość `options.type` może być `narrow` lub `wide`.
 
-Wartość `options.item` może być `months` lub`days`.
+Wartość `options.item` może być `months` lub `days`.
 
 ### Obsługiwane platformy
 
-*   Amazon Fire OS
+*   Amazon ogień OS
 *   Android
-*   BlackBerry 10
+*   Jeżyna 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en_US` ustawień regionalnych, w tym przykładzie wyświetla serię dwunastu lud dialogi, jeden raz na miesiąc, tekst podobny do `month: January` :
+Gdy przeglądarka jest ustawiona na `pl_PL` ustawień regionalnych, w tym przykładzie wyświetla serię dwunastu lud dialogi, jeden raz na miesiąc, tekst podobny do `miesiąca: stycznia`:
 
     navigator.globalization.getDateNames(
         function (names) {
@@ -292,7 +336,17 @@ Kiedy przeglądarka jest ustawiona na `en_US` ustawień regionalnych, w tym przy
 
 ### Firefox OS dziwactwa
 
-*   `options.type`obsługuje `genitive` wartość, ważne dla niektórych języków
+*   `options.type` obsługuje wartość `genitive`, ważne dla niektórych języków
+
+### Windows Phone 8 dziwactwa
+
+*   Szereg miesięcy zawiera 13 elementów.
+*   Zwróconej tablicy może nie całkowicie dostosowane z ICU w zależności od ustawienia regionalne użytkownika.
+
+### Windows dziwactwa
+
+*   Szereg miesięcy zawiera 12 elementów.
+*   Zwróconej tablicy może nie całkowicie dostosowane z ICU w zależności od ustawienia regionalne użytkownika.
 
 ## navigator.globalization.getDatePattern
 
@@ -303,37 +357,37 @@ Zwraca ciąg wzór do formatu i analizy dat według preferencji użytkownika kli
 
 ### Opis
 
-Zwraca wzór do `successCallback` . Obiekt przekazywana jako parametr zawiera następujące właściwości:
+Zwraca wzór do `successCallback`. Obiekt przekazywana jako parametr zawiera następujące właściwości:
 
-*   **wzór**: data i godzina wzór do formatu i analizować daty. Wzory wykonaj [techniczny Standard Unicode #35][1]. *(String)*
+*   **pattern**: data i godzina wzór do formatu i analizować daty. Wzory wykonaj [techniczny Standard Unicode #35][1]. *(String)*
 
-*   **strefa czasowa**: skróconą nazwę strefy czasowej na klienta. *(String)*
+*   **timezone**: skróconą nazwę strefy czasowej na klienta. *(String)*
 
 *   **utc_offset**: aktualna różnica w sekundach między klienta strefy czasowej i skoordynowanego czasu uniwersalnego. *(Liczba)*
 
 *   **dst_offset**: bieżącego przesunięcie czasu w sekundach między klienta nie uwzględniaj w strefę czasową i klienta światło dzienne oszczędności w strefa czasowa. *(Liczba)*
 
-Jeśli występuje błąd uzyskiwania wzór, `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.PATTERN_ERROR`.
+Jeśli występuje błąd uzyskiwania wzór, `errorCallback` wykonuje się z obiektem `GlobalizationError` jako parametr. Oczekiwany kod błędu to `GlobalizationError.PATTERN_ERROR`.
 
-`options`Parametr jest opcjonalny i domyślnie następujące wartości:
+Parametr `options` jest opcjonalne i domyślnie następujące wartości:
 
-    {formatLength: "krótkie", wybór: "Data i czas"}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`Może być `short` , `medium` , `long` , lub `full` . `options.selector`Może być `date` , `time` lub`date and
-time`.
+`options.formatLength` może być `short`, `medium`, `long` lub `full`. `options.selector` może być `date`, `time` lub `date and time`.
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, w tym przykładzie wyświetla okno dialogowe popup z tekstu, takich jak `pattern: M/d/yyyy h:mm a` :
+Gdy przeglądarka jest ustawiona na `pl` regionalne, w tym przykładzie wyświetla lud dialog z tekstu takie jak `wzór: za/rrrr g: mm`:
 
     function checkDatePattern() {
         navigator.globalization.getDatePattern(
@@ -346,13 +400,27 @@ Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, w tym przyk
 
 ### Windows Phone 8 dziwactwa
 
-*   `formatLength`Obsługuje tylko `short` i `full` wartości.
+*   Opcja `formatLength` obsługuje tylko `short` i `full` wartości.
 
-*   `pattern`Dla `date and time` wzór zwraca tylko pełne datetime format.
+*   `pattern` dla `date and time` wzór zwraca tylko pełne datetime format.
 
-*   `timezone`Zwraca nazwę strefy w pełnym wymiarze czasu.
+*   `timezone` zwraca nazwę strefy w pełnym wymiarze czasu.
 
-*   `dst_offset`Właściwość nie jest obsługiwany, a zawsze zwraca wartość zero.
+*   Właściwość `dst_offset` nie jest obsługiwany, a zawsze zwraca zero.
+
+*   Wzór może nie całkowicie dostosowane z ICU w zależności od ustawienia regionalne użytkownika.
+
+### Windows dziwactwa
+
+*   Opcja `formatLength` obsługuje tylko `short` i `full` wartości.
+
+*   `pattern` dla `date and time` wzór zwraca tylko pełne datetime format.
+
+*   `timezone` zwraca nazwę strefy w pełnym wymiarze czasu.
+
+*   Właściwość `dst_offset` nie jest obsługiwany, a zawsze zwraca zero.
+
+*   Wzór może nie całkowicie dostosowane z ICU w zależności od ustawienia regionalne użytkownika.
 
 ## navigator.globalization.getFirstDayOfWeek
 
@@ -363,28 +431,33 @@ Zwraca pierwszy dzień tygodnia według kalendarza i preferencje użytkownika kl
 
 ### Opis
 
-Dni tygodnia są numerowane począwszy od 1, gdzie 1 zakłada się niedziela. Zwraca dzień do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `value` Właściwość `Number` wartość.
+Dni tygodnia są numerowane począwszy od 1, gdzie 1 zakłada się niedziela. Zwraca dzień do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `wartość` Właściwość z wartością `liczby`.
 
-Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.UNKNOWN_ERROR`.
+Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuje z obiektu `GlobalizationError` jako parametr. Oczekiwany kod błędu to `GlobalizationError.UNKNOWN_ERROR`.
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to wyświetla okno dialogowe popup z tekst podobny do`day: 1`.
+Gdy przeglądarka jest ustawiona na `pl` regionalne, wyświetla okno popup z tekst podobny do `dzień: 1`.
 
     navigator.globalization.getFirstDayOfWeek(
         function (day) {alert('day: ' + day.value + '\n');},
         function () {alert('Error getting day\n');}
     );
     
+
+### Windows dziwactwa
+
+*   Na Windows 8.0/8.1 wartości zależy od użytkownika "Kalendarz preferencje. Na Windows Phone 8.1 wartości zależy od bieżących ustawień regionalnych.
 
 ## navigator.globalization.getNumberPattern
 
@@ -395,32 +468,32 @@ Zwraca ciąg wzór do formatu i analizować liczby preferencji użytkownika klie
 
 ### Opis
 
-Zwraca wzór do `successCallback` z `properties` obiektu jako parametr. Ten obiekt zawiera następujące właściwości:
+Zwraca wzór do `successCallback` z `Właściwości` obiektu jako parametr. Ten obiekt zawiera następujące właściwości:
 
-*   **wzór**: wzorzec numeru do formatu i analizowania liczb. Wzory wykonaj [techniczny Standard Unicode #35][1]. *(String)*
+*   **pattern**: wzorzec numeru do formatu i analizowania liczb. Wzory wykonaj [techniczny Standard Unicode #35][1]. *(String)*
 
 *   **symbol**: symbolem podczas formatowania i analizy, takie jak procent lub waluta symbol. *(String)*
 
-*   **frakcja**: liczba cyfr ułamkowych podczas analizowania i formatowanie liczb. *(Liczba)*
+*   **fraction**: liczba cyfr ułamkowych podczas analizowania i Formatowanie walutowe. *(Liczba)*
 
-*   **zaokrąglania**: Zaokrąglenie przyrost podczas analizowania i formatowanie. *(Liczba)*
+*   **rounding**: Zaokrąglenie przyrost podczas analizowania i formatowanie. *(Liczba)*
 
-*   **pozytywne**: symbol dla liczb dodatnich, gdy formatowanie i analizy. *(String)*
+*   **positive**: symbol dla liczb dodatnich, gdy formatowanie i analizy. *(String)*
 
-*   **ujemna**: symbol liczb ujemnych podczas analizowania i formatowanie. *(String)*
+*   **negative**: symbol liczb ujemnych podczas analizowania i formatowanie. *(String)*
 
-*   **dziesiętny**: symbolu dziesiętnego używać do analizowania i formatowanie. *(String)*
+*   **decimal**: symbolu dziesiętnego używać do analizowania i formatowanie. *(String)*
 
-*   **grupowanie**: symbol grupowania dla analizy i formatowanie. *(String)*
+*   **grouping**: symbol grupowania dla analizy i formatowanie. *(String)*
 
-Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.PATTERN_ERROR`.
+Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuje z obiektu `GlobalizationError` jako parametr. Oczekiwany kod błędu to `GlobalizationError.PATTERN_ERROR`.
 
-`options`Parametr jest opcjonalny, a wartości domyślne są:
+`options` parametr jest opcjonalny, a wartości domyślne są:
 
-    {Typ: dziesiętne'}
+    {type:'decimal'}
     
 
-`options.type`Może być `decimal` , `percent` , lub`currency`.
+`Options.type` może być `decimal`, `percent` lub `currency`.
 
 ### Obsługiwane platformy
 
@@ -429,10 +502,11 @@ Jeśli występuje błąd uzyskania wzorzec, a następnie `errorCallback` wykonuj
 *   Jeżyna 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to należy wyświetlić wyskakujące okno z tekstem podobne do wyników, które należy wykonać:
+Gdy przeglądarka jest ustawiona na `pl` regionalne, to należy wyświetlić wyskakujące okno z tekstem podobne do wyników, które należy wykonać:
 
     navigator.globalization.getNumberPattern(
         function (pattern) {alert('pattern: '  + pattern.pattern  + '\n' +
@@ -462,9 +536,13 @@ Wyniki:
 
 ### Windows Phone 8 dziwactwa
 
-*   `pattern`Właściwość nie jest obsługiwany, a retuens pusty ciąg.
+*   Właściwość `pattern` nie jest obsługiwane i zwraca pusty ciąg.
 
-*   `fraction`Właściwość nie jest obsługiwany, a zwraca zero.
+*   `fraction` Właściwość nie jest obsługiwany i zwraca zero.
+
+### Windows dziwactwa
+
+*   Właściwość `pattern` nie jest obsługiwane i zwraca pusty ciąg.
 
 ## navigator.globalization.isDayLightSavingsTime
 
@@ -475,24 +553,25 @@ Wskazuje, czy czas letni jest obowiązująca dla danej daty za pomocą klienta s
 
 ### Opis
 
-Wskazuje, czy czas letni jest w efekcie do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `dst` Właściwość `Boolean` wartość. A `true` wartość oznacza, że czas letni jest obowiązująca dla danego dnia, i `false` wskazuje, że to nie jest.
+Wskazuje, czy czas letni jest w efekcie do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć wartość `Boolean` Właściwość `dst`. Wartość `true` wskazuje, że czas letni jest obowiązującą w danym dniu, a `wartość false` wskazuje, że to nie jest.
 
-Parametr przychodzący `date` powinny być typu`Date`.
+Przychodzące parametr `date` powinny być typu `Date`.
 
-Jeśli występuje błąd odczytu daty, a następnie `errorCallback` wykonuje. Oczekiwany kod błędu`GlobalizationError.UNKNOWN_ERROR`.
+Jeśli występuje błąd odczytu daty, a następnie wykonuje `errorCallback`. Oczekiwany kod błędu to `GlobalizationError.UNKNOWN_ERROR`.
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-W okresie letnim i jeśli przeglądarka jest ustawiona na DST-umożliwiał czasowa, to należy wyświetlić wyskakujące okno z tekstem podobne do `dst: true` :
+W okresie letnim i jeśli przeglądarka jest ustawiona na timezone DST-włączone, to należy wyświetlić wyskakujące okno z tekstem podobne do `dst: prawdziwe`:
 
     navigator.globalization.isDayLightSavingsTime(
         new Date(),
@@ -503,23 +582,23 @@ W okresie letnim i jeśli przeglądarka jest ustawiona na DST-umożliwiał czaso
 
 ## navigator.globalization.numberToString
 
-Zwraca liczbę sformatowane jako ciąg preferencji użytkownika klienta.
+Zwraca liczby sformatowane jako ciąg preferencji użytkownika klienta.
 
     navigator.globalization.numberToString(number, successCallback, errorCallback, options);
     
 
 ### Opis
 
-Zwraca sformatowany ciąg liczb do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `value` Właściwość `String` wartość.
+Zwraca sformatowany ciąg liczb do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `wartość` Właściwość `ciąg`.
 
-Jeśli występuje błąd formatowanie numeru, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.FORMATTING_ERROR`.
+Jeśli występuje błąd formatowanie numeru, a następnie `errorCallback` wykonuje z obiektu `GlobalizationError` jako parametr. Oczekiwany kod błędu to `GlobalizationError.FORMATTING_ERROR`.
 
-`options`Parametr jest opcjonalny, a jego wartości domyślne są:
+`options` parametr jest opcjonalny, a jego wartości domyślne są:
 
-    {Typ: dziesiętne'}
+    {type:'decimal'}
     
 
-`options.type`Może być "decimal", "procent" lub "Waluta".
+`options.type` może być "decimal", "percent" lub "currency".
 
 ### Obsługiwane platformy
 
@@ -528,10 +607,11 @@ Jeśli występuje błąd formatowanie numeru, a następnie `errorCallback` wykon
 *   BlackBerry 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to wyświetla okno dialogowe popup z tekst podobny do `number: 3.142` :
+Gdy przeglądarka jest ustawiona na `pl` regionalne, wyświetla okno popup z tekst podobny do `numer: 3.142`:
 
     navigator.globalization.numberToString(
         3.1415926,
@@ -541,55 +621,63 @@ Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to wyświet
     );
     
 
+### Windows dziwactwa
+
+*   8.0 systemu Windows nie obsługuje zaokrąglania liczb, więc wartości nie będzie być zaokrąglane automatycznie.
+
+*   Windows 8.1 i Windows Phone 8.1 część ułamkowa jest obcinany zamiast zaokrąglone w przypadku `procent` liczby typu dlatego ułamkowe cyfr licznika jest równa 0.
+
+*   `percent` liczby nie są pogrupowane, jak nie można analizować w stringToNumber, jeśli zgrupowane.
+
 ## navigator.globalization.stringToDate
 
-Analizuje daty sformatowane jako ciąg, według kalendarza za pomocą klienta, strefa czasowa i preferencje użytkownika klienta i zwraca odpowiedni obiekt date.
+Analizuje daty sformatowane jako ciąg, według preferencji użytkownika i strefa czasowa klient, kalendarz klienta i zwraca odpowiedni obiekt date.
 
     navigator.globalization.stringToDate(dateString, successCallback, errorCallback, options);
     
 
 ### Opis
 
-Zwraca datę do sukcesu wywołanie zwrotne z `properties` obiektu jako parametr. Obiekt powinien mieć następujące właściwości:
+Zwraca datę do sukcesu wywołanie zwrotne z `Właściwości` obiektu jako parametr. Obiekt powinien mieć następujące właściwości:
 
-*   **rok**: rok czterocyfrowy. *(Liczba)*
+*   **year**: rok czterocyfrowy. *(Liczba)*
 
-*   **miesiąc**: miesiąc od (0-11). *(Liczba)*
+*   **month**: miesiąc od (0-11). *(Liczba)*
 
-*   **dzień**: dzień z (1-31). *(Liczba)*
+*   **day**: dzień z (1-31). *(Liczba)*
 
-*   **godziny**: godzina od (0-23). *(Liczba)*
+*   **hour**: godzina od (0-23). *(Liczba)*
 
-*   **odległości**: odległości od (0-59). *(Liczba)*
+*   **minute**: odległości od (0-59). *(Liczba)*
 
-*   **drugi**: drugi od (0-59). *(Liczba)*
+*   **second**: drugi od (0-59). *(Liczba)*
 
-*   **milisekundy**: milisekund (od 0-999), nie jest dostępna na wszystkich platformach. *(Liczba)*
+*   **milisecond**: milisekund (od 0-999), nie jest dostępna na wszystkich platformach. *(Liczba)*
 
-Przychodzących `dateString` parametr powinien być typu`String`.
+Parametr przychodzący `dateString` powinny być typu `String`.
 
-`options`Parametr jest opcjonalny i domyślnie następujące wartości:
+Parametr `options` jest opcjonalne i domyślnie następujące wartości:
 
-    {formatLength: "krótkie", wybór: "Data i czas"}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`Może być `short` , `medium` , `long` , lub `full` . `options.selector`Może być `date` , `time` lub`date and
-time`.
+`options.formatLength` może być `short`, `medium`, `long` lub `full`. `options.selector` może być `date`, `time` lub `date and time`.
 
-Jeśli występuje błąd podczas analizowania ciągu daty, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.PARSING_ERROR`.
+Jeśli występuje błąd podczas analizowania ciągu daty, a następnie `errorCallback` wykonuje z obiektu `GlobalizationError` jako parametr. Oczekiwany kod błędu to `GlobalizationError.PARSING_ERROR`.
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to wyświetla okno dialogowe popup z tekst podobny do `month:8 day:25 year:2012` . Należy zauważyć, że miesiąc, liczba całkowita jest jeden mniej niż ciąg, jako miesiąc liczba całkowita reprezentuje indeks tablicy.
+Gdy przeglądarka jest ustawiona na `pl` regionalne, to wyświetla wyskakujące okno z tekstem podobne do `miesiąca: 8 dzień: 25 rok: 2012`. Należy zauważyć, że miesiąc, liczba całkowita jest jeden mniej niż ciąg, jako miesiąc liczba całkowita reprezentuje indeks tablicy.
 
     navigator.globalization.stringToDate(
         '9/25/2012',
@@ -603,7 +691,19 @@ Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to wyświet
 
 ### Windows Phone 8 dziwactwa
 
-*   `formatLength`Opcja obsługuje tylko `short` i `full` wartości.
+*   Opcja `formatLength` obsługuje tylko `short` i `full` wartości.
+
+*   Wzór dla selektora "date and time" jest zawsze pełna datetime format.
+
+*   Parametr przychodzący `dateString` powinna zostać utworzona zgodnie z wzorcem, zwrócony przez getDatePattern. Ten wzór może być nie całkowicie dostosowane z ICU w zależności od ustawienia regionalne użytkownika.
+
+### Windows dziwactwa
+
+*   Opcja `formatLength` obsługuje tylko `short` i `full` wartości.
+
+*   Wzór dla selektora "date and time" jest zawsze pełna datetime format.
+
+*   Parametr przychodzący `dateString` powinna zostać utworzona zgodnie z wzorcem, zwrócony przez getDatePattern. Ten wzór może być nie całkowicie dostosowane z ICU w zależności od ustawienia regionalne użytkownika.
 
 ## navigator.globalization.stringToNumber
 
@@ -614,28 +714,29 @@ Analizuje liczby sformatowane jako ciąg preferencji użytkownika klienta i zwra
 
 ### Opis
 
-Zwraca numer do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `value` Właściwość `Number` wartość.
+Zwraca liczbę do `successCallback` z `properties` obiektu jako parametr. Obiekt powinien mieć `wartość` Właściwość z wartością `liczby`.
 
-Jeśli występuje błąd podczas analizowania ciągu liczb, a następnie `errorCallback` wykonuje z `GlobalizationError` obiektu jako parametr. Oczekiwany kod błędu`GlobalizationError.PARSING_ERROR`.
+Jeśli występuje błąd podczas analizowania ciągu liczb, a następnie `errorCallback` wykonuje z obiektu `GlobalizationError` jako parametr. Oczekiwany kod błędu to `GlobalizationError.PARSING_ERROR`.
 
-`options`Parametr jest opcjonalny i domyślnie następujące wartości:
+Parametr `options` jest opcjonalne i domyślnie następujące wartości:
 
-    {Typ: dziesiętne'}
+    {type:'decimal'}
     
 
-`options.type`Może być `decimal` , `percent` , lub`currency`.
+`Options.type` może być `decimal`, `percent` lub `currency`.
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to należy wyświetlić wyskakujące okno z tekstem podobne do `number: 1234.56` :
+Gdy przeglądarka jest ustawiona na `pl` regionalne, to należy wyświetlić wyskakujące okno z tekstem podobne do `numer: 1234.56`:
 
     navigator.globalization.stringToNumber(
         '1234.56',
@@ -645,18 +746,28 @@ Kiedy przeglądarka jest ustawiona na `en_US` Ustawienia regionalne, to należy 
     );
     
 
+### Windows Phone 8 dziwactwa
+
+*   W przypadku `percent` typ zwracanej wartości jest nie dzielony przez 100.
+
+### Windows dziwactwa
+
+*   Ciąg musi ściśle odpowiadać format ustawień regionalnych. Na przykład symbol procentu powinny być oddzielone przez miejsce na "en US" ustawienia regionalne, jeśli typ parametru jest "procent".
+
+*   `percent` liczby nie muszą być zgrupowane do być analizowany poprawnie.
+
 ## GlobalizationError
 
 Obiekt reprezentujący błąd z API globalizacji.
 
 ### Właściwości
 
-*   **kod**: Jeden z następujących kodów oznaczających typ błędu *(Liczba)* 
+*   **code**: Jeden z następujących kodów oznaczających typ błędu *(Liczba)* 
     *   GlobalizationError.UNKNOWN_ERROR: 0
     *   GlobalizationError.FORMATTING_ERROR: 1
     *   GlobalizationError.PARSING_ERROR: 2
     *   GlobalizationError.PATTERN_ERROR: 3
-*   **wiadomość**: komunikatu tekstowego, który zawiera wyjaśnienie błędu lub szczegóły *(String)*
+*   **message**: komunikatu tekstowego, który zawiera wyjaśnienie błędu lub szczegóły *(String)*
 
 ### Opis
 
@@ -664,15 +775,17 @@ Ten obiekt jest tworzona i wypełniane przez Cordova i wrócił do wywołania zw
 
 ### Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   Firefox OS
 *   iOS
+*   Windows Phone 8
+*   Windows
 
 ### Przykład
 
-Gdy błąd wywołania zwrotnego następujące wykonuje, wyświetla okno popup z tekst podobny do `code: 3` i`message:`
+Gdy błąd wywołania zwrotnego następujące wykonuje, wyświetla okno popup z tekst podobny do `kod: 3` i `wiadomość:`
 
     function errorCallback(error) {
         alert('code: ' + error.code + '\n' +

@@ -21,6 +21,16 @@
 
 このプラグインは、情報を取得し、ユーザーのロケール、言語、およびタイム ゾーンに固有の操作を実行します。 ロケールと言語の違いに注意してください: ロケール コントロール番号、日付、および時刻の表示方法、地域の言語で決まりますがどのような言語のテキストの間のように、ロケールの設定とは無関係です。 多くの開発者を使用してロケール設定両方、しかしユーザーは「英語」彼女言語を設定できませんでした理由はない"フランス語"ロケールので英語が日付時刻等でテキストが表示されますが表示されるフランスでは。 残念ながら、ほとんどのモバイルプラット フォーム現在行いませんこれらの設定の間の区別。
 
+このプラグインでは、グローバル `navigator.globalization` オブジェクトを定義します。
+
+グローバル スコープではあるがそれがないまで `deviceready` イベントの後です。
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(navigator.globalization);
+    }
+    
+
 ## インストール
 
     cordova plugin add org.apache.cordova.globalization
@@ -54,9 +64,9 @@
 
 ### 説明
 
-BCP 47 準拠の言語識別子タグを返します、 `successCallback` と、 `properties` オブジェクトをパラメーターとして。 そのオブジェクトが必要な `value` を持つプロパティ、 `String` 値。
+`プロパティ` オブジェクトに `successCallback` を BCP 47 準拠の言語識別子タグをパラメーターとして返します。 そのオブジェクトの `文字列` 値を `value` プロパティがあります。
 
-言語を取得中にエラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.UNKNOWN_ERROR`.
+言語を取得中にエラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.UNKNOWN_ERROR`.
 
 ### サポートされているプラットフォーム
 
@@ -66,10 +76,11 @@ BCP 47 準拠の言語識別子タグを返します、 `successCallback` と、
 *   Firefox の OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en-US` 言語、これで、テキストとポップアップ ダイアログを表示 `language: en-US` ：
+テキストとポップアップ ダイアログが表示されるときに、`EN-US` 言語にブラウザーを設定すると、`言語: アン米`：
 
     navigator.globalization.getPreferredLanguage(
         function (language) {alert('language: ' + language.value + '\n');},
@@ -86,6 +97,10 @@ BCP 47 準拠の言語識別子タグを返します、 `successCallback` と、
 *   返します ISO 639-1 の 2 文字言語コードと設定、ハイフンで区切られた「言語」に対応する地域バリアントの ISO 3166-1 国名コード。
 *   地域バリアント「言語」の設定のプロパティは Windows Phone に無関係な"国/地域] の設定によって決定できないことに注意してください。
 
+### Windows の癖
+
+*   返します ISO 639-1 の 2 文字言語コードと設定、ハイフンで区切られた「言語」に対応する地域バリアントの ISO 3166-1 国名コード。
+
 ## navigator.globalization.getLocaleName
 
 クライアントの現在のロケール設定 BCP 47 準拠タグを返します。
@@ -93,11 +108,11 @@ BCP 47 準拠の言語識別子タグを返します、 `successCallback` と、
     navigator.globalization.getLocaleName(successCallback, errorCallback);
     
 
-### 説明
+### 解説
 
-BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` と、 `properties` オブジェクトをパラメーターとして。 そのオブジェクトが必要な `value` を持つプロパティ、 `String` 値。 ロケール タグは 2 文字の小文字の言語コード、大文字 2 文字の国コード、ハイフンで区切られた (不特定) のバリアント型コードで構成されます。
+`properties` オブジェクト `successCallback` にパラメーターとして BCP 47 準拠のロケール id 文字列を返します。 そのオブジェクトの `String` 値を `value` プロパティがあります。 ロケール タグは 2 文字の小文字の言語コード、大文字 2 文字の国コード、ハイフンで区切られた (不特定) のバリアント型コードで構成されます。
 
-ロケールを取得中にエラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.UNKNOWN_ERROR`.
+ロケールを取得中にエラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.UNKNOWN_ERROR`.
 
 ### サポートされているプラットフォーム
 
@@ -107,10 +122,11 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
 *   Firefox の OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en-US` ロケール、テキストとポップアップ ダイアログが表示されます`locale: en-US`.
+ブラウザーは、`EN-US` ロケールに設定されて、テキストとポップアップ ダイアログが表示されます `ロケール: EN-US`.
 
     navigator.globalization.getLocaleName(
         function (locale) {alert('locale: ' + locale.value + '\n');},
@@ -120,11 +136,15 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
 
 ### Android の癖
 
-*   Java は区別されません設定「言語」と「ロケール設定、」ので、このメソッドは、本質的に同じ`navigator.globalizatin.getPreferredLanguage()`.
+*   Java は区別されません設定「言語」と「ロケール設定、」ので、このメソッドは、本質的に `navigator.globalizatin.getPreferredLanguage()` と同じ.
 
 ### Windows Phone 8 癖
 
 *   返します ISO 639-1 の 2 文字言語コードおよびハイフンで区切られた「地域形式」の設定に対応する地域バリアントの ISO 3166-1 国名コード。
+
+### Windows の癖
+
+*   コントロール パネルの [時計、言語および地域地域フォーマット形式、->->->-> と-> 地域の形式で Windows Phone 8.1-> の地域の設定ロケール設定を変更することができます。
 
 ## navigator.globalization.dateToString
 
@@ -133,22 +153,22 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
     navigator.globalization.dateToString(date, successCallback, errorCallback, options);
     
 
-### 説明
+### 解説
 
-書式設定された日付を返します `String` を介して、 `value` にパラメーターとして渡されたオブジェクトからアクセス可能なプロパティ、`successCallback`.
+`successCallback` にパラメーターとして渡されたオブジェクトからアクセス可能な `値` プロパティ経由で書式設定された日付 `文字列` を返します.
 
-受信 `date` パラメーター型である必要があります`Date`.
+受信 `日付` パラメーターは `Date` 型である必要があります。.
 
-場合は、日付の書式設定エラーがあるし、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.FORMATTING_ERROR`.
+日付の書式設定エラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.FORMATTING_ERROR`.
 
-`options`パラメーターはオプションであり、既定値は。
+`options` パラメーターはオプションであり、既定値は。
 
-    {formatLength: 'ショート' セレクター： '日付と時刻'}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`することができます `short` 、 `medium` 、 `long` 、または`full`.
+`options.formatLength` `short`、`medium`、`long`、または `full` にすることができます。.
 
-`options.selector`することができます `date` 、 `time` または`date and time`.
+`date`、`time` または `date and time` にすることができます `options.selector`.
 
 ### サポートされているプラットフォーム
 
@@ -158,10 +178,11 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
 *   Firefox の OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザー設定されている場合、 `en_US` のロケールのようなテキストとポップアップ ダイアログが表示されます `date: 9/25/2012 4:21PM` 既定のオプションを使用して。
+ようなテキストとポップアップ ダイアログが表示されます、ブラウザーは `en_US` ロケールの場合、`日付: 2012/09/25 16:21`、既定のオプションを使用して。
 
     navigator.globalization.dateToString(
         new Date(),
@@ -171,14 +192,33 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
     );
     
 
+### Android の癖
+
+*   `formatLength` オプションは Unicode [UTS #35][1] のサブセットです。 `短い` 既定オプション内でユーザーの選択した日付形式によって異なります `設定 -> システム -> 日付 ＆ 時間 -> 選択日付形式`、4 桁、2 桁の数字だけで、`年` のパターンを提供します。 つまり、ことそれ完全に平行でない [ICU][2].
+
+ [1]: http://unicode.org/reports/tr35/tr35-4.html
+ [2]: http://demo.icu-project.org/icu-bin/locexp?d_=en_US&_=en_US
+
 ### Windows Phone 8 癖
 
-*   `formatLength`オプションをサポートするだけ `short` と `full` の値。
+*   `formatLength` オプションは `short` と `full` の値だけをサポートします。
+
+*   '日付と時刻' のセレクターのパターンは常に完全な datetime 形式です。
+
+*   返される値が完全にユーザーのロケールに応じて ICU で配置されます。
+
+### Windows の癖
+
+*   `formatLength` オプションは `short` と `full` の値だけをサポートします。
+
+*   '日付と時刻' のセレクターのパターンは常に完全な datetime 形式です。
+
+*   返される値が完全にユーザーのロケールに応じて ICU で配置されます。
 
 ### Firefox OS 癖
 
-*   `formatLength`識別されない `long` と`full` 
-*   日付を表示する 1 つだけメソッド （ない `long` または `full` バージョン）
+*   `formatLength` は `long` と `full` に識別されません。 
+*   1 つだけ （`long` または `full` バージョンなし） の日付を表示する方法
 
 ## navigator.globalization.getCurrencyPattern
 
@@ -187,27 +227,25 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
      navigator.globalization.getCurrencyPattern(currencyCode, successCallback, errorCallback);
     
 
-### 説明
+### 解説
 
-パターンを返します、 `successCallback` と、 `properties` オブジェクトをパラメーターとして。そのオブジェクトは、次のプロパティを含める必要があります。
+`properties` オブジェクト `successCallback` にパラメーターとしてパターンを返します。そのオブジェクトは、次のプロパティを含める必要があります。
 
-*   **パターン**: 通貨パターンを書式設定および通貨の値を解析します。 パターンは、 [Unicode 技術標準 #35][1]に従ってください。 *(文字列)*
+*   **pattern**: 通貨パターンを書式設定および通貨の値を解析します。 パターンは、[Unicode 技術標準 #35][1] に従ってください。 *(文字列)*
 
-*   **コード**: パターンの ISO 4217 通貨コード。*(文字列)*
+*   **code**: パターンの ISO 4217 通貨コード。*(文字列)*
 
-*   **分数**: 解析および通貨を書式設定するときに使用する小数部の桁の数。*(数)*
+*   **fraction**: 解析および通貨を書式設定するときに使用する小数部の桁の数。*(数)*
 
-*   **丸め**: 解析および書式設定するときに使用するインクリメントに丸め。*(数)*
+*   **rounding**: 解析および書式設定するときに使用するインクリメントに丸め。*(数)*
 
-*   **10 進数**: 解析および書式設定を使用する小数点の記号。*(文字列)*
+*   **decimal**: 解析および書式設定を使用する小数点の記号。*(文字列)*
 
-*   **グループ**: 解析および書式設定を使用する区切り記号。*(文字列)*
+*   **grouping**: 解析および書式設定を使用する区切り記号。*(文字列)*
 
- [1]: http://unicode.org/reports/tr35/tr35-4.html
+受信 `currencyCode` パラメーター、ISO 4217 通貨コードは、たとえば 'USD' のいずれかの `文字列` でなければなりません。
 
-受信した `currencyCode` パラメーターをする必要があります、 `String` 、ISO 4217 通貨コードは、たとえば 'USD' のいずれかの。
-
-パターンを取得時にエラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.FORMATTING_ERROR`.
+パターンを取得時にエラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.FORMATTING_ERROR`.
 
 ### サポートされているプラットフォーム
 
@@ -215,10 +253,11 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
 *   アンドロイド
 *   ブラックベリー 10
 *   iOS
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en_US` ロケールと、選択した通貨は米国ドルで、この例は次の結果のようなテキストとポップアップ ダイアログを表示します。
+この例では、ブラウザーは `en_US` ロケールに設定され、選択した通貨は米国ドル、に従って結果のようなテキストとポップアップ ダイアログが表示されます。
 
     navigator.globalization.getCurrencyPattern(
         'USD',
@@ -244,6 +283,10 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
     grouping: ,
     
 
+### Windows の癖
+
+*   唯一の 'コード' と '分数' プロパティはサポートされて
+
 ## navigator.globalization.getDateNames
 
 月の名前またはクライアントのユーザーの好みやカレンダーに応じて曜日の配列を返します。
@@ -251,20 +294,20 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
     navigator.globalization.getDateNames(successCallback, errorCallback, options);
     
 
-### 説明
+### 解説
 
-名前の配列を返します、 `successCallback` と、 `properties` オブジェクトをパラメーターとして。 そのオブジェクトが含まれています、 `value` プロパティ、 `Array` の `String` の値。 年または選択したオプションに応じて、週の最初の日の最初の月のいずれかから始まってアレイ機能の名前。
+`properties` オブジェクト `successCallback` にパラメーターとして名前の配列を返します。 そのオブジェクトには `value` 値の `Array` と `String` のプロパティが含まれます。 年または選択したオプションに応じて、週の最初の日の最初の月のいずれかから始まってアレイ機能の名前。
 
-名前の取得エラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.UNKNOWN_ERROR`.
+名前の取得エラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.UNKNOWN_ERROR`.
 
-`options`パラメーターはオプションであり、既定値は。
+`options` パラメーターはオプションであり、既定値は。
 
     {type:'wide', item:'months'}
     
 
-値 `options.type` することができます `narrow` または`wide`.
+`options.type` の値は `narrowく` または `wide` ことができます。.
 
-値 `options.item` することができます `months` または`days`.
+`options.item` の値は `month` または `days` をすることができます。.
 
 ### サポートされているプラットフォーム
 
@@ -274,10 +317,11 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
 *   Firefox の OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en_US` ロケール、この例の表示 12 ポップアップ ダイアログ ボックスのようなテキストで、毎月のシリーズ `month: January` :
+`En_US` ロケールにブラウザーを設定すると、この例のようなテキストで、毎月 1 つ 12 のポップアップ ダイアログのシリーズが表示されます `ヶ月: 1 月`。
 
     navigator.globalization.getDateNames(
         function (names) {
@@ -292,7 +336,17 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
 
 ### Firefox OS 癖
 
-*   `options.type`サポートしている、 `genitive` のいくつかの言語の重要な値
+*   `options.type` のいくつかの言語の重要な `genitive` の値をサポートしています
+
+### Windows Phone 8 癖
+
+*   数ヶ月の配列には 13 の要素が含まれます。
+*   返される配列が完全にユーザーのロケールに応じて ICU で配置されます。
+
+### Windows の癖
+
+*   数ヶ月の配列には 12 の要素が含まれます。
+*   返される配列が完全にユーザーのロケールに応じて ICU で配置されます。
 
 ## navigator.globalization.getDatePattern
 
@@ -303,25 +357,24 @@ BCP 47 準拠ロケール識別子文字列を返します、 `successCallback` 
 
 ### 説明
 
-パターンを返します、 `successCallback` 。パラメーターとして渡されたオブジェクトには、次のプロパティが含まれています。
+`successCallback` にパターンを返します。パラメーターとして渡されたオブジェクトには、次のプロパティが含まれています。
 
-*   **パターン**: 書式し、日付を解析する日付と時刻のパターン。 パターンは、 [Unicode 技術標準 #35][1]に従ってください。 *(文字列)*
+*   **pattern**: 書式し、日付を解析する日付と時刻のパターン。 パターンは、[Unicode 技術標準 #35][1] に従ってください。 *(文字列)*
 
-*   **タイムゾーン**: クライアントのタイム ゾーンの省略名。*(文字列)*
+*   **timezone**: クライアントのタイム ゾーンの省略名。*(文字列)*
 
-*   **とおりです。**: クライアントのタイム ゾーンと世界協定時刻間の秒で現在の差異。*(数)*
+*   **utc_offset**: クライアントのタイム ゾーンと世界協定時刻間の秒で現在の差異。*(数)*
 
 *   **dst_offset**： クライアントの非夏時間 (秒単位) は、現在の夏時間オフセットのタイムゾーンとクライアントの夏時間保存のタイム ゾーン。*(数)*
 
-パターンを取得時にエラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.PATTERN_ERROR`.
+パターンを取得時にエラーがある場合、`解り` パラメーターとして `GlobalizationError` オブジェクトで実行します。 予想されるエラーコードは `GlobalizationError.PATTERN_ERROR`.
 
-`options`パラメーターはオプションであり、次の値を既定値します。
+`options` のパラメーターはオプションであり、次の値を既定値します。
 
-    {formatLength: 'ショート' セレクター： '日付と時刻'}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`することができます `short` 、 `medium` 、 `long` 、または `full` 。 `options.selector`することができます `date` 、 `time` または`date and
-time`.
+`options.formatLength` `short`、`medium`、`long`、または `full` にすることができます。 `date`、`time` または `date and time` にすることができます `options.selector`.
 
 ### サポートされているプラットフォーム
 
@@ -330,10 +383,11 @@ time`.
 *   ブラックベリー 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en_US` ロケール、例など、テキストとポップアップ ダイアログを表示します `pattern: M/d/yyyy h:mm a` :
+ブラウザーは `en_US` ロケールに設定されて、この例が表示されますテキストとポップアップ ダイアログなど `パターン： M/d と yyyy h:mm、`：
 
     function checkDatePattern() {
         navigator.globalization.getDatePattern(
@@ -346,13 +400,27 @@ time`.
 
 ### Windows Phone 8 癖
 
-*   `formatLength`のみをサポートしています `short` と `full` の値。
+*   `formatLength` オプションは `short` と `full` の値だけをサポートします。
 
-*   `pattern`の `date and time` パターンは完全な datetime 形式のみを返します。
+*   `日付と時刻` のパターンの `パターン` は完全な datetime 形式のみを返します。
 
-*   `timezone`完全なタイム ゾーン名を返します。
+*   `timezone` のタイム ゾーン名を返します。
 
-*   `dst_offset`プロパティはサポートされていませんし、常に 0 を返します。
+*   `dst_offset` プロパティはサポートされていませんし、常にゼロを返します。
+
+*   パターンは、可能性がありますいない完全にユーザーのロケールに応じて ICU で配置されます。
+
+### Windows の癖
+
+*   `formatLength` オプションは `short` と `full` の値だけをサポートします。
+
+*   `日付と時刻` のパターンの `パターン` は完全な datetime 形式のみを返します。
+
+*   `timezone` のタイム ゾーン名を返します。
+
+*   `dst_offset` プロパティはサポートされていませんし、常にゼロを返します。
+
+*   パターンは、可能性がありますいない完全にユーザーのロケールに応じて ICU で配置されます。
 
 ## navigator.globalization.getFirstDayOfWeek
 
@@ -361,11 +429,11 @@ time`.
     navigator.globalization.getFirstDayOfWeek(successCallback, errorCallback);
     
 
-### 説明
+### 解説
 
-週の日 1 日曜日であると見なされます、1 から始まる番号が付けられます。 曜日を返します、 `successCallback` と、 `properties` オブジェクトをパラメーターとして。 そのオブジェクトが必要な `value` を持つプロパティ、 `Number` 値。
+週の日 1 日曜日であると見なされます、1 から始まる番号が付けられます。 `プロパティ` オブジェクト `successCallback` にパラメーターとして返します。 そのオブジェクトの `文字列` 値を `value` プロパティがあります。
 
-パターンを取得時にエラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.UNKNOWN_ERROR`.
+パターンを取得時にエラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.UNKNOWN_ERROR`.
 
 ### サポートされているプラットフォーム
 
@@ -375,16 +443,21 @@ time`.
 *   Firefox の OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en_US` のロケールのようなテキストとポップアップ ダイアログが表示されます`day: 1`.
+ブラウザーは `en_US` ロケールに設定されてのようなテキストとポップアップ ダイアログが表示されます `日： 1`.
 
     navigator.globalization.getFirstDayOfWeek(
         function (day) {alert('day: ' + day.value + '\n');},
         function () {alert('Error getting day\n');}
     );
     
+
+### Windows の癖
+
+*   Windows 8.0/8.1 値によって異なりますユーザー ' 好みのカレンダーします。Windows Phone 8.1 の値は現在のロケールに依存します。
 
 ## navigator.globalization.getNumberPattern
 
@@ -393,34 +466,34 @@ time`.
     navigator.globalization.getNumberPattern(successCallback, errorCallback, options);
     
 
-### 説明
+### 解説
 
-パターンを返します、 `successCallback` と、 `properties` オブジェクトをパラメーターとして。そのオブジェクトには、次のプロパティが含まれています。
+`properties` オブジェクト `successCallback` にパラメーターとしてパターンを返します。そのオブジェクトは、次のプロパティを含める必要があります。
 
-*   **パターン**: 番号のパターンを書式設定および解析の数字。 パターンは、 [Unicode 技術標準 #35][1]に従ってください。 *(文字列)*
+*   **pattern**: 番号のパターンを書式設定および解析の数字。 パターンは、[Unicode 技術標準 #35][1] に従ってください。 *(文字列)*
 
-*   **記号**: 書式設定と解析、パーセントや通貨記号などのときに使用するシンボル。*(文字列)*
+*   **symbol**: 書式設定と解析、パーセントや通貨記号などのときに使用するシンボル。*(文字列)*
 
-*   **分数**: 解析および数値を書式設定するときに使用する小数部の桁の数。*(数)*
+*   **fraction**: 解析および通貨を書式設定するときに使用する小数部の桁の数。*(数)*
 
-*   **丸め**: 解析および書式設定するときに使用するインクリメントに丸め。*(数)*
+*   **rounding**: 解析および書式設定するときに使用するインクリメントに丸め。*(数)*
 
-*   **正**： 正の数の解析および書式設定するときに使用する記号。*(文字列)*
+*   **positive**： 正の数の解析および書式設定するときに使用する記号。*(文字列)*
 
-*   **負**: 負の数の解析および書式設定するときに使用する記号。*(文字列)*
+*   **negative**: 負の数の解析および書式設定するときに使用する記号。*(文字列)*
 
-*   **10 進数**: 解析および書式設定を使用する小数点の記号。*(文字列)*
+*   **decimal**: 解析および書式設定を使用する小数点の記号。*(文字列)*
 
-*   **グループ**: 解析および書式設定を使用する区切り記号。*(文字列)*
+*   **grouping**: 解析および書式設定を使用する区切り記号。*(文字列)*
 
-パターンを取得時にエラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.PATTERN_ERROR`.
+パターンを取得時にエラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.PATTERN_ERROR`.
 
-`options`パラメーターが省略可能であり、既定値。
+`options` パラメーターはオプションであり、既定値は。
 
-    {0} 型: 'decimal'}
+    {type:'decimal'}
     
 
-`options.type`することができます `decimal` 、 `percent` 、または`currency`.
+`options.type` は `10 decimal`、`percent`、および `currency` をすることができます。.
 
 ### サポートされているプラットフォーム
 
@@ -429,10 +502,11 @@ time`.
 *   ブラックベリー 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en_US` のロケールに従って結果のようなテキストとポップアップ ダイアログが表示されます。
+`En_US` ロケールにブラウザーを設定すると、次の結果のようなテキストとポップアップ ダイアログが表示されるこの必要があります。
 
     navigator.globalization.getNumberPattern(
         function (pattern) {alert('pattern: '  + pattern.pattern  + '\n' +
@@ -462,9 +536,13 @@ time`.
 
 ### Windows Phone 8 癖
 
-*   `pattern`プロパティはサポートされていませんと retuens、空の文字列。
+*   `pattern` プロパティはサポートされていませんし、空の文字列を返します。
 
-*   `fraction`プロパティはサポートされていません、0 を返します。
+*   `fraction` プロパティはサポートされていませんし、ゼロを返します。
+
+### Windows の癖
+
+*   `pattern` プロパティはサポートされていませんし、空の文字列を返します。
 
 ## navigator.globalization.isDayLightSavingsTime
 
@@ -475,11 +553,11 @@ time`.
 
 ### 説明
 
-夏時間が有効にするかどうかを示します、 `successCallback` と、 `properties` オブジェクトをパラメーターとして。 そのオブジェクトが必要な `dst` を持つプロパティ、 `Boolean` 値。 A `true` 値は、夏時間の時間が指定した日付のために有効であることを示しますと `false` がないことを示します。
+夏時間が有効で `successCallback` `properties` オブジェクトをパラメーターとして使用するかどうかを示します。 そのオブジェクトは `dst` プロパティの `Boolean` 値が必要です。 値 `true` は夏時間が有効で特定の日付の `false の場合それがない` ことを示します。
 
-受信パラメーター `date` 型である必要があります`Date`.
+受信パラメーター `date` `Date` 型である必要があります。.
 
-日付を読み取り中にエラーがある場合、 `errorCallback` を実行します。予想されるエラーコードです。`GlobalizationError.UNKNOWN_ERROR`.
+日付の読み取り中にエラーがある場合は `解り` が実行します。予想されるエラーコードは `GlobalizationError.UNKNOWN_ERROR`.
 
 ### サポートされているプラットフォーム
 
@@ -489,10 +567,11 @@ time`.
 *   Firefox の OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-夏の間、これでのようなテキストとポップアップ ダイアログを表示するブラウザーは、DST が有効なタイム ゾーンに設定されている場合と `dst: true` ：
+夏の間、これのようなテキストとポップアップ ダイアログを表示する必要がありますブラウザーは、DST が有効なタイム ゾーンに設定されている場合と `dst: true`。
 
     navigator.globalization.isDayLightSavingsTime(
         new Date(),
@@ -508,18 +587,18 @@ time`.
     navigator.globalization.numberToString(number, successCallback, errorCallback, options);
     
 
-### 説明
+### 解説
 
-番号の書式設定された文字列を返します、 `successCallback` と、 `properties` オブジェクトをパラメーターとして。 そのオブジェクトが必要な `value` を持つプロパティ、 `String` 値。
+`properties` オブジェクトに `successCallback` をパラメーターとして書式設定された数値文字列を返します。 そのオブジェクトの `String` 値を `value` プロパティがあります。
 
-番号、書式設定エラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.FORMATTING_ERROR`.
+数書式設定エラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.FORMATTING_ERROR`.
 
-`options`パラメーターはオプションであり、既定値は。
+`options` パラメーターはオプションであり、既定値は。
 
-    {0} 型: 'decimal'}
+    {type:'decimal'}
     
 
-`options.type`'Decimal'、'%' または '通貨' にすることができます。
+`options.type` は 'decimal'、'percent' または 'currency' することができます。
 
 ### サポートされているプラットフォーム
 
@@ -528,10 +607,11 @@ time`.
 *   ブラックベリー 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en_US` のロケールのようなテキストとポップアップ ダイアログが表示されます `number: 3.142` ：
+ブラウザーは `en_US` ロケールに設定されてのようなテキストとポップアップ ダイアログが表示されます `数: 3.142`。
 
     navigator.globalization.numberToString(
         3.1415926,
@@ -541,6 +621,14 @@ time`.
     );
     
 
+### Windows の癖
+
+*   Windows 8.0 数の丸めをサポートしていない、その値は丸められません自動的に。
+
+*   Windows 8.1 および Windows Phone 8.1 小数部が切り捨てられているのではなく `パーセント` 型したがって小数桁数の場合丸めカウントを 0 に設定されます。
+
+*   としてグループ化された場合に stringToNumber で解析できません、`％` の数字はグループ化されません。
+
 ## navigator.globalization.stringToDate
 
 クライアントのユーザーの基本設定や、クライアントのタイム ゾーンを使用して予定表によると、文字列として書式設定された日付を解析し、対応する日付オブジェクトを返します。
@@ -548,35 +636,34 @@ time`.
     navigator.globalization.stringToDate(dateString, successCallback, errorCallback, options);
     
 
-### 説明
+### 解説
 
-日付の成功時のコールバックを返します、 `properties` オブジェクトをパラメーターとして。そのオブジェクトは、次のプロパティが必要です。
+`properties` オブジェクトで成功コールバックにパラメーターとして日付を返します。そのオブジェクトは、次のプロパティが必要です。
 
-*   **年**： 4 桁の年。*(数)*
+*   **year**： 4 桁の年。*(数)*
 
-*   **月**: (0-11) から 1 カ月。*(数)*
+*   **month**: (0-11) から 1 カ月。*(数)*
 
-*   **日**: 日 (1 から 31)。*(数)*
+*   **day**: 日 (1 から 31)。*(数)*
 
-*   **時間**: 時間 (0-23) から。*(数)*
+*   **hour**: 時間 (0-23) から。*(数)*
 
-*   **分**: (0-59） から分です。*(数)*
+*   **minute**: (0-59） から分です。*(数)*
 
-*   **2 番目**: (0-59） から 2 番目。*(数)*
+*   **second**: (0-59） から 2 番目。*(数)*
 
-*   **ミリ秒**： 時間をミリ秒単位 (0 ～ 999) まですべてのプラットフォームでは利用できません。*(数)*
+*   **milisecond**： 時間をミリ秒単位 (0 ～ 999) まですべてのプラットフォームでは利用できません。*(数)*
 
-受信 `dateString` パラメーター型である必要があります`String`.
+受信 `dateString` パラメーターは `String` 型である必要があります。.
 
-`options`パラメーターはオプションであり、次の値を既定値します。
+`options` のパラメーターはオプションであり、次の値を既定値します。
 
-    {formatLength: 'ショート' セレクター： '日付と時刻'}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`することができます `short` 、 `medium` 、 `long` 、または `full` 。 `options.selector`することができます `date` 、 `time` または`date and
-time`.
+`options.formatLength` `short`、`medium`、`long`、または `full` にすることができます。 `date`、`time` または `date and time` にすることができます `options.selector`.
 
-日付文字列の解析エラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.PARSING_ERROR`.
+日付文字列の解析エラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.PARSING_ERROR`.
 
 ### サポートされているプラットフォーム
 
@@ -586,10 +673,11 @@ time`.
 *   Firefox の OS
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en_US` のロケールのようなテキストとポップアップ ダイアログが表示されます `month:8 day:25 year:2012` 。 注意： 整数は 1 ヶ月未満の文字列、月整数として配列のインデックスを表します。
+`En_US` ロケールにブラウザーを設定すると、`1 ヶ月： 8 日： 25 年: 2012年` のようなテキストとポップアップ ダイアログが表示されます。 注意： 整数は 1 ヶ月未満の文字列、月整数として配列のインデックスを表します。
 
     navigator.globalization.stringToDate(
         '9/25/2012',
@@ -603,7 +691,19 @@ time`.
 
 ### Windows Phone 8 癖
 
-*   `formatLength`オプションをサポートするだけ `short` と `full` の値。
+*   `formatLength` オプションは `short` と `full` の値だけをサポートします。
+
+*   '日付と時刻' のセレクターのパターンは常に完全な datetime 形式です。
+
+*   getDatePattern によって返されるパターンに準拠して受信 `dateString` パラメーターを形成する必要があります。このパターンは完全にユーザーのロケールに応じて ICU で配置されます。
+
+### Windows の癖
+
+*   `formatLength` オプションは `short` と `full` の値だけをサポートします。
+
+*   '日付と時刻' のセレクターのパターンは常に完全な datetime 形式です。
+
+*   getDatePattern によって返されるパターンに準拠して受信 `dateString` パラメーターを形成する必要があります。このパターンは完全にユーザーのロケールに応じて ICU で配置されます。
 
 ## navigator.globalization.stringToNumber
 
@@ -612,18 +712,18 @@ time`.
     navigator.globalization.stringToNumber(string, successCallback, errorCallback, options);
     
 
-### 説明
+### 解説
 
-番号を返します、 `successCallback` と、 `properties` オブジェクトをパラメーターとして。そのオブジェクトが必要な `value` を持つプロパティ、 `Number` 値。
+`properties` オブジェクト `successCallback` にパラメーターとして数を返します。そのオブジェクト `value` 値を持つ `Number` のプロパティがあります。
 
-数値文字列の解析エラーがある場合、 `errorCallback` で実行する、 `GlobalizationError` オブジェクトをパラメーターとして。 予想されるエラーコードです。`GlobalizationError.PARSING_ERROR`.
+数値文字列の解析エラーがある場合、パラメーターとしての `GlobalizationError` オブジェクトに `解り` 実行しますし。 予想されるエラーコードは `GlobalizationError.PARSING_ERROR`.
 
-`options`パラメーターはオプションであり、次の値を既定値します。
+`options` のパラメーターはオプションであり、次の値を既定値します。
 
-    {0} 型: 'decimal'}
+    {type:'decimal'}
     
 
-`options.type`することができます `decimal` 、 `percent` 、または`currency`.
+`options.type` は `10 decimal`、`percent`、および `currency` をすることができます。.
 
 ### サポートされているプラットフォーム
 
@@ -632,10 +732,11 @@ time`.
 *   ブラックベリー 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 例
 
-ブラウザーに設定すると、 `en_US` ロケール、これのようなテキストとポップアップ ダイアログを表示する必要があります `number: 1234.56` ：
+これのようなテキストとポップアップ ダイアログを表示するブラウザー `en_US` ロケールを設定すると、`数: 1234.56`。
 
     navigator.globalization.stringToNumber(
         '1234.56',
@@ -645,22 +746,32 @@ time`.
     );
     
 
+### Windows Phone 8 癖
+
+*   `percent` 型の場合、返される値は 100 で分けられていません。
+
+### Windows の癖
+
+*   文字列をロケールの形式に厳密に従う必要があります。型パラメーターは '%' たとえば、パーセント記号必要があります - 英語ロケールのためのスペースで区切られました。
+
+*   `percent` の数値する必要があります正しく解析化されません。
+
 ## GlobalizationError
 
 グローバリゼーション API からエラーを表すオブジェクト。
 
 ### プロパティ
 
-*   **コード**: エラーの種類を表す次のコードの 1 つ *(数)* 
-    *   GlobalizationError.UNKNOWN_ERROR： 0
+*   **code**: エラーの種類を表す次のコードの 1 つ *(数)* 
+    *   GlobalizationError.UNKNOWN_ERROR: 0
     *   GlobalizationError.FORMATTING_ERROR: 1
-    *   GlobalizationError.PARSING_ERROR： 2
+    *   GlobalizationError.PARSING_ERROR: 2
     *   GlobalizationError.PATTERN_ERROR: 3
-*   **メッセージ**: エラーの説明が含まれていますおよび/または*(文字列)*の詳細をテキスト メッセージ
+*   **message**: エラーの説明が含まれていますおよび/または *(文字列)* の詳細をテキスト メッセージ
 
-### 説明
+### 解説
 
-このオブジェクトが作成され、コルドバ、によって移入エラーの場合のコールバックに返されます。
+このオブジェクト作成しコルドバ、によって移入され、エラーの場合のコールバックに返されます。
 
 ### サポートされているプラットフォーム
 
@@ -669,10 +780,12 @@ time`.
 *   ブラックベリー 10
 *   Firefox の OS
 *   iOS
+*   Windows Phone 8
+*   Windows
 
 ### 例
 
-次のエラー コールバックを実行するのようなテキストとポップアップ ダイアログが表示されます `code: 3` と`message:`
+次のエラー コールバックを実行するのようなテキストとポップアップ ダイアログが表示されます `コード: 3` と `メッセージ:`
 
     function errorCallback(error) {
         alert('code: ' + error.code + '\n' +

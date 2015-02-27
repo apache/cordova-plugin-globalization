@@ -21,6 +21,16 @@
 
 這個外掛程式獲取的資訊，並執行操作特定于使用者的地區設定、 語言和時區。 注意到地區設定和語言之間的區別： 數位、 日期和時間的顯示方式為一個區域，雖然語言確定什麼語言文本的地區設定控制項顯示為，與地區設定無關。 開發人員經常使用的地區設定來設置這兩個設置，但使用者不能將她的語言設置為"英語"沒有理由但地區設定為"法語"這樣的文本顯示在英語但日期、 時間等，同時會顯示他們是在法國。 不幸的是，大多數移動平臺目前不做這些設置之間的區別。
 
+這個外掛程式定義全球 `navigator.globalization` 物件。
+
+雖然在全球範圍內，它不可用直到 `deviceready` 事件之後。
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(navigator.globalization);
+    }
+    
+
 ## 安裝
 
     cordova plugin add org.apache.cordova.globalization
@@ -47,16 +57,16 @@
 
 ## navigator.globalization.getPreferredLanguage
 
-獲取用戶端的當前語言 BCP 47 語言標記。
+獲取用戶端的當前語言的 BCP 47 語言標記。
 
     navigator.globalization.getPreferredLanguage(successCallback, errorCallback);
     
 
 ### 說明
 
-返回的 BCP 47 相容的語言識別項標記 `successCallback` 與 `properties` 物件作為參數。 物件應具有 `value` 屬性與 `String` 的值。
+BCP 47 相容的語言識別項標記作為參數返回 `successCallback` 與 `屬性` 物件。 該物件應該具有 `value` 值的 `String` 屬性。
 
-如果有出錯的語言，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.UNKNOWN_ERROR`.
+如果獲取語言時出錯，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.UNKNOWN_ERROR`.
 
 ### 支援的平臺
 
@@ -66,10 +76,11 @@
 *   火狐瀏覽器的作業系統
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en-US` 的語言，這應顯示彈出式功能表對話方塊的文本與 `language: en-US` ：
+當瀏覽器設置為 `EN-US）` 語言時，此時應顯示彈出一個對話方塊文本 `語言： EN-US`：
 
     navigator.globalization.getPreferredLanguage(
         function (language) {alert('language: ' + language.value + '\n');},
@@ -86,31 +97,36 @@
 *   返回 ISO 639-1 兩個字母語言代碼和相應的設置，由連字號分隔的"語言"區域變形的 ISO 3166-1 國家代碼。
 *   請注意的區域變體是的"語言"設置的屬性，並不由 Windows Phone 上的無關的"國家/地區"設置決定的。
 
+### Windows 的怪癖
+
+*   返回 ISO 639-1 兩個字母語言代碼和相應的設置，由連字號分隔的"語言"區域變形的 ISO 3166-1 國家代碼。
+
 ## navigator.globalization.getLocaleName
 
-返回用戶端的目前範圍設置的 BCP 47 符合標記。
+返回用戶端的目前範圍設置的 BCP 47 相容標記。
 
     navigator.globalization.getLocaleName(successCallback, errorCallback);
     
 
 ### 說明
 
-返回到的 BCP 47 符合地區設定識別碼字串 `successCallback` 與 `properties` 物件作為參數。 物件應具有 `value` 屬性與 `String` 的值。 Locale 標記將包括兩個字母小寫語言代碼、 國家代碼兩個字母大寫和 （未指定） 變數的代碼，由連字號分隔。
+BCP 47 相容的地區設定識別碼字串作為參數返回 `successCallback` 與 `屬性` 物件。 該物件應該具有 `value` 值的 `String` 屬性。 Locale 標記將由兩個字母小寫語言代碼和兩個字母大寫國家/地區代碼，（未指定） 的變數代碼，由連字號分隔。
 
-如果有出錯的地區設定，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.UNKNOWN_ERROR`.
+如果獲取地區設定時發生錯誤，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.UNKNOWN_ERROR`.
 
 ### 支援的平臺
 
 *   亞馬遜火 OS
 *   Android 系統
 *   黑莓 10
-*   火狐瀏覽器的作業系統
+*   火狐瀏覽器作業系統
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en-US` 的地區設定，這將顯示彈出式對話方塊中的文本`locale: en-US`.
+當瀏覽器設置為 `EN-US` 地區設定時，這將顯示彈出一個對話方塊文本 `地區設定： EN-US`.
 
     navigator.globalization.getLocaleName(
         function (locale) {alert('locale: ' + locale.value + '\n');},
@@ -120,11 +136,15 @@
 
 ### Android 的怪癖
 
-*   JAVA 不區分設置"語言"和設置的"地區設定"，所以這種方法基本上是相同`navigator.globalizatin.getPreferredLanguage()`.
+*   JAVA 不區分一集的"語言"和設置"地區設定"，所以這種方法本質上是相同的 `navigator.globalizatin.getPreferredLanguage()`.
 
 ### Windows Phone 8 怪癖
 
-*   返回 ISO 639-1 兩個字母語言代碼和區域 variant 類型的值對應于"區域格式"設置，以連字號分隔的 ISO 3166-1 國家代碼。
+*   返回 ISO 639-1 兩個字母的語言代碼和 ISO 3166-1 國家/地區代碼的區域的 variant 類型的值對應于"區域格式"設置，由連字號分隔。
+
+### Windows 的怪癖
+
+*   在控制台中時鐘、 語言和區域-> 格式，格式區域-> 和-> 區域的格式在 Windows Phone 8.1 上的地區設定中，可以更改地區設定。
 
 ## navigator.globalization.dateToString
 
@@ -135,33 +155,34 @@
 
 ### 說明
 
-返回格式化的日期 `String` 通過 `value` 屬性可從該物件作為一個參數傳遞`successCallback`.
+可從該物件作為參數傳遞給 `successCallback` 訪問通過 `value` 屬性返回格式化的日期 `String`.
 
-入站 `date` 參數的類型應為`Date`.
+入站的 `date` 參數應該是 `Date` 類型.
 
-如果有錯誤格式日期，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.FORMATTING_ERROR`.
+如果格式化日期時發生錯誤，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.FORMATTING_ERROR`.
 
-`options`參數是可選的且其預設值：
+`options` 參數是可選的且其預設值：
 
-    {formatLength: '短'，選擇器： 日期和時間}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`可以是 `short` ， `medium` ， `long` ，或`full`.
+`options.formatLength` 可以 `short`、 `medium`、 `long`、 或 `full`.
 
-`options.selector`可以是 `date` ， `time` 或`date and time`.
+`options.selector` 可以是 `date`、 `time` 或 `date and time`.
 
 ### 支援的平臺
 
 *   亞馬遜火 OS
 *   Android 系統
 *   黑莓 10
-*   火狐瀏覽器的作業系統
+*   火狐瀏覽器作業系統
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-如果瀏覽器設置為 `en_US` 的地區設定，這將顯示一個彈出對話方塊與類似的文本 `date: 9/25/2012 4:21PM` 使用預設選項：
+如果瀏覽器設置為 `en_US` 地區設定，這將顯示彈出一個對話方塊文本類似于 `日期： 2012/9/25 4:21 下午` 使用預設選項：
 
     navigator.globalization.dateToString(
         new Date(),
@@ -171,43 +192,61 @@
     );
     
 
+### Android 的怪癖
+
+*   預設選項 `formatLenght` 取決於使用者所選的日期格式內 <0>設置-> 系統-> 日期和時間-> 選擇日期格式</0>，<0>年</0> 模式僅提供 4 位數位，不 2 位數。 預設選項 `short` 取決於使用者所選的日期格式內 `設置-> 系統-> 日期和時間-> 選擇日期格式`，`年` 模式僅提供 4 位數位，不 2 位數。 這意味著它不完全對齊與 [ICU][1].
+
+ [1]: http://demo.icu-project.org/icu-bin/locexp?d_=en_US&_=en_US
+
 ### Windows Phone 8 怪癖
 
-*   `formatLength`選項僅支援 `short` 和 `full` 的值。
+*   `formatLength` 選項支援只有 `short` 和 `full` 的值。
+
+*   日期和時間的選擇器模式一直是一種完整的日期時間格式。
+
+*   返回的值可能取決於使用者的地區設定與 ICU 不完全對齊。
+
+### Windows 的怪癖
+
+*   `formatLength` 選項支援只有 `short` 和 `full` 的值。
+
+*   日期和時間的選擇器模式一直是一種完整的日期時間格式。
+
+*   返回的值可能取決於使用者的地區設定與 ICU 不完全對齊。
 
 ### 火狐瀏覽器作業系統的怪癖
 
-*   `formatLength`不能把區分 `long` 和`full` 
-*   顯示日期的唯一方法 （沒有 `long` 或 `full` 版本）
+*   `formatLength` 不區分 `long` 和 `full` 
+*   顯示日期 （沒有 `long` 或 `full` 的版本） 的唯一方法
 
 ## navigator.globalization.getCurrencyPattern
 
-返回一個模式字串格式化和分析根據用戶端的使用者首選項和 ISO 4217 貨幣代碼貨幣值。
+返回一個模式字串格式化和解析貨幣值根據用戶端的使用者首選項和 ISO 4217 貨幣代碼。
 
      navigator.globalization.getCurrencyPattern(currencyCode, successCallback, errorCallback);
     
 
-### 描述
+### 說明
 
-返回到模式 `successCallback` 與 `properties` 物件作為參數。該物件應包含以下屬性：
+返回到 `successCallback` 與 `屬性` 物件作為參數的模式。該物件應包含以下屬性：
 
-*   **模式**： 要格式化和解析貨幣值的貨幣模式。 模式遵循[Unicode 技術標準 #35][1]。 *（字串）*
+*   **pattern**： 要格式化和解析貨幣值的貨幣模式。 模式遵循[Unicode 技術標準 #35][2]。 *（字串）*
 
-*   **代碼**： 模式的 ISO 4217 貨幣代碼。*（字串）*
+*   **code**： 模式的 ISO 4217 貨幣代碼。*（字串）*
 
-*   **分數**： 解析和貨幣的格式時要使用的小數位數的數目。*（數）*
+*   **fraction**： 解析和貨幣的格式時要使用的小數位數的數目。*（數）*
 
-*   **舍入**： 舍入增量解析和格式時要使用。*（數）*
+*   **rounding**： 舍入增量解析和格式時要使用。*（數）*
 
-*   **十進位**： 小數點符號用於分析和格式設置。*（字串）*
+*   **decimal**： 小數點符號用於分析和格式設置。*（字串）*
 
-*   **分組**： 分組符號用於分析和格式設置。*（字串）*
+*   **grouping**： 分組符號用於分析和格式設置。*（字串）*
 
- [1]: http://unicode.org/reports/tr35/tr35-4.html
+ [2]: http://unicode.org/reports/tr35/tr35-4.html
 
-入站 `currencyCode` 參數應該是 `String` 的 ISO 4217 貨幣代碼，例如 '美元' 之一。
+入站的 `currencyCode` 參數應該是一個 `字串` 的 ISO 4217 貨幣代碼，例如 '美元' 之一。
 
-如果有錯誤獲得該模式，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.FORMATTING_ERROR`.
+如果獲取模式時發生錯誤，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.FORMATTING_ERROR`.
 
 ### 支援的平臺
 
@@ -215,10 +254,11 @@
 *   安卓系統
 *   黑莓 10
 *   iOS
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en_US` 地區設定和所選的幣種是美元，本示例將顯示一個彈出對話方塊與類似的結果，請按照操作的文本：
+當瀏覽器設置為 `en_US` 地區設定，所選的幣種是美元時，此示例顯示彈出一個對話方塊文本類似于遵循的效果：
 
     navigator.globalization.getCurrencyPattern(
         'USD',
@@ -244,27 +284,31 @@
     grouping: ,
     
 
+### Windows 的怪癖
+
+*   支援的唯一的 'code' 和 'fraction' 屬性
+
 ## navigator.globalization.getDateNames
 
-返回一個陣列的幾個月的名稱或一周內，根據用戶端的使用者首選項和日曆天。
+返回陣列的各月的名稱或一周，具體取決於用戶端的使用者首選項和日曆天。
 
     navigator.globalization.getDateNames(successCallback, errorCallback, options);
     
 
-### 描述
+### 說明
 
-返回的陣列的名稱為 `successCallback` 與 `properties` 物件作為參數。 該物件包含 `value` 屬性與 `Array` 的 `String` 的值。 從任一開始一年或一周內，根據所選的選項的第一天中的第一個月的陣列功能名稱。
+返回到 `successCallback` 與 `properties` 物件的名稱的陣列作為參數。 該物件包含帶有 `value` 值的 `Array` 的 `String` 屬性。 陣列特徵名稱從任一開始一年或一周，具體取決於所選的選項的第一天中的第一個月。
 
-如果有錯誤取得名字，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.UNKNOWN_ERROR`.
+如果獲得名稱時發生錯誤，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.UNKNOWN_ERROR`.
 
-`options`參數是可選的且其預設值：
+`options` 參數是可選的且其預設值：
 
     {type:'wide', item:'months'}
     
 
-值 `options.type` 可以是 `narrow` 或`wide`.
+`options.type` 值可以 `narrow` 或 `wide`.
 
-值 `options.item` 可以是 `months` 或`days`.
+`options.item` 的值可以是 `months` 或 `days`.
 
 ### 支援的平臺
 
@@ -274,10 +318,11 @@
 *   火狐瀏覽器的作業系統
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en_US` 的地區設定，本示例顯示一系列的十二個彈出對話方塊，每個月，與類似的文本一個 `month: January` ：
+當瀏覽器設置為 `en_US` 地區設定時，本示例顯示一系列的十二個彈出對話方塊，每個月，與類似的文本一 `個月： 1 月`：
 
     navigator.globalization.getDateNames(
         function (names) {
@@ -292,7 +337,17 @@
 
 ### 火狐瀏覽器作業系統的怪癖
 
-*   `options.type`支援 `genitive` 值，對於某些語言重要
+*   `options.type` 支援 `genitive` 的價值，對於某些語言重要
+
+### Windows Phone 8 怪癖
+
+*   月份的陣列包含 13 個元素。
+*   返回的陣列可能根據使用者的地區設定與 ICU 不完全對齊。
+
+### Windows 的怪癖
+
+*   月份的陣列包含 12 種元素。
+*   返回的陣列可能根據使用者的地區設定與 ICU 不完全對齊。
 
 ## navigator.globalization.getDatePattern
 
@@ -303,37 +358,37 @@
 
 ### 描述
 
-返回到模式 `successCallback` 。作為一個參數傳遞的物件包含以下屬性：
+返回到 `successCallback` 的模式。作為一個參數傳遞進來的物件包含以下屬性：
 
-*   **模式**： 要格式化和解析日期的日期和時間模式。 模式遵循[Unicode 技術標準 #35][1]。 *（字串）*
+*   **pattern**： 要格式化和解析日期的日期和時間模式。 模式遵循[Unicode 技術標準 #35][2]。 *（字串）*
 
-*   **時區**： 在用戶端上的時區的縮寫的名稱。*（字串）*
+*   **timezone**： 在用戶端上的時區的縮寫的名稱。*（字串）*
 
 *   **utc_offset**： 用戶端時區的時間和協調通用時間以秒為單位的當前區別。*（數）*
 
 *   **dst_offset**： 用戶端的非夏令時之間的秒數的當前的日光節約時間偏移量的時區和用戶端的夏時制節約的時區。*（數）*
 
-如果您獲取該模式，錯誤 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.PATTERN_ERROR`.
+如果獲取模式時發生錯誤，則 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.PATTERN_ERROR`.
 
-`options`參數是可選的並且預設為以下值：
+`options` 參數是可選的並且預設為以下值：
 
-    {formatLength: '短'，選擇器： 日期和時間}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`可以是 `short` ， `medium` ， `long` ，或 `full` 。 `options.selector`可以是 `date` ， `time` 或`date and
-time`.
+`options.formatLength` 可以 `short`、 `medium`、 `long`、 或 `full` `options.selector` 可以是 `date`、 `time` 或 `date and time`.
 
 ### 支援的平臺
 
 *   亞馬遜火 OS
-*   安卓系統
+*   Android 系統
 *   黑莓 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en_US` 的地區設定，此示例顯示彈出式對話方塊中的文本如 `pattern: M/d/yyyy h:mm a` ：
+當瀏覽器設置為 `en_US` 地區設定時，本示例顯示彈出一個對話方塊文本如 `模式： 按/yyyy h:mm`：
 
     function checkDatePattern() {
         navigator.globalization.getDatePattern(
@@ -346,39 +401,54 @@ time`.
 
 ### Windows Phone 8 怪癖
 
-*   `formatLength`僅支援 `short` 和 `full` 的值。
+*   `formatLength` 選項支援只有 `short` 和 `full` 的值。
 
-*   `pattern`的 `date and time` 模式返回只完整的日期時間格式。
+*   `pattern` 的 `date and time` 模式返回只完整的日期時間格式。
 
-*   `timezone`返回完整時區名稱。
+*   `timezone` 返回完整時區名稱。
 
-*   `dst_offset`屬性不受支援，並且總是返回零。
+*   `dst_offset` 屬性不受支援，並且始終返回零。
+
+*   該模式可能根據使用者的地區設定與 ICU 不完全對齊。
+
+### Windows 的怪癖
+
+*   `formatLength` 選項支援只有 `short` 和 `full` 的值。
+
+*   `pattern` 的 `date and time` 模式返回只完整的日期時間格式。
+
+*   `timezone` 返回完整時區名稱。
+
+*   `dst_offset` 屬性不受支援，並且始終返回零。
+
+*   該模式可能根據使用者的地區設定與 ICU 不完全對齊。
 
 ## navigator.globalization.getFirstDayOfWeek
 
-返回用戶端的使用者首選項和日曆星期的第一天。
+返回根據用戶端的使用者首選項和日曆周的第一天。
 
     navigator.globalization.getFirstDayOfWeek(successCallback, errorCallback);
     
 
-### 描述
+### 說明
 
-周中天的編號 1，從開始位置 1 假定是星期日。 返回到天 `successCallback` 與 `properties` 物件作為參數。 物件應具有 `value` 屬性與 `Number` 的值。
+星期數編號從 1，這裡假設 1 是星期日。 返回一天到 `successCallback` 與 `properties` 物件作為一個參數。 該物件應該具有 `value` 值的 `String` 屬性。
 
-如果有錯誤獲得該模式，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.UNKNOWN_ERROR`.
+如果獲取模式時發生錯誤，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.UNKNOWN_ERROR`.
 
 ### 支援的平臺
 
 *   亞馬遜火 OS
-*   安卓系統
+*   Android 系統
 *   黑莓 10
-*   火狐瀏覽器的作業系統
+*   火狐瀏覽器作業系統
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en_US` 的地區設定，這將顯示一個彈出對話方塊與類似的文本`day: 1`.
+當瀏覽器設置為 `en_US` 地區設定時，這將顯示彈出一個對話方塊文本類似于 `的一天： 1`.
 
     navigator.globalization.getFirstDayOfWeek(
         function (day) {alert('day: ' + day.value + '\n');},
@@ -386,41 +456,45 @@ time`.
     );
     
 
+### Windows 的怪癖
+
+*   對 Windows 8.0/8.1 所示的值取決於使用者的日曆首選項。在 Windows Phone 8.1 的值取決於當前的地區設定。
+
 ## navigator.globalization.getNumberPattern
 
-返回一個模式字串格式化和分析數位根據用戶端的使用者首選項。
+返回一個模式字串格式化和解析數位根據用戶端的使用者首選項。
 
     navigator.globalization.getNumberPattern(successCallback, errorCallback, options);
     
 
-### 描述
+### 說明
 
-返回到模式 `successCallback` 與 `properties` 物件作為參數。該物件包含以下屬性：
+返回到 `successCallback` 與 `屬性` 物件作為參數的模式。該物件包含以下屬性：
 
-*   **模式**： 要格式化和解析數位的數位模式。 模式遵循[Unicode 技術標準 #35][1]。 *（字串）*
+*   **pattern**： 要格式化和解析數位的數位模式。 模式遵循[Unicode 技術標準 #35][2]。 *（字串）*
 
-*   **符號**： 要使用時格式化和解析，例如，%或貨幣符號的符號。*（字串）*
+*   **symbol**： 要使用時格式化和解析，例如，%或貨幣符號的符號。*（字串）*
 
-*   **分數**： 解析和設置數位格式時要使用的小數位數的數目。*（數）*
+*   **fraction**： 解析和貨幣的格式時要使用的小數位數的數目。*（數）*
 
-*   **舍入**： 舍入增量解析和格式時要使用。*（數）*
+*   **rounding**： 舍入增量解析和格式時要使用。*（數）*
 
-*   **正面**： 要為正數時分析和格式設置使用的符號。*（字串）*
+*   **positive**： 要為正數時分析和格式設置使用的符號。*（字串）*
 
-*   **消極**： 要為負數時分析和格式設置使用的符號。*（字串）*
+*   **negative**： 要為負數時分析和格式設置使用的符號。*（字串）*
 
-*   **十進位**： 小數點符號用於分析和格式設置。*（字串）*
+*   **decimal**： 小數點符號用於分析和格式設置。*（字串）*
 
-*   **分組**： 分組符號用於分析和格式設置。*（字串）*
+*   **grouping**： 分組符號用於分析和格式設置。*（字串）*
 
-如果有錯誤獲得該模式，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.PATTERN_ERROR`.
+如果獲取模式時發生錯誤，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.PATTERN_ERROR`.
 
-`options`參數是可選的並且預設值：
+`options` 參數是可選的且其預設值：
 
-    {類型： '十進位'}
+    {type:'decimal'}
     
 
-`options.type`可以是 `decimal` ， `percent` ，或`currency`.
+`options.type` 可以是 `decimal`、 `percent` 或 `currency`.
 
 ### 支援的平臺
 
@@ -429,10 +503,11 @@ time`.
 *   黑莓 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en_US` 的地區設定，此時應顯示一個彈出對話方塊與類似的結果，請按照操作的文本：
+當瀏覽器設置為 `en_US` 地區設定時，此時應顯示彈出一個對話方塊文本類似于遵循的效果：
 
     navigator.globalization.getNumberPattern(
         function (pattern) {alert('pattern: '  + pattern.pattern  + '\n' +
@@ -448,7 +523,7 @@ time`.
     );
     
 
-結果:
+結果：
 
     pattern: #,##0.###
     symbol: .
@@ -462,37 +537,42 @@ time`.
 
 ### Windows Phone 8 怪癖
 
-*   `pattern`不支援屬性，和 retuens 為空字串。
+*   `pattern` 屬性不受支援，並返回一個空字串。
 
-*   `fraction`不支援屬性，並返回零。
+*   `fraction` 屬性不受支援，並返回零。
+
+### Windows 的怪癖
+
+*   `pattern` 屬性不受支援，並返回一個空字串。
 
 ## navigator.globalization.isDayLightSavingsTime
 
-指示是否夏令時生效是給定日期使用用戶端的時區和日曆。
+指示是否夏令時實際上是針對給定的日期，使用客戶機的時區和日曆。
 
     navigator.globalization.isDayLightSavingsTime(date, successCallback, errorCallback);
     
 
 ### 描述
 
-指示是否夏令時生效的是 `successCallback` 與 `properties` 物件作為參數。 物件應具有 `dst` 屬性與 `Boolean` 的值。 A `true` 值指示夏令時實際上是對給定的日期，和 `false` 指示它不是。
+指示夏令時實際上是 `successCallback` 與作為參數的 `屬性` 物件。 該物件應該具有 `Boolean` 值的 `dst` 屬性。 `true` 值表示日光節約時間實際上是在給定的日期和事件 ； `false` 指示它不是。
 
-入站的參數 `date` 的類型應為`Date`.
+傳入的參數 【 `date` 應該是 `Date` 類型.
 
-如果有錯誤讀取日期，然後 `errorCallback` 執行。錯誤的期望的代碼`GlobalizationError.UNKNOWN_ERROR`.
+如果閱讀日期時發生錯誤，然後 `errorCallback` 執行。預期的錯誤碼是 `GlobalizationError.UNKNOWN_ERROR`.
 
 ### 支援的平臺
 
 *   亞馬遜火 OS
-*   安卓系統
+*   Android 系統
 *   黑莓 10
-*   火狐瀏覽器的作業系統
+*   火狐瀏覽器作業系統
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-在夏天的時候，如果瀏覽器被設置為啟用 DST 時區，這應顯示一個彈出式對話方塊與類似的文本和 `dst: true` ：
+在夏季，如果瀏覽器設置為啟用 DST 的時區，這應該顯示彈出一個對話方塊文本類似于 `dst： 真正`：
 
     navigator.globalization.isDayLightSavingsTime(
         new Date(),
@@ -508,18 +588,18 @@ time`.
     navigator.globalization.numberToString(number, successCallback, errorCallback, options);
     
 
-### 描述
+### 說明
 
-返回到帶格式的數位字串 `successCallback` 與 `properties` 物件作為參數。 物件應具有 `value` 屬性與 `String` 的值。
+返回帶格式的數位字串到 `successCallback` 與 `屬性` 物件作為一個參數。 該物件應該具有 `value` 值的 `String` 屬性。
 
-如果有錯誤格式數，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.FORMATTING_ERROR`.
+如果格式數時發生錯誤，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.FORMATTING_ERROR`.
 
-`options`參數是可選的且其預設值：
+`options` 參數是可選的且其預設值：
 
-    {類型： '十進位'}
+    {type:'decimal'}
     
 
-`options.type`可以是 '十進位'、 '%' 或 '貨幣'。
+`options.type` 可以 'decimal'、 'percent' 或 'currency'。
 
 ### 支援的平臺
 
@@ -528,10 +608,11 @@ time`.
 *   黑莓 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en_US` 的地區設定，這將顯示一個彈出對話方塊與類似的文本 `number: 3.142` ：
+當瀏覽器設置為 `en_US` 地區設定時，這將顯示彈出一個對話方塊文本類似于 `號碼： 3.142`：
 
     navigator.globalization.numberToString(
         3.1415926,
@@ -541,6 +622,14 @@ time`.
     );
     
 
+### Windows 的怪癖
+
+*   Windows 8.0 不支援數位舍入，因此值，不會自動四捨五入。
+
+*   Windows 8.1 和 Windows Phone 8.1 小數部分會被截斷而不是圓形時 `percent` 數位類型因此小數位數計數設置為 0。
+
+*   `percent` 數位不進行分組，他們無法分析在 stringToNumber 如果分組。
+
 ## navigator.globalization.stringToDate
 
 分析日期格式設置為一個字串，根據用戶端的使用者首選項和日曆使用時區的用戶端，並返回對應的 date 物件。
@@ -548,48 +637,48 @@ time`.
     navigator.globalization.stringToDate(dateString, successCallback, errorCallback, options);
     
 
-### 描述
+### 說明
 
-返回的日期與成功回檔到 `properties` 物件作為參數。該物件應具有以下屬性：
+作為一個參數與 `properties` 物件的成功回檔返回的日期。該物件應具有以下屬性：
 
-*   **年**： 四位數表示的年份。*（數）*
+*   **year**： 四位數表示的年份。*（數）*
 
-*   **月**： （0-11) 個月。*（數）*
+*   **month**： （0-11) 個月。*（數）*
 
-*   **一天**： 從 （1-31) 天。*（數）*
+*   **day**： 從 （1-31) 天。*（數）*
 
-*   **小時**： 從 （0-23） 小時。*（數）*
+*   **hour**： 從 （0-23） 小時。*（數）*
 
-*   **分鐘**： 從 （0-59) 分鐘。*（數）*
+*   **minute**： 從 （0-59) 分鐘。*（數）*
 
-*   **第二**： 的第二位 （0-59)。*（數）*
+*   **second**： 的第二位 （0-59)。*（數）*
 
-*   **毫秒**： 的毫秒數 （從 0-999），在所有平臺上不可用。*（數）*
+*   **milisecond**： 的毫秒數 （從 0-999），在所有平臺上不可用。*（數）*
 
-入站 `dateString` 參數的類型應為`String`.
+入站的 `dateString` 參數應該是 `String` 類型.
 
-`options`參數是可選的並且預設為以下值：
+`options` 參數是可選的並且預設為以下值：
 
-    {formatLength: '短'，選擇器： 日期和時間}
+    {formatLength:'short', selector:'date and time'}
     
 
-`options.formatLength`可以是 `short` ， `medium` ， `long` ，或 `full` 。 `options.selector`可以是 `date` ， `time` 或`date and
-time`.
+`options.formatLength` 可以 `short`、 `medium`、 `long`、 或 `full` `options.selector` 可以是 `date`、 `time` 或 `date and time`.
 
-如果有錯誤解析日期字串，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.PARSING_ERROR`.
+如果解析日期字串時發生錯誤，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.PARSING_ERROR`.
 
 ### 支援的平臺
 
 *   亞馬遜火 OS
-*   安卓系統
+*   Android 系統
 *   黑莓 10
-*   火狐瀏覽器的作業系統
+*   火狐瀏覽器作業系統
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en_US` 的地區設定，這將顯示一個彈出對話方塊與類似的文本 `month:8 day:25 year:2012` 。 請注意，整數是一個月比少的字串，作為月整數代表陣列索引。
+當瀏覽器設置為 `en_US` 地區設定時，這將顯示彈出一個對話方塊文本類似于 `月： 8 天： 25 年： 2012 年`。 請注意，整數是一個月小於字串，作為月整數表示陣列索引。
 
     navigator.globalization.stringToDate(
         '9/25/2012',
@@ -603,39 +692,52 @@ time`.
 
 ### Windows Phone 8 怪癖
 
-*   `formatLength`選項僅支援 `short` 和 `full` 的值。
+*   `formatLength` 選項支援只有 `short` 和 `full` 的值。
+
+*   日期和時間的選擇器模式一直是一種完整的日期時間格式。
+
+*   入站的 `dateString` 參數應根據返回的 getDatePattern 模式形成。這種模式可能根據使用者的地區設定與 ICU 不完全對齊。
+
+### Windows 的怪癖
+
+*   `formatLength` 選項支援只有 `short` 和 `full` 的值。
+
+*   日期和時間的選擇器模式一直是一種完整的日期時間格式。
+
+*   入站的 `dateString` 參數應根據返回的 getDatePattern 模式形成。這種模式可能根據使用者的地區設定與 ICU 不完全對齊。
 
 ## navigator.globalization.stringToNumber
 
-分析的數位格式化為根據用戶端的使用者首選項的字串並返回相應的號碼。
+分析的數位格式化為根據用戶端的使用者首選項的字串並返回相應的數位。
 
     navigator.globalization.stringToNumber(string, successCallback, errorCallback, options);
     
 
-### 描述
+### 說明
 
-返回到數 `successCallback` 與 `properties` 物件作為參數。物件應具有 `value` 屬性與 `Number` 的值。
+返回到 `successCallback` 與 `properties` 物件作為參數的數。該物件應該具有 `value` 值的 `Number` 屬性。
 
-如果有錯誤解析的字串，然後 `errorCallback` 執行與 `GlobalizationError` 物件作為參數。 錯誤的期望的代碼`GlobalizationError.PARSING_ERROR`.
+如果分析數位字串時發生錯誤，然後 `errorCallback` 執行同一個 `GlobalizationError` 物件作為一個參數。 預期的錯誤碼是 `GlobalizationError.PARSING_ERROR`.
 
-`options`參數是可選的並且預設為以下值：
+`options` 參數是可選的並且預設為以下值：
 
-    {類型： '十進位'}
+    {type:'decimal'}
     
 
-`options.type`可以是 `decimal` ， `percent` ，或`currency`.
+`options.type` 可以是 `decimal`、 `percent` 或 `currency`.
 
 ### 支援的平臺
 
 *   亞馬遜火 OS
-*   安卓系統
+*   Android 系統
 *   黑莓 10
 *   iOS
 *   Windows Phone 8
+*   Windows
 
 ### 示例
 
-當瀏覽器設置為 `en_US` 的地區設定，此時應顯示與文本類似于彈出式對話方塊中 `number: 1234.56` ：
+當瀏覽器設置為 `en_US` 地區設定時，此時應顯示彈出一個對話方塊文本類似于 `號碼： 1234.56`：
 
     navigator.globalization.stringToNumber(
         '1234.56',
@@ -645,34 +747,46 @@ time`.
     );
     
 
+### Windows Phone 8 怪癖
+
+*   在 `percent` 類型發生時返回的值不被除以 100。
+
+### Windows 的怪癖
+
+*   該字串必須嚴格符合地區設定格式。例如，百分比符號就應該用 EN-US 地區設定的空間分隔，如果類型參數是 '%'。
+
+*   不必須分組 `percent` 數位正確解析。
+
 ## GlobalizationError
 
-從全球化 API 表示一個錯誤的物件。
+從全球化的 API 表示一個錯誤的物件。
 
 ### 屬性
 
-*   **代碼**： 表示錯誤類型的以下代碼之一 *（數）* 
-    *   GlobalizationError.UNKNOWN_ERROR： 0
-    *   GlobalizationError.FORMATTING_ERROR： 1
-    *   GlobalizationError.PARSING_ERROR： 2
-    *   GlobalizationError.PATTERN_ERROR： 3
-*   **消息**： 文本消息，包括有關錯誤的解釋，和/或詳細說明*（字串）*
+*   **code**： 表示錯誤類型的以下代碼之一 *（數）* 
+    *   GlobalizationError.UNKNOWN_ERROR: 0
+    *   GlobalizationError.FORMATTING_ERROR: 1
+    *   GlobalizationError.PARSING_ERROR: 2
+    *   GlobalizationError.PATTERN_ERROR: 3
+*   **message**： 文本消息，包括有關錯誤的解釋，和/或詳細說明 *（字串）*
 
-### 描述
+### 說明
 
 此物件創建和填充的科爾多瓦，並返回到出現錯誤時的回檔。
 
 ### 支援的平臺
 
 *   亞馬遜火 OS
-*   安卓系統
+*   Android 系統
 *   黑莓 10
-*   火狐瀏覽器的作業系統
+*   火狐瀏覽器作業系統
 *   iOS
+*   Windows Phone 8
+*   Windows
 
 ### 示例
 
-以下錯誤回檔執行時，它會顯示彈出式對話方塊中的文本類似于 `code: 3` 和`message:`
+當以下錯誤回檔執行時，它會顯示彈出一個對話方塊文本類似于 `code: 3` 和 `message:`
 
     function errorCallback(error) {
         alert('code: ' + error.code + '\n' +
