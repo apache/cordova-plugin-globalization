@@ -19,4 +19,6 @@
 
 # org.apache.cordova.globalization
 
+[![Build Status](https://travis-ci.org/apache/cordova-plugin-globalization.svg)](https://travis-ci.org/apache/cordova-plugin-globalization)
+
 Plugin documentation: [doc/index.md](doc/index.md)
