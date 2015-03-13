@@ -21,13 +21,9 @@
 
 @implementation CDVGlobalization
 
-- (id)initWithWebView:(UIWebView*)theWebView
+- (void)pluginInitialize
 {
-    self = (CDVGlobalization*)[super initWithWebView:theWebView];
-    if (self) {
-        currentLocale = CFLocaleCopyCurrent();
-    }
-    return self;
+    currentLocale = CFLocaleCopyCurrent();
 }
 
 - (void)getPreferredLanguage:(CDVInvokedUrlCommand*)command
