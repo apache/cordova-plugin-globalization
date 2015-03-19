@@ -115,6 +115,14 @@
         <source-file src="src/windows/GlobalizationProxy/GlobalizationProxy/Globalization/GlobalizationImpl.cs" />
     </platform>
 
+    <!-- windows8 -->
+    <platform name="windows8">
+        <js-module src="src/windows/GlobalizationProxy.js" name="GlobalizationProxy">
+            <runs/>
+        </js-module>
+        <framework src="src/Windows/GlobalizationProxy.winmd" custom="true"/>
+    </platform>
+
     <!-- windows -->
     <platform name="windows">
         <js-module src="src/windows/GlobalizationProxy.js" name="GlobalizationProxy">

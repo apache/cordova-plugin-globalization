@@ -87,6 +87,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -149,6 +150,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -216,6 +218,7 @@ The `options.selector` can be `date`, `time` or `date and time`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -306,6 +309,7 @@ error's expected code is `GlobalizationError.FORMATTING_ERROR`.
 - Android
 - BlackBerry 10
 - iOS
+- Windows 8
 - Windows
 
 ### Example
@@ -376,6 +380,7 @@ The value of `options.item` can be `months` or `days`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -453,6 +458,7 @@ time`.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -526,6 +532,7 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -592,6 +599,7 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -668,6 +676,7 @@ executes. The error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -714,6 +723,7 @@ The `options.type` can be 'decimal', 'percent', or 'currency'.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -791,6 +801,7 @@ error's expected code is `GlobalizationError.PARSING_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 - Browser
 
@@ -868,6 +879,7 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 
 ### Example
@@ -887,7 +899,7 @@ popup dialog with text similar to `number: 1234.56`:
 - In case of `percent` type the returned value is not divided by 100.
 
 ### Windows Quirks	
-	
+
 - The string must strictly conform to the locale format. For example, percent symbol should be 
 separated by space for 'en-US' locale if the type parameter is 'percent'.
 
@@ -918,6 +930,7 @@ This object is created and populated by Cordova, and returned to a callback in t
 - Firefox OS
 - iOS
 - Windows Phone 8
+- Windows 8
 - Windows
 
 ### Example
