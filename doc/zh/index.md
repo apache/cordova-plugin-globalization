@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.globalization
+# cordova-plugin-globalization
 
 這個外掛程式獲取的資訊，並執行操作特定于使用者的地區設定、 語言和時區。 注意到地區設定和語言之間的區別： 數位、 日期和時間的顯示方式為一個區域，雖然語言確定什麼語言文本的地區設定控制項顯示為，與地區設定無關。 開發人員經常使用的地區設定來設置這兩個設置，但使用者不能將她的語言設置為"英語"沒有理由但地區設定為"法語"這樣的文本顯示在英語但日期、 時間等，同時會顯示他們是在法國。 不幸的是，大多數移動平臺目前不做這些設置之間的區別。
 
@@ -33,7 +33,7 @@
 
 ## 安裝
 
-    cordova plugin add org.apache.cordova.globalization
+    cordova plugin add cordova-plugin-globalization
     
 
 ## 物件

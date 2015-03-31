@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.globalization
+# cordova-plugin-globalization
 
 このプラグインは、情報を取得し、ユーザーのロケール、言語、およびタイム ゾーンに固有の操作を実行します。 ロケールと言語の違いに注意してください: ロケール コントロール番号、日付、および時刻の表示方法、地域の言語で決まりますがどのような言語のテキストの間のように、ロケールの設定とは無関係です。 多くの開発者を使用してロケール設定両方、しかしユーザーは「英語」彼女言語を設定できませんでした理由はない"フランス語"ロケールので英語が日付時刻等でテキストが表示されますが表示されるフランスでは。 残念ながら、ほとんどのモバイルプラット フォーム現在行いませんこれらの設定の間の区別。
 
@@ -33,7 +33,7 @@
 
 ## インストール
 
-    cordova plugin add org.apache.cordova.globalization
+    cordova plugin add cordova-plugin-globalization
     
 
 ## オブジェクト

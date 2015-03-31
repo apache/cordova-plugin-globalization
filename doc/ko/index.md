@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.globalization
+# cordova-plugin-globalization
 
 이 플러그인 정보를 가져오고 사용자의 로캘, 언어 및 표준 시간대에 특정 작업을 수행 합니다. 로캘 및 언어의 차이점을 참고: 로캘 어떻게 숫자, 날짜 및 시간 표시 되는 제어 영역의 언어 어떤 언어 텍스트를 결정 하는 반면, 로캘 설정에 관계 없이 나타납니다. 종종 개발자 로캘 설정을 모두를 사용 하 여 하지만 거기에 아무 이유 없이 사용자 "영어"로 그녀의 언어를 설정할 수 없습니다 있지만 "프랑스어" 로캘을 영어 하지만 날짜, 시간, 등, 텍스트 표시 되도록 표시 됩니다 그들은 프랑스에. 불행히도, 대부분의 모바일 플랫폼 현재 만들지 않는다 이러한 설정 구분.
 
@@ -33,7 +33,7 @@
 
 ## 설치
 
-    cordova plugin add org.apache.cordova.globalization
+    cordova plugin add cordova-plugin-globalization
     
 
 ## 개체

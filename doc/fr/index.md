@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.globalization
+# cordova-plugin-globalization
 
 Ce plugin obtienne des informations et effectue des opérations spécifiques aux paramètres régionaux de l'utilisateur, la langue et fuseau horaire. Notez la différence entre les paramètres régionaux et linguistiques : contrôles de paramètres régionaux comment nombres, les dates et les heures sont affichées pour une région, tandis que la langue détermine quel texte apparaît sous la forme, indépendamment des paramètres régionaux. Souvent les développeurs utilisent des paramètres régionaux pour définir ces deux paramètres, mais il n'y a aucune raison, qu'un utilisateur ne pouvait pas régler sa langue sur « English », mais en paramètres régionaux « Français », afin que le texte s'affiche en anglais mais dates, heures, etc., s'affichent comme ils sont en France. Malheureusement, les plateformes mobiles plus actuellement ne font pas une distinction entre ces paramètres.
 
@@ -31,7 +31,7 @@ Bien que dans la portée globale, il n'est pas disponible jusqu'après la `devic
 
 ## Installation
 
-    Cordova plugin ajouter org.apache.cordova.globalization
+    Cordova plugin ajouter cordova-plugin-globalization
     
 
 ## Objets

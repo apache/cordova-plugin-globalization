@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.globalization
+# cordova-plugin-globalization
 
 Este plugin obtiene información y realiza operaciones específicas de la configuración regional del usuario, idioma y zona horaria. Tenga en cuenta la diferencia entre la configuración regional e idioma: controles locale como números, fechas y tiempos se muestran para una región, mientras que el lenguaje determina qué texto aparece como, independientemente de la configuración local. A menudo los desarrolladores utilizan locale para fijar ambos ajustes, pero no hay razón que el usuario no pudo establecer su idioma a "Inglés" locale "Francés", para que se muestre el texto en inglés, pero las fechas, tiempos, etc., se muestran como son en Francia. Desafortunadamente, las plataformas móviles más actualmente no hacen una distinción entre estos ajustes.
 
@@ -31,7 +31,7 @@ Aunque en el ámbito global, no estará disponible hasta después de la `devicer
 
 ## Instalación
 
-    Cordova plugin agregar org.apache.cordova.globalization
+    Cordova plugin agregar cordova-plugin-globalization
     
 
 ## Objetos

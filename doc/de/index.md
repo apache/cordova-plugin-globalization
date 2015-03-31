@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.globalization
+# cordova-plugin-globalization
 
 Dieses Plugin Ruft Informationen und führt durch spezifisch für des Benutzers Gebietsschema, Sprache und Zeitzone. Beachten Sie den Unterschied zwischen Sprache und Gebietsschema: Gebietsschema Steuerelemente wie Zahlen, Datumsangaben und Zeiten werden angezeigt für eine Region, während die Sprache bestimmt, welcher Text in Sprache erscheint als, unabhängig von den Einstellungen des Gebietsschemas. Häufig Entwickler verwenden Gebietsschema verwenden, setzen Sie beide Einstellungen aber es gibt keinen Grund, die ein Benutzer ihre Sprache auf "Englisch" eingestellt konnte nicht aber Gebietsschema "Französisch", damit Text angezeigt wird, in Englisch, aber Termine, Zeiten, usw. werden angezeigt wie in Frankreich. Leider machen die meisten mobile Plattformen derzeit keine Unterscheidung zwischen diesen Einstellungen.
 
@@ -33,7 +33,7 @@ Obwohl im globalen Gültigkeitsbereich, steht es nicht bis nach dem `deviceready
 
 ## Installation
 
-    cordova plugin add org.apache.cordova.globalization
+    cordova plugin add cordova-plugin-globalization
     
 
 ## Objekte

@@ -17,7 +17,7 @@
     under the License.
 -->
 
-# org.apache.cordova.globalization
+# cordova-plugin-globalization
 
 Questo plugin ottiene informazioni ed esegue operazioni specifiche impostazioni locali dell'utente, lingua e fuso orario. Si noti la differenza tra lingua e impostazioni internazionali: controlli delle impostazioni internazionali, numeri, date e tempi di visualizzazione per una regione, mentre la lingua determina quale testo di lingua appare come, indipendentemente dalle impostazioni locali. Spesso gli sviluppatori utilizzano impostazioni locali per impostare entrambe le impostazioni, ma non non c'è alcun motivo per che un utente non poteva impostare la lingua "Inglese" ma locale alla "Francese", così che il testo viene visualizzato in inglese ma le date, tempi, ecc., vengono visualizzati come sono in Francia. Purtroppo, piattaforme mobili più attualmente non fanno una distinzione tra queste impostazioni.
 
@@ -33,7 +33,7 @@ Anche se in ambito globale, non è disponibile fino a dopo l'evento `deviceready
 
 ## Installazione
 
-    cordova plugin add org.apache.cordova.globalization
+    cordova plugin add cordova-plugin-globalization
     
 
 ## Oggetti
