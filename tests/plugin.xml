@@ -19,7 +19,7 @@
 -->
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    id="org.apache.cordova.globalization.tests"
+    id="cordova-plugin-globalization-tests"
     version="0.3.5-dev">
     <name>Cordova Globalization Plugin Tests</name>
     <license>Apache 2.0</license>
