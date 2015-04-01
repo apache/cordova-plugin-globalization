@@ -20,7 +20,7 @@
 */
 
 var GlobalizationError = require('./GlobalizationError');
-var moment = require('org.apache.cordova.globalization.moment');
+var moment = require('cordova-plugin-globalization.moment');
 
 function getCrossPlatformLocale() {
     // userLanguage is for IE, which corresponds to selected regional format
