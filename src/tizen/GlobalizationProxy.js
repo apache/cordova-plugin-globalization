@@ -20,7 +20,7 @@
 */
 
 var argscheck = require('cordova/argscheck'),
-    GlobalizationError = require('cordova-plugin-globalization.GlobalizationError');
+    GlobalizationError = require('org.apache.cordova.globalization.GlobalizationError');
 
 var globalization = {
     /**
