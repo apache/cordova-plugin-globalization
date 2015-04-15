@@ -90,3 +90,19 @@
 ### 0.3.4 (Feb 04, 2015)
 * CB-8351 ios: Use argumentForIndex rather than NSArray extension
 * CB-7972 Add cordova-plugin-globalization support for Windows platform
+
+### 1.0.0 (Apr 15, 2015)
+* CB-8746 gave plugin major version bump
+* CB-8683 updated tizen and browser specific references of old id to new id
+* CB-8683 changed plugin-id to pacakge-name
+* CB-8653 properly updated translated docs to use new id
+* CB-8653 updated translated docs to use new id
+* Use TRAVIS_BUILD_DIR, install paramedic by npm
+* separate section in plugin.xml and docs for Windows8 platform
+* CB-7960 Add cordova-plugin-globalization support for browser platform
+* CB-8653 Updated Readme
+* CB-8659: ios: 4.0.x Compatibility: Remove use of initWebView method
+* CB-8569 Integrate TravisCI
+* CB-8438 cordova-plugin-globalization documentation translation: cordova-plugin-globalization
+* CB-8538 Added package.json file
+* CB-8394 pended unsupported tests for windows and wp8
