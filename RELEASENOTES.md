@@ -106,3 +106,10 @@
 * CB-8438 cordova-plugin-globalization documentation translation: cordova-plugin-globalization
 * CB-8538 Added package.json file
 * CB-8394 pended unsupported tests for windows and wp8
+
+### 1.0.1 (Jun 17, 2015)
+* added moment.js to ratignore
+* added license headers
+* Adding .ratignore file.
+* CB-9128 cordova-plugin-globalization documentation translation: cordova-plugin-globalization
+* fix npm md issue
