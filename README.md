@@ -19,8 +19,6 @@
 
 # cordova-plugin-globalization
 
-[![Build Status](https://travis-ci.org/apache/cordova-plugin-globalization.svg)](https://travis-ci.org/apache/cordova-plugin-globalization)
-
 This plugin obtains information and performs operations specific to the user's
 locale, language, and timezone. Note the difference between locale and language:
 locale controls how numbers, dates, and times are displayed for a region, while
