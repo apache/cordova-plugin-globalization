@@ -13,7 +13,7 @@
 */
 
 var GlobalizationError = require('./GlobalizationError');
-var locale = navigator.userLanguage;
+var locale = navigator.userLanguage || navigator.language;
 
 var decimalFormatter;
 var currencyFormatter;
