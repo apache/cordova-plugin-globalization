@@ -42,7 +42,7 @@
             NSString* localeId = [locale localeIdentifier];
             NSRange underscoreIndex = [localeId rangeOfString:@"_" options:NSBackwardsSearch];
             NSRange atSignIndex = [localeId rangeOfString:@"@"];
-            if (underscoreIndex.location < localeId.length) {
+            if (underscoreIndex.location != NSNotFound) {
                 //If localeIdentifier did not contain @, i.e. did not have calendar other than Gregoarian selected
                 if(atSignIndex.length == 0)
                     language = [NSString stringWithFormat:@"%@%@", language, [localeId substringFromIndex:underscoreIndex.location]];
