@@ -27,7 +27,7 @@ Often developers use locale to set both settings, but there is no reason a user
 couldn't set her language to "English" but locale to "French", so that text is
 displayed in English but dates, times, etc., are displayed as they are in France.
 Unfortunately, most mobile platforms currently do not make a distinction between
-these settings. 
+these settings.
 
 This plugin defines global `navigator.globalization` object.
 
@@ -37,6 +37,9 @@ Although in the global scope, it is not available until after the `deviceready` 
     function onDeviceReady() {
         console.log(navigator.globalization);
     }
+
+:warning: Report issues on the [Apache Cordova issue tracker](https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Globalization%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC)
+
 
 ## Installation
 
@@ -69,7 +72,7 @@ Get the BCP 47 language tag for the client's current language.
 
 ### Description
 
-Returns the BCP-47 compliant language identifier tag to the `successCallback` 
+Returns the BCP-47 compliant language identifier tag to the `successCallback`
 with a `properties` object as a parameter. That object should have a `value`
 property with a `String` value.
 
@@ -101,7 +104,7 @@ popup dialog with the text `language: en-US`:
 
 ### Android Quirks
 
-- Returns the ISO 639-1 two-letter language code, upper case ISO 3166-1 
+- Returns the ISO 639-1 two-letter language code, upper case ISO 3166-1
 country code and variant separated by hyphens. Examples: "en", "en-US", "US"
 
 ### Windows Phone 8 Quirks
@@ -175,8 +178,8 @@ by a hyphen.
 
 ### Windows Quirks
 
-- Locale setting can be changed in Control Panel -> Clock, Language and Region 
--> Region -> Formats -> Format, 
+- Locale setting can be changed in Control Panel -> Clock, Language and Region
+-> Region -> Formats -> Format,
 and in Settings -> Region -> Regional Format on Windows Phone 8.1.
 
 ### Browser Quirks
@@ -233,12 +236,12 @@ options:
         { formatLength: 'short', selector: 'date and time' }
     );
 ### Android Quirks
-- `formatLength` options are a subset of Unicode 
-  [UTS #35](http://unicode.org/reports/tr35/tr35-4.html). The default option 
-  `short` depends on a user selected date format within 
+- `formatLength` options are a subset of Unicode
+  [UTS #35](http://unicode.org/reports/tr35/tr35-4.html). The default option
+  `short` depends on a user selected date format within
   `Settings -> System -> Date & time -> Choose date format`,
   which provide a `year` pattern only with 4 digits, not 2 digits.
-  This means that it is not completely aligned with 
+  This means that it is not completely aligned with
   [ICU](http://demo.icu-project.org/icu-bin/locexp?d_=en_US&_=en_US).
 
 ### Windows Phone 8 Quirks
@@ -267,7 +270,7 @@ options:
 
 ### Firefox OS Quirks
 
-- `formatLength` is not distinguishing `long` and `full` 
+- `formatLength` is not distinguishing `long` and `full`
 - only one method of displaying date (no `long` or `full` version)
 
 ## navigator.globalization.getCurrencyPattern
@@ -546,7 +549,7 @@ popup dialog with text similar to `day: 1`.
 
 ###	Windows Quirks
 
-- On Windows 8.0/8.1 the value depends on user' calendar preferences. On Windows Phone 8.1 
+- On Windows 8.0/8.1 the value depends on user' calendar preferences. On Windows Phone 8.1
 the value depends on current locale.
 
 ### Browser Quirks
@@ -892,13 +895,13 @@ popup dialog with text similar to `number: 1234.56`:
         {type:'decimal'}
     );
 
-### Windows Phone 8 Quirks	
+### Windows Phone 8 Quirks
 
 - In case of `percent` type the returned value is not divided by 100.
 
-### Windows Quirks	
+### Windows Quirks
 
-- The string must strictly conform to the locale format. For example, percent symbol should be 
+- The string must strictly conform to the locale format. For example, percent symbol should be
 separated by space for 'en-US' locale if the type parameter is 'percent'.
 
 - `percent` numbers must not be grouped to be parsed correctly.
@@ -940,5 +943,3 @@ popup dialog with the text similar to `code: 3` and `message:`
         alert('code: ' + error.code + '\n' +
               'message: ' + error.message + '\n');
     };
-
-
