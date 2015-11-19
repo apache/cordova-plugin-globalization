@@ -20,6 +20,13 @@
 -->
 # Release Notes
 
+### 1.0.2 (Nov 18, 2015)
+* CB-10035 Updated `RELEASENOTES` to be newest to oldest
+* Fixing contribute link.
+* CB-9409 check that `localeIdentifier` has underscore
+* CB-9476: `Mobilespec` crash on startup when running on **Windows 10**.
+* Fixing license headers and adding `moment.js` to `.ratignore`.
+
 ### 1.0.1 (Jun 17, 2015)
 * added moment.js to ratignore
 * added license headers
