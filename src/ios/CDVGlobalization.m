@@ -278,12 +278,12 @@
     if (date != NULL) {
         NSCalendar* calendar = [NSCalendar currentCalendar];
 
-        unsigned unitFlags = NSYearCalendarUnit |
-            NSMonthCalendarUnit |
-            NSDayCalendarUnit |
-            NSHourCalendarUnit |
-            NSMinuteCalendarUnit |
-            NSSecondCalendarUnit;
+        unsigned unitFlags = NSCalendarUnitYear |
+            NSCalendarUnitMonth |
+            NSCalendarUnitDay |
+            NSCalendarUnitHour |
+            NSCalendarUnitMinute |
+            NSCalendarUnitSecond;
 
         comps = [calendar components:unitFlags fromDate:(__bridge NSDate*)date];
         CFRelease(date);
