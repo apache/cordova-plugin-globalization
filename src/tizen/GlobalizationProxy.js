@@ -19,6 +19,8 @@
  *
 */
 
+/* global tizen */
+
 var argscheck = require('cordova/argscheck'),
     GlobalizationError = require('cordova-plugin-globalization.GlobalizationError');
 
@@ -114,7 +116,6 @@ var globalization = {
     *                {formatLength:'short'});
     */
     dateToString:function(date, successCB, failureCB, options) {
-        var dateValue = date.valueOf();
         console.log('exec(successCB, failureCB, "Globalization", "dateToString", [{"date": dateValue, "options": options}]);');
 
         var tzdate = null;
@@ -308,7 +309,7 @@ var globalization = {
 
         tzdate = new tizen.TZDate(date);
         if (tzdate) {
-            isDLS = false | (tzdate && tzdate.isDST());
+            isDLS = tzdate && tzdate.isDST();
 
             console.log ("Cordova, globalization, isDayLightSavingsTime, " + isDLS);
 

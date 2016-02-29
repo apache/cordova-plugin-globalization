@@ -12,6 +12,8 @@
 	limitations under the License.
 */
 
+/* global Windows, GlobalizationProxy */
+
 var GlobalizationError = require('./GlobalizationError');
 var locale = navigator.userLanguage || navigator.language;
 
@@ -97,7 +99,7 @@ function getNumberFormatter(options) {
         }
         default:
             throw "The options.type can be 'decimal', 'percent', or 'currency' only";
-    };
+    }
 }
 
 module.exports = {
@@ -163,10 +165,10 @@ module.exports = {
                 Windows.Globalization.DateTimeFormatting.SecondFormat.none, 
                 [locale]);
 
-            var result = [];
+            var result = [], i, date;
             if (item === 'months') {
-                for (var i = 0; i < 12; i++) {
-                    var date = new Date(2014, i, 20, 0, 0, 0, 0);
+                for (i = 0; i < 12; i++) {
+                    date = new Date(2014, i, 20, 0, 0, 0, 0);
                     result[i] = formatter.format(date);
                 }
             } else {

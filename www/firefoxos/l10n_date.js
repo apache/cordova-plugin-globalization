@@ -19,9 +19,6 @@
  *
 */
 
-
-'use strict';
-
 /**
  * This lib relies on `l10n.js' to implement localizable date/time strings.
  *
@@ -41,6 +38,8 @@
  */
 
 navigator.mozL10n.DateTimeFormat = function(locales, options) {
+  'use strict';
+
   var _ = navigator.mozL10n.get;
 
   // https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date/toLocaleFormat

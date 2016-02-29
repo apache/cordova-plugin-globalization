@@ -17,6 +17,8 @@
 #         under the License.
 -->
 
+[![Build Status](https://travis-ci.org/apache/cordova-plugin-globalization.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-globalization)
+
 # cordova-plugin-globalization
 
 This plugin obtains information and performs operations specific to the user's

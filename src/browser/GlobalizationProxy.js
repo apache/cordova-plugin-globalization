@@ -48,8 +48,8 @@ function dstOffsetAbs(date) {
 }
 
 function getWeekDayNames(locale, options) {
-    var result = [];
-    for (i = 0; i < 7; i++) {
+    var result = [], date;
+    for (var i = 0; i < 7; i++) {
         date = new Date(2014, 5, i + 1, 0, 0, 0, 0);
         result[i] = date.toLocaleDateString(locale, options);
     }
@@ -78,10 +78,11 @@ function convertToMomentLocalizedFormat(options) {
             switch(options.selector) {
                 case 'date and time': return 'lll';
                 case 'date': return 'l';
-                case 'time': return 'LT'
+                case 'time': return 'LT';
                 default:
                     throw selectorError;
             }
+            break;
         case 'medium':
             switch(options.selector) {
                 case 'date and time': return 'LLL';
@@ -91,6 +92,7 @@ function convertToMomentLocalizedFormat(options) {
                 default:
                     throw selectorError;
             }
+            break;
         case 'long':
             switch(options.selector) {
                 case 'date and time': return 'llll';
@@ -100,6 +102,7 @@ function convertToMomentLocalizedFormat(options) {
                 default:
                     throw selectorError;
             }
+            break;
         case 'full':
             switch(options.selector) {
                 case 'date and time': return 'LLLL';
@@ -108,13 +111,14 @@ function convertToMomentLocalizedFormat(options) {
                 default:
                     throw selectorError;
             }
+            break;
         default:
             throw formatLengthError;
     }
 }
 
 function prepareAndGetDateOptions(options) {
-    var options = options || {formatLength:'short', selector:'date and time'};
+    options = options || {formatLength:'short', selector:'date and time'};
     options.formatLength = options.formatLength || 'short';
     options.selector = options.selector || 'date and time';
 
@@ -175,7 +179,7 @@ var globalization = {
             var locale = getCrossPlatformLocale();
 
             if (item === 'months' && type === 'wide') {
-                var options = { month: 'long' };
+                options = { month: 'long' };
             } else if (item === 'months' && type === 'narrow') {
                 options = { month: 'short'};
             } else if (item === 'days' && type === 'wide') {
@@ -229,7 +233,10 @@ var globalization = {
 
             var formatter = new Intl.NumberFormat(getCrossPlatformLocale(), options);
 
-            if (!formatter.hasOwnProperty('resolved')) { fail('Not supported'); return; };
+            if (!formatter.hasOwnProperty('resolved')) {
+                fail('Not supported'); 
+                return; 
+            }
             var pattern = formatter.resolved.pattern;
             win( { 
                 pattern: pattern,

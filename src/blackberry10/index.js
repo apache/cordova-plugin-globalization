@@ -19,6 +19,8 @@
  *
 */
 
+/* global PluginResult, JNEXT */
+
 var g11n;
 
 var globalization = {

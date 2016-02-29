@@ -19,6 +19,7 @@
  *
 */
 
+/* global unescape */
 
 (function(window, undefined) {
   'use strict';

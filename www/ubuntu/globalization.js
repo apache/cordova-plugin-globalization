@@ -16,6 +16,9 @@
  * under the License.
  *
 */
+
+/* global Cordova */
+
 var exec = require('cordova/exec');
 var argscheck = require('cordova/argscheck');
 var GlobalizationError = require('./GlobalizationError');
@@ -158,7 +161,7 @@ module.exports = {
     getCurrencyPattern: function(currencyCode, successCB, failureCB) {
         argscheck.checkArgs('sfF', 'Globalization.getCurrencyPattern', arguments);
 
-        failureCB(new GlobalizationError(GlobalizationError.PATTERN_ERROR, "unimplemented"))
+        failureCB(new GlobalizationError(GlobalizationError.PATTERN_ERROR, "unimplemented"));
         //exec(successCB, failureCB, "Globalization", "getCurrencyPattern", [{"currencyCode": currencyCode}]);
     }
 };

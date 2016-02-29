@@ -19,6 +19,9 @@
 *
 */
 
+/* jshint jasmine: true */
+/* global cordova, GlobalizationError */
+
 exports.defineAutoTests = function () {
     var isWindowsPhone = cordova.platformId == 'windowsphone',
         isWindows = (cordova.platformId === "windows") || (cordova.platformId === "windows8"),
@@ -83,7 +86,7 @@ exports.defineAutoTests = function () {
             it("globalization.spec.3 getLocaleName success callback should be called with a Properties object", function (done) {
                 navigator.globalization.getLocaleName(function (a) {
                     checkLocaleName(a);
-                    done()
+                    done();
                 }, fail.bind(null, done));
             });
             it("globalization.spec.4 getLocaleName return string should have a hyphen", function (done) {
@@ -384,7 +387,7 @@ exports.defineAutoTests = function () {
                 }, fail.bind(null, done));
             });
             it("globalization.spec.31 numberToString using type=percent options, should be called with a Properties object", function (done) {
-                navigator.globalization.numberToString(.25, function (a) {
+                navigator.globalization.numberToString(0.25, function (a) {
                     checkNumberToString(a);
                     done();
                 }, fail.bind(null, done),
@@ -442,7 +445,7 @@ exports.defineAutoTests = function () {
                     done();
                 };
 
-                navigator.globalization.numberToString(.25, function (a) {
+                navigator.globalization.numberToString(0.25, function (a) {
                     navigator.globalization.stringToNumber(a.value, win, fail.bind(null, done), { type: 'percent' });
                 }, fail.bind(null, done), { type: 'percent' });
             });
