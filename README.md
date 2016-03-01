@@ -38,7 +38,7 @@ Although in the global scope, it is not available until after the `deviceready` 
         console.log(navigator.globalization);
     }
 
-:warning: Report issues on the [Apache Cordova issue tracker](https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Globalization%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC)
+Report issues with this plugin on the [Apache Cordova issue tracker](https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Globalization%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC)
 
 
 ## Installation
@@ -88,7 +88,6 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -151,7 +150,6 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -219,7 +217,6 @@ The `options.selector` can be `date`, `time` or `date and time`.
 - Firefox OS
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -310,7 +307,6 @@ error's expected code is `GlobalizationError.FORMATTING_ERROR`.
 - Android
 - BlackBerry 10
 - iOS
-- Windows 8
 - Windows
 
 ### Example
@@ -381,7 +377,6 @@ The value of `options.item` can be `months` or `days`.
 - Firefox OS
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -403,7 +398,7 @@ a series of twelve popup dialogs, one per month, with text similar to
 
 ### Firefox OS Quirks
 
-- `options.type` supports a `genitive` value, important for some languages
+- `options.type` supports a `genitive` value, important for some languages.
 
 ### Windows Phone 8 Quirks
 
@@ -417,7 +412,7 @@ a series of twelve popup dialogs, one per month, with text similar to
 
 ### Browser Quirks
 
-- Date names are not completely aligned with ICU
+- Date names are not completely aligned with ICU.
 - The array of months contains 12 elements.
 
 ## navigator.globalization.getDatePattern
@@ -459,7 +454,6 @@ time`.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -533,7 +527,6 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -600,7 +593,6 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -677,7 +669,6 @@ executes. The error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -715,7 +706,7 @@ The `options` parameter is optional, and its default values are:
 
     {type:'decimal'}
 
-The `options.type` can be 'decimal', 'percent', or 'currency'.
+The `options.type` can be `decimal`, `percent`, or `currency`.
 
 ### Supported Platforms
 
@@ -724,7 +715,6 @@ The `options.type` can be 'decimal', 'percent', or 'currency'.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -802,7 +792,6 @@ error's expected code is `GlobalizationError.PARSING_ERROR`.
 - Firefox OS
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 - Browser
 
@@ -880,7 +869,6 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 - BlackBerry 10
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 
 ### Example
@@ -913,11 +901,11 @@ An object representing a error from the Globalization API.
 ### Properties
 
 - __code__:  One of the following codes representing the error type _(Number)_
-  - GlobalizationError.UNKNOWN_ERROR: 0
-  - GlobalizationError.FORMATTING_ERROR: 1
-  - GlobalizationError.PARSING_ERROR: 2
-  - GlobalizationError.PATTERN_ERROR: 3
-- __message__:  A text message that includes the error's explanation and/or details _(String)_
+  - `GlobalizationError.UNKNOWN_ERROR`: 0
+  - `GlobalizationError.FORMATTING_ERROR`: 1
+  - `GlobalizationError.PARSING_ERROR`: 2
+  - `GlobalizationError.PATTERN_ERROR`: 3
+- __message__:  A text message that includes the error's explanation and/or details. _(String)_
 
 ### Description
 
@@ -931,7 +919,6 @@ This object is created and populated by Cordova, and returned to a callback in t
 - Firefox OS
 - iOS
 - Windows Phone 8
-- Windows 8
 - Windows
 
 ### Example
