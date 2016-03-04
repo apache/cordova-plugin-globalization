@@ -120,7 +120,7 @@
         <js-module src="src/windows/GlobalizationProxy.js" name="GlobalizationProxy">
             <runs/>
         </js-module>
-        <framework src="src/Windows/GlobalizationProxy.winmd" custom="true"/>
+        <framework src="src/windows/GlobalizationProxy.winmd" custom="true"/>
     </platform>
 
     <!-- windows -->
@@ -128,7 +128,7 @@
         <js-module src="src/windows/GlobalizationProxy.js" name="GlobalizationProxy">
             <runs/>
         </js-module>
-        <framework src="src/Windows/GlobalizationProxy.winmd" custom="true"/>
+        <framework src="src/windows/GlobalizationProxy.winmd" custom="true"/>
     </platform>
 
     <!-- tizen -->
