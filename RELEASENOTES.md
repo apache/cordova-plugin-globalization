@@ -20,6 +20,13 @@
 -->
 # Release Notes
 
+### 1.0.3 (Mar 09, 2016)
+* CB-10792 -Cannot install cordova-plugin-globalization with cordova-windows on Ubuntu
+* CB-10636 Add JSHint for plugins
+* Minor changes to readme
+* CB-10605 fix deprecation warnings on ** iOS **
+* chore: edit package.json license to match SPDX id
+
 ### 1.0.2 (Nov 18, 2015)
 * [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated `RELEASENOTES` to be newest to oldest
 * Fixing contribute link.
