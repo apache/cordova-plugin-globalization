@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-globalization",
-  "version": "1.0.4-dev",
+  "version": "1.0.4",
   "description": "Cordova Globalization Plugin",
   "cordova": {
     "id": "cordova-plugin-globalization",
