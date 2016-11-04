@@ -439,6 +439,8 @@ a parameter contains the following properties:
 
 - __timezone__: The abbreviated name of the time zone on the client. _(String)_
 
+- __iana_timezone__: The IANA name of the time zone on the client. _(String)_
+
 - __utc_offset__: The current difference in seconds between the client's time zone and coordinated universal time. _(Number)_
 
 - __dst_offset__: The current daylight saving time offset in seconds between the client's non-daylight saving's time zone and the client's daylight saving's time zone. _(Number)_
