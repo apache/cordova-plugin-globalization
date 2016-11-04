@@ -64,7 +64,7 @@ exports.defineAutoTests = function () {
 
                     // A language tag is composed from a sequence of one or more "subtags", separated by hyphen.
                     // https://tools.ietf.org/html/bcp47#section-2.1
-                    expect(a.value.split('-').length).toBeGreaterThan(0); 
+                    expect(a.value.split('-').length).toBeGreaterThan(0);
 
                     done();
                 }, fail.bind(null, done));
@@ -96,7 +96,7 @@ exports.defineAutoTests = function () {
                     if (!isBrowser){
                         // The browser implementation returns non-BCP 47 compatible
                         // value in Chrome so we need to skip this expectation. See
-                        // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-1
+                        // https://github.com/apache/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-1
                         expect(a.value.indexOf('-')).toBeGreaterThan(0);
                     }
                     done();
@@ -251,7 +251,7 @@ exports.defineAutoTests = function () {
                 expect(typeof a.pattern).toBe('string');
                 if (!isBrowser) {
                     // In browser the 'pattern' property is not supported and returns empty string.
-                    // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-4
+                    // https://github.com/apache/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-4
                     expect(a.pattern.length > 0).toBe(true);
                 }
                 expect(a.timezone).toBeDefined();
@@ -259,10 +259,14 @@ exports.defineAutoTests = function () {
                 if (!isBrowser) {
                     // The browser platform partially supports 'timezone'. Only Chrome returns 'timezone' property.
                     // Its format is "Part of the world/{City}". Other browsers return empty string.
-                    // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-4
-                    expect(a.pattern.length > 0).toBe(true);
+                    // https://github.com/apache/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-4
+                    expect(a.timezone.length > 0).toBe(true);
                 }
-                expect(a.timezone.length > 0).toBe(true);
+                if (!isBrowser && !isWindowsPhone) {
+                  expect(a.iana_timezone).toBeDefined();
+                  expect(typeof a.iana_timezone).toBe('string');
+                  expect(a.iana_timezone.length > 0).toBe(true);
+                }
                 expect(a.utc_offset).toBeDefined();
                 expect(typeof a.utc_offset).toBe('number');
                 expect(a.dst_offset).toBeDefined();
@@ -395,7 +399,7 @@ exports.defineAutoTests = function () {
             });
             it("globalization.spec.32 numberToString using type=currency options, should be called with a Properties object", function (done) {
                 // the numberToString using type=currency is not supported on browser
-                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-7
+                // https://github.com/apache/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-7
                 if (isBrowser) {
                     pending();
                 }
@@ -421,7 +425,7 @@ exports.defineAutoTests = function () {
             });
             it("globalization.spec.34 stringToNumber using default options, should be called with a Properties object", function (done) {
                 // the stringToNumber is not supported on browser
-                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#supported-platforms-11
+                // https://github.com/apache/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#supported-platforms-11
                 if (isBrowser) {
                     pending();
                 }
@@ -436,7 +440,7 @@ exports.defineAutoTests = function () {
             });
             it("globalization.spec.35 stringToNumber using type=percent options, should be called with a Properties object", function (done) {
                 // the stringToNumber is not supported on browser
-                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#supported-platforms-11
+                // https://github.com/apache/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#supported-platforms-11
                 if (isBrowser) {
                     pending();
                 }
@@ -482,7 +486,7 @@ exports.defineAutoTests = function () {
             it("globalization.spec.37 getNumberPattern using default options, success callback should be called with a Properties object", function (done) {
                 // the pattern property is not supported on windows, windows phone and browser
                 // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-phone-8-quirks-5
-                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-6
+                // https://github.com/apache/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-6
                 if (isWindows || isWindowsPhone || isBrowser) {
                     pending();
                 }
@@ -494,7 +498,7 @@ exports.defineAutoTests = function () {
             it("globalization.spec.38 getNumberPattern using type=percent, success callback should be called with a Properties object", function (done) {
                 // the pattern property is not supported on windows, windows phone and browser
                 // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-phone-8-quirks-5
-                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-6
+                // https://github.com/apache/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-6
                 if (isWindows || isWindowsPhone || isBrowser) {
                     pending();
                 }
@@ -506,7 +510,7 @@ exports.defineAutoTests = function () {
             it("globalization.spec.39 getNumberPattern using type=currency, success callback should be called with a Properties object", function (done) {
                 // the pattern property is not supported on windows, windows phone and browser
                 // https://github.com/apache/cordova-plugin-globalization/blob/master/doc/index.md#windows-phone-8-quirks-5
-                // https://github.com/MSOpenTech/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-6
+                // https://github.com/apache/cordova-plugin-globalization/blob/21f8a0ffa5aa2497ee970b6b5092b4c65fc4bf7e/README.md#browser-quirks-6
                 if (isWindows || isWindowsPhone || isBrowser) {
                     pending();
                 }
