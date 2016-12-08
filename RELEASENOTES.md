@@ -20,6 +20,157 @@
 -->
 # Release Notes
 
+### 1.0.5 (Dec 07, 2016)
+* [CB-11917](https://issues.apache.org/jira/browse/CB-11917) - Remove pull request template checklist item: "iCLA has been submitted…"
+* [CB-11832](https://issues.apache.org/jira/browse/CB-11832) Incremented plugin version.
+* [CB-11832](https://issues.apache.org/jira/browse/CB-11832) Updated version and RELEASENOTES.md for release 1.0.4
+* [CB-11795](https://issues.apache.org/jira/browse/CB-11795) Add 'protective' entry to cordovaDependencies
+* Add badges for paramedic builds on Jenkins
+* Add pull request template.
+* [CB-10996](https://issues.apache.org/jira/browse/CB-10996) Adding front matter to README.md
+* clean up release notes
+* [CB-10820](https://issues.apache.org/jira/browse/CB-10820) Incremented plugin version.
+* [CB-10820](https://issues.apache.org/jira/browse/CB-10820) Updated version and RELEASENOTES.md for release 1.0.3
+* [CB-10792](https://issues.apache.org/jira/browse/CB-10792) -Cannot install cordova-plugin-globalization with cordova-windows on Ubuntu
+* [CB-10636](https://issues.apache.org/jira/browse/CB-10636) Add JSHint for plugins
+* Minor changes to readme
+* [CB-10605](https://issues.apache.org/jira/browse/CB-10605) fix deprecation warnings
+* chore: edit package.json license to match SPDX id
+* [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Incremented plugin version.
+* [CB-10035](https://issues.apache.org/jira/browse/CB-10035) linked issues in RELEASENOTES.md
+* [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated version and RELEASENOTES.md for release 1.0.2
+* removed r prefix from tags
+* [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated RELEASENOTES to be newest to oldest
+* Actually fixing the contribute link.
+* Fixing contribute link.
+* Closing stale pull request: close #21
+* Closing stale pull request: close #28
+* Remove annoying log. This closes #32
+* Fix typo. This closes #34
+* Closing stale pull request: close #42
+* add JIRA issue tracker link. This closes #42
+* [CB-9409](https://issues.apache.org/jira/browse/CB-9409) check that localeIdentifier has underscore
+* [CB-9476](https://issues.apache.org/jira/browse/CB-9476) Mobilespec crash on startup when running on Windows 10.
+* Fixing license headers and adding moment.js to .ratignore.
+* remove travis-ci integration
+* [CB-9192](https://issues.apache.org/jira/browse/CB-9192) Incremented plugin version.
+* [CB-9202](https://issues.apache.org/jira/browse/CB-9202) updated repo url to github mirror in package.json
+* [CB-9192](https://issues.apache.org/jira/browse/CB-9192) Updated version and RELEASENOTES.md for release 1.0.1
+* added moment.js to ratignore
+* added license headers
+* Adding .ratignore file.
+* [CB-9128](https://issues.apache.org/jira/browse/CB-9128) cordova-plugin-globalization documentation translation: cordova-plugin-globalization
+* fix npm md issue
+* [CB-8858](https://issues.apache.org/jira/browse/CB-8858) Incremented plugin version.
+* [CB-8858](https://issues.apache.org/jira/browse/CB-8858) Updated version in package.json for release 1.0.0
+* Revert "CB-8858 Incremented plugin version."
+* [CB-8858](https://issues.apache.org/jira/browse/CB-8858) Incremented plugin version.
+* [CB-8858](https://issues.apache.org/jira/browse/CB-8858) Updated version and RELEASENOTES.md for release 1.0.0
+* [CB-8746](https://issues.apache.org/jira/browse/CB-8746) gave plugin major version bump
+* [CB-8683](https://issues.apache.org/jira/browse/CB-8683) updated tizen and browser specific references of old id to new id
+* [CB-8683](https://issues.apache.org/jira/browse/CB-8683) changed plugin-id to pacakge-name
+* [CB-8653](https://issues.apache.org/jira/browse/CB-8653) properly updated translated docs to use new id
+* [CB-8653](https://issues.apache.org/jira/browse/CB-8653) updated translated docs to use new id
+* Use TRAVIS_BUILD_DIR, install paramedic by npm
+* separate section in plugin.xml and docs for Windows8 platform
+* [CB-7960](https://issues.apache.org/jira/browse/CB-7960) Add cordova-plugin-globalization support for browser platform
+* [CB-8653](https://issues.apache.org/jira/browse/CB-8653) Updated Readme
+* [CB-8659](https://issues.apache.org/jira/browse/CB-8659) ios: 4.0.x Compatibility: Remove use of initWebView method
+* [CB-8569](https://issues.apache.org/jira/browse/CB-8569) Integrate TravisCI
+* [CB-8438](https://issues.apache.org/jira/browse/CB-8438) cordova-plugin-globalization documentation translation: cordova-plugin-globalization
+* [CB-8538](https://issues.apache.org/jira/browse/CB-8538) Added package.json file
+* [CB-8394](https://issues.apache.org/jira/browse/CB-8394) pended unsupported tests for windows and wp8
+* [CB-8429](https://issues.apache.org/jira/browse/CB-8429) Incremented plugin version.
+* [CB-8429](https://issues.apache.org/jira/browse/CB-8429) Updated version and RELEASENOTES.md for release 0.3.4
+* [CB-8351](https://issues.apache.org/jira/browse/CB-8351) Use argumentForIndex rather than NSArray extension
+* [CB-7972](https://issues.apache.org/jira/browse/CB-7972) Add cordova-plugin-globalization support for Windows platform
+* [CB-7972](https://issues.apache.org/jira/browse/CB-7972) Add cordova-plugin-globalization support for Windows platform
+* [CB-8110](https://issues.apache.org/jira/browse/CB-8110) Incremented plugin version.
+* [CB-8110](https://issues.apache.org/jira/browse/CB-8110) Updated version and RELEASENOTES.md for release 0.3.3
+* [CB-7700](https://issues.apache.org/jira/browse/CB-7700) cordova-plugin-globalization documentation translation: cordova-plugin-globalization
+* [CB-7977](https://issues.apache.org/jira/browse/CB-7977) Mention deviceready in plugin docs
+* [CB-7766](https://issues.apache.org/jira/browse/CB-7766) Add quirk note about android dateToString
+* Errors in weekdays fixed * getDateNames should return (Sun - Sat) in all locales * getFirstDayOfWeek should return 1 for Sunday and 2 for Monday * bunch of jsHint fixes
+* [CB-7700](https://issues.apache.org/jira/browse/CB-7700) cordova-plugin-globalization documentation translation: cordova-plugin-globalization
+*  Incremented plugin version.
+*  Updated version and RELEASENOTES.md for release 0.3.2
+* [CB-7548](https://issues.apache.org/jira/browse/CB-7548) [BlackBerry10] Re-implement getPreferredLanguage() and getLocaleName().
+* [CB-7571](https://issues.apache.org/jira/browse/CB-7571) Bump version of nested plugin to match parent plugin
+* [CB-7571](https://issues.apache.org/jira/browse/CB-7571) Incremented plugin version.
+* [CB-7571](https://issues.apache.org/jira/browse/CB-7571) Updated version and RELEASENOTES.md for release 0.3.1
+* [CB-6490](https://issues.apache.org/jira/browse/CB-6490) [BlackBerry10] Use hyphen instead of underscore in getLocaleName().
+* [CB-7548](https://issues.apache.org/jira/browse/CB-7548) [BlackBerry10] Allow any numeric type as date in dateToString method.
+* Hold the information if L10n was ready before.
+* [CB-7233](https://issues.apache.org/jira/browse/CB-7233) [BlackBerry10] Globalization is now supported
+* Renamed test dir, added nested plugin.xml
+* Clean-up: removed duplicate code
+* Added test to complete CB-7064, added tests that check for W3C compliance in language tags generated from PreferredLanguage and GetLocale methods
+* [CB-6962](https://issues.apache.org/jira/browse/CB-6962) Ported globalization tests to framework
+* [CB-7244](https://issues.apache.org/jira/browse/CB-7244) Incremented plugin version.
+* [CB-7244](https://issues.apache.org/jira/browse/CB-7244) Updated version and RELEASENOTES.md for release 0.3.0
+* The right Apache License 2.0 added
+* CB-7249cordova-plugin-globalization documentation translation: cordova-plugin-globalization
+* Update headers and NOTICE file
+* [BlackBerry10] Implement Globalization for BB10
+* Initial implementation
+* [CB-4602](https://issues.apache.org/jira/browse/CB-4602) ios: Use normalized values for getPreferredLanguage.
+* CB-6127lisa7cordova-plugin-consolecordova-plugin-globalization documentation translation: cordova-plugin-globalization
+* [CB-4602](https://issues.apache.org/jira/browse/CB-4602) geolocation.getPreferredLanguage and geolocation.getLocaleName now return strings with hypen (-) to stay compliant with current standards
+* [CB-6877](https://issues.apache.org/jira/browse/CB-6877) Incremented plugin version.
+* [CB-6877](https://issues.apache.org/jira/browse/CB-6877) Updated version and RELEASENOTES.md for release 0.2.8
+* [CB-6127](https://issues.apache.org/jira/browse/CB-6127) Spanish and French Translations added. Github close #7
+* [CB-6805](https://issues.apache.org/jira/browse/CB-6805) Add license
+* documentation translation: cordova-plugin-globalization
+* Lisa testing pulling in plugins for plugin: cordova-plugin-globalization
+* Lisa testing pulling in plugins for plugin: cordova-plugin-globalization
+* clean up pull request. this closes #11
+* [CB-4602](https://issues.apache.org/jira/browse/CB-4602) Added clarification to docs
+* [CB-4602](https://issues.apache.org/jira/browse/CB-4602) [CB-6490](https://issues.apache.org/jira/browse/CB-6490) [CB-4822](https://issues.apache.org/jira/browse/CB-4822) WP Globalization
+* getLocale,getLanguage, and docs
+* Android should return BCP47 tag, not localized string
+* [CB-6491](https://issues.apache.org/jira/browse/CB-6491) add CONTRIBUTING.md
+* [CB-6452](https://issues.apache.org/jira/browse/CB-6452) Incremented plugin version on dev branch.
+* [CB-6452](https://issues.apache.org/jira/browse/CB-6452) Updated version and RELEASENOTES.md for release 0.2.7
+* [CB-6465](https://issues.apache.org/jira/browse/CB-6465) Add license headers to Tizen code
+* [CB-6460](https://issues.apache.org/jira/browse/CB-6460) Update license headers
+* [CB-6212](https://issues.apache.org/jira/browse/CB-6212) iOS: fix warnings compiled under arm64 64-bit
+* Add NOTICE file
+* [CB-5980](https://issues.apache.org/jira/browse/CB-5980) Incremented plugin version on dev branch.
+* [CB-5980](https://issues.apache.org/jira/browse/CB-5980) Updated version and RELEASENOTES.md for release 0.2.6
+* [CB-4908](https://issues.apache.org/jira/browse/CB-4908) Long.valueOf(0) instead of new Long(0)
+* Lisa testing pulling in plugins for plugin: cordova-plugin-globalization
+* Lisa testing pulling in plugins for plugin: cordova-plugin-globalization
+* [CB-5980](https://issues.apache.org/jira/browse/CB-5980) Updated version and RELEASENOTES.md for release 0.2.6
+* Add Tizen plugin.
+* Delete stale test/ directory
+* [CB-5719](https://issues.apache.org/jira/browse/CB-5719) Incremented plugin version on dev branch.
+* [CB-5719](https://issues.apache.org/jira/browse/CB-5719) Updated version and RELEASENOTES.md for release 0.2.5
+* [CB-5658](https://issues.apache.org/jira/browse/CB-5658) Update license comment formatting of doc/index.md
+* [CB-5658](https://issues.apache.org/jira/browse/CB-5658) Add doc.index.md for Globalization plugin
+* [CB-5658](https://issues.apache.org/jira/browse/CB-5658) Delete stale snapshot of plugin docs
+* Add Apache license file
+* [CB-5565](https://issues.apache.org/jira/browse/CB-5565) Incremented plugin version on dev branch.
+* [CB-5565](https://issues.apache.org/jira/browse/CB-5565) Updated version and RELEASENOTES.md for release 0.2.4
+* [ubuntu] add missing file
+* add ubuntu platform
+* Added amazon-fireos platform. Change to use amazon-fireos as a platform if the user agent string contains 'cordova-amazon-fireos'
+* [CB-5188](https://issues.apache.org/jira/browse/CB-5188)
+* [CB-5188](https://issues.apache.org/jira/browse/CB-5188) Updated version and RELEASENOTES.md for release 0.2.3
+* [CB-5128](https://issues.apache.org/jira/browse/CB-5128) added repo + issue tag to plugin.xml for globalization plugin
+* [CB-4915](https://issues.apache.org/jira/browse/CB-4915) Incremented plugin version on dev branch.
+* [CB-4915](https://issues.apache.org/jira/browse/CB-4915) Updated version and RELEASENOTES.md for release 0.2.2
+* [CB-4889](https://issues.apache.org/jira/browse/CB-4889) bumping&resetting version
+* [CB-4889](https://issues.apache.org/jira/browse/CB-4889) renaming org.apache.cordova.core.globalization to org.apache.cordova.globalization
+* Rename CHANGELOG.md -> RELEASENOTES.md
+* [CB-4752](https://issues.apache.org/jira/browse/CB-4752) Incremented plugin version on dev branch.
+* Add empty CHANGELOG.md
+* [CB-4595](https://issues.apache.org/jira/browse/CB-4595) updated version
+* [CB-4474](https://issues.apache.org/jira/browse/CB-4474) Unbreak globalization plugin on Android
+* [CB-4474](https://issues.apache.org/jira/browse/CB-4474) Unbreak globailization plugin on 3.0 for iOS.
+* updating plugin.xml with registry data
+* [CB-4417](https://issues.apache.org/jira/browse/CB-4417) Move cordova-plugin-globalization to its own Java package.
+* updated namespace, name tag and readme
+
 ### 1.0.4 (Sep 08, 2016)
 * [CB-11795](https://issues.apache.org/jira/browse/CB-11795) Add 'protective' entry to cordovaDependencies
 * Add badges for paramedic builds on Jenkins
