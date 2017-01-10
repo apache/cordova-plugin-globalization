@@ -500,6 +500,8 @@ a popup dialog with text such as `pattern: M/d/yyyy h:mm a`:
 
 - The `timezone` returns the full time zone name.
 
+- The `iana_timezone` property is not supported, and always returns empty string.
+
 - The `dst_offset` property is not supported, and always returns zero.
 
 - The pattern may be not completely aligned with ICU depending on a user locale.

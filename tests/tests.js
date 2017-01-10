@@ -263,9 +263,12 @@ exports.defineAutoTests = function () {
                     expect(a.timezone.length > 0).toBe(true);
                 }
                 if (!isBrowser && !isWindowsPhone) {
-                  expect(a.iana_timezone).toBeDefined();
-                  expect(typeof a.iana_timezone).toBe('string');
-                  expect(a.iana_timezone.length > 0).toBe(true);
+                    expect(a.iana_timezone).toBeDefined();
+                    expect(typeof a.iana_timezone).toBe('string');
+                    // Windows doesn't support IANA timezone and always returns an empty string instead
+                    if (!isWindows) {
+                        expect(a.iana_timezone.length > 0).toBe(true);
+                    }
                 }
                 expect(a.utc_offset).toBeDefined();
                 expect(typeof a.utc_offset).toBe('number');
