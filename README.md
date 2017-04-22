@@ -27,6 +27,8 @@ description: Access locale data.
 
 # cordova-plugin-globalization
 
+DUMMY ENTRY
+
 This plugin obtains information and performs operations specific to the user's
 locale, language, and timezone. Note the difference between locale and language:
 locale controls how numbers, dates, and times are displayed for a region, while
