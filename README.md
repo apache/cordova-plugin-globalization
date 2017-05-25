@@ -40,11 +40,12 @@ these settings.
 This plugin defines global `navigator.globalization` object.
 
 Although in the global scope, it is not available until after the `deviceready` event.
-
+```js
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
         console.log(navigator.globalization);
     }
+```
 
 Report issues with this plugin on the [Apache Cordova issue tracker](https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Globalization%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC)
 
@@ -76,7 +77,9 @@ Report issues with this plugin on the [Apache Cordova issue tracker](https://iss
 
 Get the BCP 47 language tag for the client's current language.
 
+```js
     navigator.globalization.getPreferredLanguage(successCallback, errorCallback);
+```
 
 ### Description
 
@@ -104,10 +107,12 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 When the browser is set to the `en-US` language, this should display a
 popup dialog with the text `language: en-US`:
 
+```js
     navigator.globalization.getPreferredLanguage(
         function (language) {alert('language: ' + language.value + '\n');},
         function () {alert('Error getting language\n');}
     );
+```
 
 ### Android Quirks
 
@@ -136,7 +141,9 @@ a hyphen.
 
 Returns the BCP 47 compliant tag for the client's current locale setting.
 
+```js
     navigator.globalization.getLocaleName(successCallback, errorCallback);
+```
 
 ### Description
 
@@ -165,11 +172,12 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 When the browser is set to the `en-US` locale, this displays a popup
 dialog with the text `locale: en-US`.
-
+```js
     navigator.globalization.getLocaleName(
         function (locale) {alert('locale: ' + locale.value + '\n');},
         function () {alert('Error getting locale\n');}
     );
+```
 
 ### Android Quirks
 
@@ -195,8 +203,9 @@ and in Settings -> Region -> Regional Format on Windows Phone 8.1.
 ## navigator.globalization.dateToString
 
 Returns a date formatted as a string according to the client's locale and timezone.
-
+```js
     navigator.globalization.dateToString(date, successCallback, errorCallback, options);
+```
 
 ### Description
 
@@ -210,8 +219,9 @@ executes with a `GlobalizationError` object as a parameter. The
 error's expected code is `GlobalizationError.FORMATTING_ERROR`.
 
 The `options` parameter is optional, and its default values are:
-
+```js
     {formatLength:'short', selector:'date and time'}
+```
 
 The `options.formatLength` can be `short`, `medium`, `long`, or `full`.
 
@@ -233,13 +243,14 @@ The `options.selector` can be `date`, `time` or `date and time`.
 If the browser is set to the `en_US` locale, this displays a popup
 dialog with text similar to `date: 9/25/2012 4:21PM` using the default
 options:
-
+```js
     navigator.globalization.dateToString(
         new Date(),
         function (date) { alert('date: ' + date.value + '\n'); },
         function () { alert('Error getting dateString\n'); },
         { formatLength: 'short', selector: 'date and time' }
     );
+```
 ### Android Quirks
 - `formatLength` options are a subset of Unicode
   [UTS #35](http://unicode.org/reports/tr35/tr35-4.html). The default option
@@ -282,8 +293,9 @@ options:
 
 Returns a pattern string to format and parse currency values according
 to the client's user preferences and ISO 4217 currency code.
-
+```js
      navigator.globalization.getCurrencyPattern(currencyCode, successCallback, errorCallback);
+```
 
 ### Description
 
@@ -322,7 +334,7 @@ error's expected code is `GlobalizationError.FORMATTING_ERROR`.
 When the browser is set to the `en_US` locale and the selected
 currency is United States Dollars, this example displays a popup
 dialog with text similar to the results that follow:
-
+```js
     navigator.globalization.getCurrencyPattern(
         'USD',
         function (pattern) {
@@ -335,15 +347,17 @@ dialog with text similar to the results that follow:
         },
         function () { alert('Error getting pattern\n'); }
     );
+```
 
 Expected result:
-
+```js
     pattern: $#,##0.##;($#,##0.##)
     code: USD
     fraction: 2
     rounding: 0
     decimal: .
     grouping: ,
+```
 
 ### Windows Quirks
 
@@ -354,8 +368,9 @@ Expected result:
 
 Returns an array of the names of the months or days of the week,
 depending on the client's user preferences and calendar.
-
+```js
     navigator.globalization.getDateNames(successCallback, errorCallback, options);
+```
 
 ### Description
 
@@ -370,8 +385,9 @@ executes with a `GlobalizationError` object as a parameter. The
 error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 The `options` parameter is optional, and its default values are:
-
+```js
     {type:'wide', item:'months'}
+```
 
 The value of `options.type` can be `narrow` or `wide`.
 
@@ -393,7 +409,7 @@ The value of `options.item` can be `months` or `days`.
 When the browser is set to the `en_US` locale, this example displays
 a series of twelve popup dialogs, one per month, with text similar to
 `month: January`:
-
+```js
     navigator.globalization.getDateNames(
         function (names) {
             for (var i = 0; i < names.value.length; i++) {
@@ -403,6 +419,7 @@ a series of twelve popup dialogs, one per month, with text similar to
         function () { alert('Error getting names\n'); },
         { type: 'wide', item: 'months' }
     );
+```
 
 ### Firefox OS Quirks
 
@@ -427,8 +444,9 @@ a series of twelve popup dialogs, one per month, with text similar to
 
 Returns a pattern string to format and parse dates according to the
 client's user preferences.
-
+```js
     navigator.globalization.getDatePattern(successCallback, errorCallback, options);
+```
 
 ### Description
 
@@ -450,8 +468,9 @@ executes with a `GlobalizationError` object as a parameter. The
 error's expected code is `GlobalizationError.PATTERN_ERROR`.
 
 The `options` parameter is optional, and defaults to the following values:
-
+```js
     {formatLength:'short', selector:'date and time'}
+```
 
 The `options.formatLength` can be `short`, `medium`, `long`, or
 `full`.  The `options.selector` can be `date`, `time` or `date and
@@ -471,7 +490,7 @@ time`.
 
 When the browser is set to the `en_US` locale, this example displays
 a popup dialog with text such as `pattern: M/d/yyyy h:mm a`:
-
+```js
     function checkDatePattern() {
         navigator.globalization.getDatePattern(
             function (date) { alert('pattern: ' + date.pattern + '\n'); },
@@ -479,6 +498,7 @@ a popup dialog with text such as `pattern: M/d/yyyy h:mm a`:
             { formatLength: 'short', selector: 'date and time' }
         );
     }
+```
 
 ### Windows Phone 8 Quirks
 
@@ -517,9 +537,9 @@ Other browsers return empty string.
 
 Returns the first day of the week according to the client's user
 preferences and calendar.
-
+```js
     navigator.globalization.getFirstDayOfWeek(successCallback, errorCallback);
-
+```
 ### Description
 
 The days of the week are numbered starting from 1, where 1 is assumed
@@ -546,12 +566,12 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 
 When the browser is set to the `en_US` locale, this displays a
 popup dialog with text similar to `day: 1`.
-
+```js
     navigator.globalization.getFirstDayOfWeek(
         function (day) {alert('day: ' + day.value + '\n');},
         function () {alert('Error getting day\n');}
     );
-
+```
 ###	Windows Quirks
 
 - On Windows 8.0/8.1 the value depends on user' calendar preferences. On Windows Phone 8.1
@@ -564,9 +584,9 @@ the value depends on current locale.
 ## navigator.globalization.getNumberPattern
 
 Returns a pattern string to format and parse numbers according to the client's user preferences.
-
+```js
     navigator.globalization.getNumberPattern(successCallback, errorCallback, options);
-
+```
 ### Description
 
 Returns the pattern to the `successCallback` with a `properties` object
@@ -593,9 +613,9 @@ executes with a `GlobalizationError` object as a parameter. The
 error's expected code is `GlobalizationError.PATTERN_ERROR`.
 
 The `options` parameter is optional, and default values are:
-
+```js
     {type:'decimal'}
-
+```
 The `options.type` can be `decimal`, `percent`, or `currency`.
 
 ### Supported Platforms
@@ -612,7 +632,7 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 
 When the browser is set to the `en_US` locale, this should display a
 popup dialog with text similar to the results that follow:
-
+```js
     navigator.globalization.getNumberPattern(
         function (pattern) {alert('pattern: '  + pattern.pattern  + '\n' +
                                   'symbol: '   + pattern.symbol   + '\n' +
@@ -625,9 +645,9 @@ popup dialog with text similar to the results that follow:
         function () {alert('Error getting pattern\n');},
         {type:'decimal'}
     );
-
+```
 Results:
-
+```js
     pattern: #,##0.###
     symbol: .
     fraction: 0
@@ -636,7 +656,7 @@ Results:
     negative: -
     decimal: .
     grouping: ,
-
+```
 
 ### Windows Phone 8 Quirks
 
@@ -689,20 +709,21 @@ executes. The error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 During the summer, and if the browser is set to a DST-enabled
 timezone, this should display a popup dialog with text similar to
 `dst: true`:
-
+```js
     navigator.globalization.isDayLightSavingsTime(
         new Date(),
         function (date) {alert('dst: ' + date.dst + '\n');},
         function () {alert('Error getting names\n');}
     );
-
+```
 
 
 ## navigator.globalization.numberToString
 
 Returns a number formatted as a string according to the client's user preferences.
-
+```js
     navigator.globalization.numberToString(number, successCallback, errorCallback, options);
+```
 
 ### Description
 
@@ -715,8 +736,9 @@ executes with a `GlobalizationError` object as a parameter. The
 error's expected code is `GlobalizationError.FORMATTING_ERROR`.
 
 The `options` parameter is optional, and its default values are:
-
+```js
     {type:'decimal'}
+```
 
 The `options.type` can be `decimal`, `percent`, or `currency`.
 
@@ -734,13 +756,14 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 
 When the browser is set to the `en_US` locale, this displays a popup
 dialog with text similar to `number: 3.142`:
-
+```js
     navigator.globalization.numberToString(
         3.1415926,
         function (number) {alert('number: ' + number.value + '\n');},
         function () {alert('Error getting number\n');},
         {type:'decimal'}
     );
+```
 
 ### Windows Quirks
 
@@ -759,8 +782,9 @@ dialog with text similar to `number: 3.142`:
 Parses a date formatted as a string, according to the client's user
 preferences and calendar using the time zone of the client, and
 returns the corresponding date object.
-
+```js
     navigator.globalization.stringToDate(dateString, successCallback, errorCallback, options);
+```
 
 ### Description
 
@@ -785,8 +809,9 @@ The inbound `dateString` parameter should be of type `String`.
 
 The `options` parameter is optional, and defaults to the following
 values:
-
+```js
     {formatLength:'short', selector:'date and time'}
+```
 
 The `options.formatLength` can be `short`, `medium`, `long`, or
 `full`.  The `options.selector` can be `date`, `time` or `date and
@@ -813,7 +838,7 @@ When the browser is set to the `en_US` locale, this displays a
 popup dialog with text similar to `month:8 day:25 year:2012`. Note
 that the month integer is one less than the string, as the month
 integer represents an array index.
-
+```js
     navigator.globalization.stringToDate(
         '9/25/2012',
         function (date) {alert('month:' + date.month +
@@ -822,6 +847,7 @@ integer represents an array index.
         function () {alert('Error getting date\n');},
         {selector: 'date'}
     );
+```
 
 ### Windows Phone 8 Quirks
 
@@ -853,8 +879,9 @@ This pattern may be not completely aligned with ICU depending on a user locale.
 
 Parses a number formatted as a string according to the client's user
 preferences and returns the corresponding number.
-
+```js
     navigator.globalization.stringToNumber(string, successCallback, errorCallback, options);
+```
 
 ### Description
 
@@ -869,8 +896,9 @@ parameter. The error's expected code is
 
 The `options` parameter is optional, and defaults to the following
 values:
-
+```js
     {type:'decimal'}
+```
 
 The `options.type` can be `decimal`, `percent`, or `currency`.
 
@@ -887,13 +915,14 @@ The `options.type` can be `decimal`, `percent`, or `currency`.
 
 When the browser is set to the `en_US` locale, this should display a
 popup dialog with text similar to `number: 1234.56`:
-
+```js
     navigator.globalization.stringToNumber(
         '1234.56',
         function (number) {alert('number: ' + number.value + '\n');},
         function () {alert('Error getting number\n');},
         {type:'decimal'}
     );
+```
 
 ### Windows Phone 8 Quirks
 
@@ -937,8 +966,9 @@ This object is created and populated by Cordova, and returned to a callback in t
 
 When the following error callback executes, it displays a
 popup dialog with the text similar to `code: 3` and `message:`
-
+```js
     function errorCallback(error) {
         alert('code: ' + error.code + '\n' +
               'message: ' + error.message + '\n');
     };
+```
