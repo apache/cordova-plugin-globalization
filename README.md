@@ -96,11 +96,11 @@ error's expected code is `GlobalizationError.UNKNOWN_ERROR`.
 - Amazon Fire OS
 - Android
 - BlackBerry 10
+- Browser
 - Firefox OS
 - iOS
 - Windows Phone 8
 - Windows
-- Browser
 
 ### Example
 
