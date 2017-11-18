@@ -52,7 +52,8 @@ Report issues with this plugin on the [Apache Cordova issue tracker](https://iss
 
 ### Deprecation Notice
 
-With the [ECMA Internationalization API](https://www.ecma-international.org/ecma-402/1.0/) now supported on iOS, Android and Windows devices, this plugin is not required any more. 
+With the [ECMA Internationalization API](https://www.ecma-international.org/ecma-402/1.0/) now supported on iOS, Android and Windows devices, this plugin is not required any more. Migrating from this plugin to the [ECMA Internationalization API](https://www.ecma-international.org/ecma-402/1.0/) is explained in this [PhoneGap blog post](https://blog.phonegap.com/migrating-from-the-cordova-globalization-plugin-880ee38dcaed).
+
 ## Installation
 
     cordova plugin add cordova-plugin-globalization
