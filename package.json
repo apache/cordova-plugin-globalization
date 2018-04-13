@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-globalization",
-  "version": "1.11.0",
+  "version": "1.11.1-dev",
   "description": "Cordova Globalization Plugin",
   "types": "./types/index.d.ts",
   "cordova": {
