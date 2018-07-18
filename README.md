@@ -23,7 +23,7 @@ description: Access locale data.
 
 |AppVeyor|Travis CI|
 |:-:|:-:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/github/apache/cordova-plugin-geolocation?branch=master)](https://ci.appveyor.com/project/ApacheSoftwareFoundation/cordova-plugin-geolocation)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-geolocation.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-geolocation)|
+|[![Build status](https://ci.appveyor.com/api/projects/status/github/apache/cordova-plugin-globalization?branch=master)](https://ci.appveyor.com/project/ApacheSoftwareFoundation/cordova-plugin-globalization)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-globalization.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-globalization)|
 
 # cordova-plugin-globalization
 
