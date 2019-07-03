@@ -385,14 +385,17 @@
             timeStyle);
 
     // get the date pattern to apply when formatting and parsing
-    CFStringRef datePattern = CFDateFormatterGetFormat(formatter);
+    NSString *dateformat = [NSDateFormatter dateFormatFromTemplate:@"dMMMMy" options:0 locale:[NSLocale currentLocale]];
+    NSString *timeformat = [NSDateFormatter dateFormatFromTemplate:@"jm" options:0 locale:[NSLocale currentLocale]];
+    NSString *datePattern = [NSString stringWithFormat:@"%@, %@",dateformat,timeformat];
+ 
     // get the user's current time zone information
     CFTimeZoneRef timezone = (CFTimeZoneRef)CFDateFormatterCopyProperty(formatter, kCFDateFormatterTimeZone);
 
     // put the pattern and time zone information into the dictionary
     if ((datePattern != nil) && (timezone != nil)) {
         NSArray* keys = [NSArray arrayWithObjects:@"pattern", @"timezone", @"iana_timezone", @"utc_offset", @"dst_offset", nil];
-        NSArray* values = [NSArray arrayWithObjects:((__bridge NSString*)datePattern),
+        NSArray* values = [NSArray arrayWithObjects:datePattern,
             [((__bridge NSTimeZone*)timezone)abbreviation],
             [((__bridge NSTimeZone*)timezone)name],
             [NSNumber numberWithLong:[((__bridge NSTimeZone*)timezone)secondsFromGMT]],
